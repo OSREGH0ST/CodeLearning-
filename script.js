@@ -58,6 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
    PRACTICE MODULE
    ============================================ */
 
+const PROXY_URL = 'https://codelearning.owensanrios.workers.dev';
+
 const quizState = {
     questions: [], current: 0, score: 0,
     answered: false, topic: null, answers: [], langId: null
@@ -124,22 +126,69 @@ Topic: "${topic.label}"
 Content:
 ${topic.content}`;
 
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+    const res = await fetch(PROXY_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            model: "claude-sonnet-4-20250514",
-            max_tokens: 1000,
-            messages: [{ role: "user", content: prompt }]
+            contents: [{
+                parts: [{ text: prompt }]
+            }],
+            generationConfig: {
+                temperature: 0.2,
+                responseMimeType: 'application/json'
+            }
         })
     });
 
     const data = await res.json();
-    if (!res.ok) throw new Error(`API ${res.status}`);
+    if (!res.ok) {
+        const errorMessage = data?.error?.message || data?.error || JSON.stringify(data);
+        console.error('Proxy/API Error:', data);
+        throw new Error(`HTTP ${res.status}: ${errorMessage}`);
+    }
 
-    const rawText = data.content[0].text;
-    const clean   = rawText.replace(/```json|```/g, '').trim();
-    return JSON.parse(clean);
+    const rawJsonText = (() => {
+        const candidate = data?.candidates?.[0];
+        if (!candidate) return null;
+
+        const content = candidate.content;
+        if (typeof content === 'string') return content;
+        if (Array.isArray(content) && content.length > 0) {
+            if (typeof content[0]?.text === 'string') return content[0].text;
+            if (Array.isArray(content[0]?.parts) && content[0].parts.length > 0) {
+                return content[0].parts[0].text;
+            }
+        }
+        if (content?.parts?.length > 0) {
+            return content.parts[0].text;
+        }
+        return null;
+    })();
+
+    if (!rawJsonText) {
+        console.error('Proxy response did not contain expected text payload:', data);
+        throw new Error('Quiz response missing content. Check the console.');
+    }
+
+    try {
+        let parsed = typeof rawJsonText === 'string'
+            ? JSON.parse(rawJsonText.trim())
+            : rawJsonText;
+
+        if (Array.isArray(parsed)) {
+            parsed = { questions: parsed };
+        }
+
+        if (!parsed || !Array.isArray(parsed.questions)) {
+            console.error('Unexpected quiz data format from proxy:', parsed);
+            throw new Error('Invalid quiz data format received from proxy.');
+        }
+
+        return parsed;
+    } catch (err) {
+        console.error('Failed to parse quiz JSON from proxy response:', rawJsonText, err);
+        throw new Error('Could not parse the quiz data. Check the console.');
+    }
 }
 
 function _renderQuestion() {
