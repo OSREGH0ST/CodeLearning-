@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EOP — Code Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root { --accent: #fb923c; --accent-gradient: linear-gradient(135deg, #fb923c, #f59e0b); }
+        .lang-btn.active { color: #fb923c; border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.08); }
+        .inner-tab-btn.active { border-bottom-color: #fb923c; color: #fb923c; }
+    </style>
+    <script src="script.js" defer></script>
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <a href="index.html" class="back-link">← Hub</a>
+        <div class="header-title">⚡ Event-Oriented Programming</div>
+        <button class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></button>
+        <nav class="lang-nav" id="langNav">
+            <button class="lang-btn active" data-lang="js-events" onclick="switchLang('js-events')">JS Events (DOM)</button>
+            <button class="lang-btn" data-lang="nodejs" onclick="switchLang('nodejs')">Node.js</button>
+            <button class="lang-btn" data-lang="async-js" onclick="switchLang('async-js')">Async/Await</button>
+            <button class="lang-btn" data-lang="rxjs" onclick="switchLang('rxjs')">RxJS</button>
+        </nav>
+    </div>
+</header>
+
+<main>
+
+<!-- ========== JS EVENTS ========== -->
+<div id="js-events" class="tab-content active">
+    <div class="inner-nav">
+        <button class="inner-tab-btn active" data-tab="ev-core" onclick="openInnerTab('ev-core')">Event Model</button>
+        <button class="inner-tab-btn" data-tab="ev-dom" onclick="openInnerTab('ev-dom')">DOM Events</button>
+        <button class="inner-tab-btn" data-tab="ev-custom" onclick="openInnerTab('ev-custom')">Custom Events</button>
+        <button class="inner-tab-btn" data-tab="ev-practice" onclick="openInnerTab('ev-practice')">✏️ Practice</button>
+    </div>
+
+    <!-- EVENT MODEL -->
+    <div id="ev-core" class="inner-tab-content active">
+        <div class="info-box" style="border-left-color:#fb923c; background:rgba(251,146,60,0.05);">
+            <div class="info-label">What is EOP?</div>
+            Event-Oriented Programming is a paradigm where the flow of the program is determined by <strong>events</strong> — user actions, messages, or signals — rather than sequential top-down execution. A central event loop listens for events and dispatches them to registered handlers.
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">addEventListener — The Core API</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="cm">// Syntax: target.addEventListener(type, handler, options)</span>
+<span class="kw">const</span> btn = document.<span class="fn">querySelector</span>(<span class="str">'#myBtn'</span>);
+
+<span class="cm">// Named handler — can be removed later</span>
+<span class="kw">function</span> <span class="fn">handleClick</span>(event) {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'clicked!'</span>, event.target);
+}
+
+btn.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, handleClick);
+
+<span class="cm">// Remove when no longer needed (memory leak prevention)</span>
+btn.<span class="fn">removeEventListener</span>(<span class="str">'click'</span>, handleClick);
+
+<span class="cm">// Options object</span>
+btn.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, handleClick, {
+  once:    <span class="kw">true</span>,    <span class="cm">// auto-remove after first fire</span>
+  passive: <span class="kw">true</span>,    <span class="cm">// hint: won't call preventDefault (scroll perf)</span>
+  capture: <span class="kw">false</span>,   <span class="cm">// use bubble phase (default)</span>
+});
+
+<span class="cm">// Arrow function handler (can't be removed by ref)</span>
+btn.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, (e) => {
+  e.<span class="fn">preventDefault</span>();   <span class="cm">// stop default browser action</span>
+  e.<span class="fn">stopPropagation</span>();   <span class="cm">// stop event bubbling up DOM</span>
+});</pre></div></div>
+            </div>
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">Event Propagation — Bubble & Capture</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="cm">/*
+  Event flow: 3 phases
+  1. CAPTURE  — document → target   (top down)
+  2. TARGET   — event is at target
+  3. BUBBLE   — target → document   (bottom up, default)
+*/</span>
+
+<span class="cm">// By default listeners use BUBBLE phase</span>
+parent.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'parent bubble'</span>));
+
+<span class="cm">// Pass true or {capture:true} to use CAPTURE phase</span>
+parent.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'parent capture'</span>), <span class="kw">true</span>);
+
+<span class="cm">// Clicking child fires in order:
+//   1. parent capture
+//   2. child (target phase)
+//   3. parent bubble</span>
+
+<span class="cm">// Event Delegation — one handler for many children</span>
+<span class="kw">const</span> list = document.<span class="fn">querySelector</span>(<span class="str">'#list'</span>);
+list.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, (e) => {
+  <span class="cm">// e.target = the actual clicked element</span>
+  <span class="kw">if</span> (e.target.<span class="fn">matches</span>(<span class="str">'li'</span>)) {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'item clicked:'</span>, e.target.textContent);
+  }
+});</pre></div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title" style="color:#fb923c;">The Event Object — Key Properties</div>
+            <table class="compare-table">
+                <thead><tr><th>Property / Method</th><th>Type</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td>event.type</td><td>string</td><td>Event name ("click", "keydown", etc.)</td></tr>
+                    <tr><td>event.target</td><td>Element</td><td>Element that triggered the event</td></tr>
+                    <tr><td>event.currentTarget</td><td>Element</td><td>Element the listener is attached to</td></tr>
+                    <tr><td>event.preventDefault()</td><td>method</td><td>Stop default browser behavior (form submit, link nav)</td></tr>
+                    <tr><td>event.stopPropagation()</td><td>method</td><td>Stop event from bubbling further up the DOM</td></tr>
+                    <tr><td>event.stopImmediatePropagation()</td><td>method</td><td>Also prevents other listeners on same element</td></tr>
+                    <tr><td>event.bubbles</td><td>boolean</td><td>Whether event bubbles (most do; focus does not)</td></tr>
+                    <tr><td>event.timeStamp</td><td>number</td><td>Milliseconds since page load when event fired</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- DOM EVENTS -->
+    <div id="ev-dom" class="inner-tab-content">
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">Mouse & Keyboard Events</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="cm">// Mouse events</span>
+el.<span class="fn">addEventListener</span>(<span class="str">'click'</span>,      handler);  <span class="cm">// single click</span>
+el.<span class="fn">addEventListener</span>(<span class="str">'dblclick'</span>,   handler);  <span class="cm">// double click</span>
+el.<span class="fn">addEventListener</span>(<span class="str">'mousedown'</span>,  handler);  <span class="cm">// button pressed</span>
+el.<span class="fn">addEventListener</span>(<span class="str">'mouseup'</span>,    handler);  <span class="cm">// button released</span>
+el.<span class="fn">addEventListener</span>(<span class="str">'mousemove'</span>,  handler);  <span class="cm">// cursor moved</span>
+el.<span class="fn">addEventListener</span>(<span class="str">'mouseenter'</span>, handler);  <span class="cm">// cursor enters (no bubble)</span>
+el.<span class="fn">addEventListener</span>(<span class="str">'mouseleave'</span>, handler);  <span class="cm">// cursor leaves (no bubble)</span>
+el.<span class="fn">addEventListener</span>(<span class="str">'contextmenu'</span>,handler);  <span class="cm">// right click</span>
+
+<span class="cm">// MouseEvent properties</span>
+<span class="kw">function</span> <span class="fn">onMove</span>(e) {
+  <span class="fn">console</span>.<span class="fn">log</span>(e.clientX, e.clientY);  <span class="cm">// viewport coords</span>
+  <span class="fn">console</span>.<span class="fn">log</span>(e.pageX, e.pageY);       <span class="cm">// page coords</span>
+  <span class="fn">console</span>.<span class="fn">log</span>(e.offsetX, e.offsetY);   <span class="cm">// element-relative</span>
+  <span class="fn">console</span>.<span class="fn">log</span>(e.shiftKey, e.ctrlKey);  <span class="cm">// modifier keys</span>
+  <span class="fn">console</span>.<span class="fn">log</span>(e.button);               <span class="cm">// 0=left 1=mid 2=right</span>
+}
+
+<span class="cm">// Keyboard events</span>
+document.<span class="fn">addEventListener</span>(<span class="str">'keydown'</span>, (e) => {
+  <span class="fn">console</span>.<span class="fn">log</span>(e.key, e.code);  <span class="cm">// 'a', 'KeyA'</span>
+  <span class="kw">if</span> (e.ctrlKey && e.key === <span class="str">'s'</span>) {
+    e.<span class="fn">preventDefault</span>();
+    <span class="fn">save</span>();
+  }
+});</pre></div></div>
+            </div>
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">Form, Input & Lifecycle Events</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="cm">// Form events</span>
+form.<span class="fn">addEventListener</span>(<span class="str">'submit'</span>, (e) => {
+  e.<span class="fn">preventDefault</span>();  <span class="cm">// stop page reload</span>
+  <span class="kw">const</span> data = <span class="kw">new</span> <span class="cl">FormData</span>(form);
+  <span class="fn">fetch</span>(<span class="str">'/api'</span>, { method: <span class="str">'POST'</span>, body: data });
+});
+
+input.<span class="fn">addEventListener</span>(<span class="str">'change'</span>, (e) => { <span class="cm">/* fires on blur after change */</span> });
+input.<span class="fn">addEventListener</span>(<span class="str">'input'</span>,  (e) => { <span class="cm">/* fires on every keystroke */</span>
+  <span class="fn">console</span>.<span class="fn">log</span>(e.target.value);
+});
+input.<span class="fn">addEventListener</span>(<span class="str">'focus'</span>,  () => { <span class="cm">/* gained focus */</span> });
+input.<span class="fn">addEventListener</span>(<span class="str">'blur'</span>,   () => { <span class="cm">/* lost focus */</span> });
+
+<span class="cm">// Page lifecycle events</span>
+document.<span class="fn">addEventListener</span>(<span class="str">'DOMContentLoaded'</span>, () => {
+  <span class="cm">// DOM parsed — runs before images/styles load</span>
+  <span class="fn">init</span>();
+});
+
+window.<span class="fn">addEventListener</span>(<span class="str">'load'</span>, () => {
+  <span class="cm">// Everything (images, stylesheets) fully loaded</span>
+});
+
+window.<span class="fn">addEventListener</span>(<span class="str">'resize'</span>, <span class="fn">debounce</span>(onResize, <span class="num">100</span>));
+window.<span class="fn">addEventListener</span>(<span class="str">'scroll'</span>, <span class="fn">throttle</span>(onScroll, <span class="num">16</span>));
+window.<span class="fn">addEventListener</span>(<span class="str">'beforeunload'</span>, (e) => { e.returnValue = <span class="str">''</span>; });</pre></div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title" style="color:#fb923c;">Debounce & Throttle — Controlling Event Rate</div>
+            <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+            <div class="code-body"><pre><span class="cm">// DEBOUNCE — wait until N ms after the LAST call</span>
+<span class="cm">// Use for: search input, window resize</span>
+<span class="kw">function</span> <span class="fn">debounce</span>(fn, delay) {
+  <span class="kw">let</span> timer;
+  <span class="kw">return</span> (...args) => {
+    <span class="fn">clearTimeout</span>(timer);
+    timer = <span class="fn">setTimeout</span>(() => <span class="fn">fn</span>(...args), delay);
+  };
+}
+
+<span class="kw">const</span> debouncedSearch = <span class="fn">debounce</span>((q) => <span class="fn">searchAPI</span>(q), <span class="num">300</span>);
+input.<span class="fn">addEventListener</span>(<span class="str">'input'</span>, (e) => <span class="fn">debouncedSearch</span>(e.target.value));
+
+<span class="cm">// THROTTLE — fire at most once per N ms</span>
+<span class="cm">// Use for: scroll, mousemove, animation frames</span>
+<span class="kw">function</span> <span class="fn">throttle</span>(fn, limit) {
+  <span class="kw">let</span> last = <span class="num">0</span>;
+  <span class="kw">return</span> (...args) => {
+    <span class="kw">const</span> now = <span class="cl">Date</span>.<span class="fn">now</span>();
+    <span class="kw">if</span> (now - last >= limit) {
+      last = now;
+      <span class="fn">fn</span>(...args);
+    }
+  };
+}
+
+<span class="kw">const</span> throttledScroll = <span class="fn">throttle</span>(<span class="fn">onScroll</span>, <span class="num">100</span>);
+window.<span class="fn">addEventListener</span>(<span class="str">'scroll'</span>, throttledScroll);
+
+<span class="cm">// RAF-based throttle (best for visual updates)</span>
+<span class="kw">let</span> rafId;
+window.<span class="fn">addEventListener</span>(<span class="str">'scroll'</span>, () => {
+  <span class="fn">cancelAnimationFrame</span>(rafId);
+  rafId = <span class="fn">requestAnimationFrame</span>(<span class="fn">onScroll</span>);
+});</pre></div></div>
+        </div>
+    </div>
+
+    <!-- CUSTOM EVENTS -->
+    <div id="ev-custom" class="inner-tab-content">
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">CustomEvent API</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="cm">// Dispatch custom event with data payload</span>
+<span class="kw">const</span> event = <span class="kw">new</span> <span class="cl">CustomEvent</span>(<span class="str">'user:login'</span>, {
+  detail:  { userId: <span class="num">42</span>, role: <span class="str">'admin'</span> },
+  bubbles: <span class="kw">true</span>,          <span class="cm">// bubbles up the DOM</span>
+  cancelable: <span class="kw">true</span>,
+});
+
+document.<span class="fn">dispatchEvent</span>(event);
+
+<span class="cm">// Listen for it anywhere</span>
+document.<span class="fn">addEventListener</span>(<span class="str">'user:login'</span>, (e) => {
+  <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'User logged in:'</span>, e.detail.userId);
+});
+
+<span class="cm">// EventEmitter pattern (pure JS)</span>
+<span class="kw">class</span> <span class="cl">EventEmitter</span> {
+  <span class="fn">#handlers</span> = <span class="kw">new</span> <span class="cl">Map</span>();
+
+  <span class="fn">on</span>(event, handler) {
+    <span class="kw">if</span> (!<span class="kw">this</span>.<span class="fn">#handlers</span>.<span class="fn">has</span>(event))
+      <span class="kw">this</span>.<span class="fn">#handlers</span>.<span class="fn">set</span>(event, []);
+    <span class="kw">this</span>.<span class="fn">#handlers</span>.<span class="fn">get</span>(event).<span class="fn">push</span>(handler);
+    <span class="kw">return</span> <span class="kw">this</span>;
+  }
+
+  <span class="fn">emit</span>(event, data) {
+    <span class="kw">this</span>.<span class="fn">#handlers</span>.<span class="fn">get</span>(event)?.forEach(h => <span class="fn">h</span>(data));
+    <span class="kw">return</span> <span class="kw">this</span>;
+  }
+
+  <span class="fn">off</span>(event, handler) {
+    <span class="kw">const</span> handlers = <span class="kw">this</span>.<span class="fn">#handlers</span>.<span class="fn">get</span>(event);
+    <span class="kw">if</span> (handlers) {
+      <span class="kw">this</span>.<span class="fn">#handlers</span>.<span class="fn">set</span>(event, handlers.<span class="fn">filter</span>(h => h !== handler));
+    }
+    <span class="kw">return</span> <span class="kw">this</span>;
+  }
+}</pre></div></div>
+            </div>
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">Observer Pattern</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="cm">// MutationObserver — watch DOM changes</span>
+<span class="kw">const</span> observer = <span class="kw">new</span> <span class="cl">MutationObserver</span>((mutations) => {
+  mutations.<span class="fn">forEach</span>(m => {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'Changed:'</span>, m.type, m.target);
+  });
+});
+
+observer.<span class="fn">observe</span>(target, {
+  childList:  <span class="kw">true</span>,    <span class="cm">// child nodes added/removed</span>
+  subtree:    <span class="kw">true</span>,    <span class="cm">// watch all descendants</span>
+  attributes: <span class="kw">true</span>,   <span class="cm">// watch attribute changes</span>
+});
+
+observer.<span class="fn">disconnect</span>(); <span class="cm">// stop observing</span>
+
+<span class="cm">// IntersectionObserver — lazy load / scroll animations</span>
+<span class="kw">const</span> io = <span class="kw">new</span> <span class="cl">IntersectionObserver</span>((entries) => {
+  entries.<span class="fn">forEach</span>(entry => {
+    <span class="kw">if</span> (entry.isIntersecting) {
+      entry.target.classList.<span class="fn">add</span>(<span class="str">'visible'</span>);
+      io.<span class="fn">unobserve</span>(entry.target); <span class="cm">// once visible, stop</span>
+    }
+  });
+}, { threshold: <span class="num">0.1</span> });  <span class="cm">// 10% visible triggers</span>
+
+document.<span class="fn">querySelectorAll</span>(<span class="str">'.animate'</span>)
+        .<span class="fn">forEach</span>(el => io.<span class="fn">observe</span>(el));</pre></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRACTICE -->
+    <div id="ev-practice" class="inner-tab-content">
+        <div class="practice-home">
+            <div class="practice-intro">
+                <div class="practice-intro-icon">✏️</div>
+                <h2 class="practice-intro-title">JS Events Practice</h2>
+                <p class="practice-intro-desc">AI quizzes from guide content only.</p>
+            </div>
+            <div class="practice-topic-grid" id="ev-grid"></div>
+        </div>
+        <div class="quiz-view" style="display:none;">
+            <div class="quiz-header"><button class="quiz-back-btn" onclick="backToTopics()">← Topics</button><span id="quiz-topic-label" class="quiz-topic-label"></span><span id="quiz-progress" class="quiz-progress"></span></div>
+            <div id="quiz-loading" class="quiz-loading"><div class="quiz-spinner"></div><p>Generating quiz…</p></div>
+            <div id="quiz-error" class="quiz-error" style="display:none;"><p>❌ Failed. Try again.</p></div>
+            <div id="quiz-question-area"></div>
+        </div>
+        <div class="results-view" style="display:none;">
+            <div class="results-card">
+                <div id="results-emoji" class="results-emoji"></div><h2 id="results-title" class="results-title"></h2><p id="results-score" class="results-score"></p>
+                <div id="results-breakdown" class="results-breakdown"></div>
+                <div class="results-actions"><button class="results-btn primary" onclick="retryQuiz()">🔄 Retry</button><button class="results-btn secondary" onclick="backToTopics()">📚 Topics</button></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== NODE.JS ========== -->
+<div id="nodejs" class="tab-content">
+    <div class="inner-nav">
+        <button class="inner-tab-btn active" data-tab="nd-core" onclick="openInnerTab('nd-core')">Core Modules</button>
+        <button class="inner-tab-btn" data-tab="nd-events" onclick="openInnerTab('nd-events')">EventEmitter</button>
+        <button class="inner-tab-btn" data-tab="nd-http" onclick="openInnerTab('nd-http')">HTTP & Streams</button>
+    </div>
+
+    <div id="nd-core" class="inner-tab-content active">
+        <div class="info-box" style="border-left-color:#fb923c; background:rgba(251,146,60,0.05);">
+            <div class="info-label">Node.js Event Loop</div>
+            Node.js uses a single-threaded, non-blocking event loop built on libuv. I/O operations (file reads, network calls) are offloaded to the OS; when complete, their callbacks are queued and executed by the event loop. This is why Node excels at I/O-heavy workloads despite being single-threaded.
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">fs & path (File System)</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Node.js</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="kw">import</span> { readFile, writeFile, readdir } <span class="kw">from</span> <span class="str">'node:fs/promises'</span>;
+<span class="kw">import</span> path <span class="kw">from</span> <span class="str">'node:path'</span>;
+<span class="kw">import</span> { fileURLToPath } <span class="kw">from</span> <span class="str">'node:url'</span>;
+
+<span class="cm">// __dirname equivalent in ES Modules</span>
+<span class="kw">const</span> __dirname = path.<span class="fn">dirname</span>(<span class="fn">fileURLToPath</span>(<span class="kw">import</span>.meta.url));
+<span class="kw">const</span> dataPath  = path.<span class="fn">join</span>(__dirname, <span class="str">'data'</span>, <span class="str">'file.txt'</span>);
+
+<span class="cm">// Async file operations</span>
+<span class="kw">const</span> contents = <span class="kw">await</span> <span class="fn">readFile</span>(dataPath, <span class="str">'utf8'</span>);
+<span class="kw">await</span> <span class="fn">writeFile</span>(<span class="str">'out.txt'</span>, <span class="str">'hello\n'</span>, { flag: <span class="str">'a'</span> }); <span class="cm">// append</span>
+
+<span class="kw">const</span> entries = <span class="kw">await</span> <span class="fn">readdir</span>(<span class="str">'.'</span>, { withFileTypes: <span class="kw">true</span> });
+<span class="kw">const</span> files   = entries.<span class="fn">filter</span>(e => e.<span class="fn">isFile</span>()).<span class="fn">map</span>(e => e.name);
+
+<span class="cm">// Path utilities</span>
+path.<span class="fn">extname</span>(<span class="str">'file.ts'</span>);        <span class="cm">// '.ts'</span>
+path.<span class="fn">basename</span>(<span class="str">'/dir/file.ts'</span>);  <span class="cm">// 'file.ts'</span>
+path.<span class="fn">resolve</span>(<span class="str">'./config'</span>);       <span class="cm">// absolute path</span>
+path.<span class="fn">relative</span>(from, to);         <span class="cm">// relative path between dirs</span></pre></div></div>
+            </div>
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">process & environment</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Node.js</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="cm">// Environment variables</span>
+<span class="kw">const</span> PORT = process.env.PORT ?? <span class="str">'3000'</span>;
+<span class="kw">const</span> ENV  = process.env.NODE_ENV ?? <span class="str">'development'</span>;
+
+<span class="cm">// CLI arguments</span>
+<span class="kw">const</span> args = process.argv.<span class="fn">slice</span>(<span class="num">2</span>);   <span class="cm">// skip 'node script.js'</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'Args:'</span>, args);
+
+<span class="cm">// Process events</span>
+process.<span class="fn">on</span>(<span class="str">'exit'</span>, (code) => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'Exit:'</span>, code));
+process.<span class="fn">on</span>(<span class="str">'uncaughtException'</span>, (err) => {
+  <span class="fn">console</span>.<span class="fn">error</span>(<span class="str">'Unhandled:'</span>, err);
+  process.<span class="fn">exit</span>(<span class="num">1</span>);
+});
+process.<span class="fn">on</span>(<span class="str">'unhandledRejection'</span>, (reason) => {
+  <span class="fn">console</span>.<span class="fn">error</span>(<span class="str">'Rejection:'</span>, reason);
+});
+process.<span class="fn">on</span>(<span class="str">'SIGINT'</span>,  () => { <span class="fn">gracefulShutdown</span>(); });  <span class="cm">// Ctrl+C</span>
+process.<span class="fn">on</span>(<span class="str">'SIGTERM'</span>, () => { <span class="fn">gracefulShutdown</span>(); });  <span class="cm">// kill</span>
+
+<span class="cm">// Timing</span>
+<span class="fn">setTimeout</span>(fn, <span class="num">1000</span>);
+<span class="fn">setInterval</span>(fn, <span class="num">5000</span>);
+<span class="fn">setImmediate</span>(fn);   <span class="cm">// after I/O, before timers</span>
+<span class="fn">queueMicrotask</span>(fn); <span class="cm">// microtask queue (after current task)</span></pre></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="nd-events" class="inner-tab-content">
+        <div class="card">
+            <div class="card-title" style="color:#fb923c;">Node.js EventEmitter</div>
+            <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Node.js</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+            <div class="code-body"><pre><span class="kw">import</span> { EventEmitter } <span class="kw">from</span> <span class="str">'node:events'</span>;
+
+<span class="cm">// Extend EventEmitter</span>
+<span class="kw">class</span> <span class="cl">DataPipeline</span> <span class="kw">extends</span> <span class="cl">EventEmitter</span> {
+  <span class="fn">process</span>(items) {
+    <span class="kw">for</span> (<span class="kw">const</span> item <span class="kw">of</span> items) {
+      <span class="kw">try</span> {
+        <span class="kw">const</span> result = <span class="kw">this</span>.<span class="fn">transform</span>(item);
+        <span class="kw">this</span>.<span class="fn">emit</span>(<span class="str">'data'</span>, result);         <span class="cm">// emit event + payload</span>
+      } <span class="kw">catch</span> (err) {
+        <span class="kw">this</span>.<span class="fn">emit</span>(<span class="str">'error'</span>, err);           <span class="cm">// 'error' is special in Node</span>
+      }
+    }
+    <span class="kw">this</span>.<span class="fn">emit</span>(<span class="str">'end'</span>);
+  }
+  <span class="fn">transform</span>(x) { <span class="kw">return</span> x * <span class="num">2</span>; }
+}
+
+<span class="kw">const</span> pipeline = <span class="kw">new</span> <span class="cl">DataPipeline</span>();
+
+pipeline.<span class="fn">on</span>(<span class="str">'data'</span>,  (r)   => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'Result:'</span>, r));
+pipeline.<span class="fn">on</span>(<span class="str">'error'</span>, (err) => <span class="fn">console</span>.<span class="fn">error</span>(<span class="str">'Error:'</span>, err));
+pipeline.<span class="fn">once</span>(<span class="str">'end'</span>, ()    => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'Done'</span>));  <span class="cm">// one-time listener</span>
+
+pipeline.<span class="fn">process</span>([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]);
+
+<span class="cm">// promisify — wrap EventEmitter in a Promise</span>
+<span class="kw">function</span> <span class="fn">waitFor</span>(emitter, event) {
+  <span class="kw">return new</span> <span class="cl">Promise</span>((resolve, reject) => {
+    emitter.<span class="fn">once</span>(event,   resolve);
+    emitter.<span class="fn">once</span>(<span class="str">'error'</span>, reject);
+  });
+}
+
+<span class="kw">await</span> <span class="fn">waitFor</span>(pipeline, <span class="str">'end'</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'Pipeline finished'</span>);</pre></div></div>
+        </div>
+    </div>
+
+    <div id="nd-http" class="inner-tab-content">
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">HTTP Server</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Node.js</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="kw">import</span> { createServer } <span class="kw">from</span> <span class="str">'node:http'</span>;
+
+<span class="kw">const</span> server = <span class="fn">createServer</span>(<span class="kw">async</span> (req, res) => {
+  <span class="kw">const</span> url = <span class="kw">new</span> <span class="cl">URL</span>(req.url, <span class="str">`http://${req.headers.host}`</span>);
+
+  <span class="kw">if</span> (req.method === <span class="str">'POST'</span> && url.pathname === <span class="str">'/api/data'</span>) {
+    <span class="cm">// Read body stream</span>
+    <span class="kw">const</span> chunks = [];
+    <span class="kw">for await</span> (<span class="kw">const</span> chunk <span class="kw">of</span> req) chunks.<span class="fn">push</span>(chunk);
+    <span class="kw">const</span> body = <span class="cl">JSON</span>.<span class="fn">parse</span>(<span class="cl">Buffer</span>.<span class="fn">concat</span>(chunks).<span class="fn">toString</span>());
+
+    res.<span class="fn">writeHead</span>(<span class="num">200</span>, { <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span> });
+    res.<span class="fn">end</span>(<span class="cl">JSON</span>.<span class="fn">stringify</span>({ received: body }));
+    <span class="kw">return</span>;
+  }
+
+  res.<span class="fn">writeHead</span>(<span class="num">404</span>);
+  res.<span class="fn">end</span>(<span class="str">'Not found'</span>);
+});
+
+server.<span class="fn">listen</span>(<span class="num">3000</span>, () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'Listening on :3000'</span>));
+server.<span class="fn">on</span>(<span class="str">'error'</span>, (err) => <span class="fn">console</span>.<span class="fn">error</span>(err));</pre></div></div>
+            </div>
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">Streams</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Node.js</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="kw">import</span> { createReadStream, createWriteStream } <span class="kw">from</span> <span class="str">'node:fs'</span>;
+<span class="kw">import</span> { pipeline } <span class="kw">from</span> <span class="str">'node:stream/promises'</span>;
+<span class="kw">import</span> { createGzip } <span class="kw">from</span> <span class="str">'node:zlib'</span>;
+
+<span class="cm">// Pipe: read → compress → write</span>
+<span class="kw">await</span> <span class="fn">pipeline</span>(
+  <span class="fn">createReadStream</span>(<span class="str">'input.txt'</span>),
+  <span class="fn">createGzip</span>(),
+  <span class="fn">createWriteStream</span>(<span class="str">'output.txt.gz'</span>)
+);
+
+<span class="cm">// Async iteration over readable stream</span>
+<span class="kw">const</span> stream = <span class="fn">createReadStream</span>(<span class="str">'big.csv'</span>, { encoding: <span class="str">'utf8'</span> });
+<span class="kw">for await</span> (<span class="kw">const</span> chunk <span class="kw">of</span> stream) {
+  <span class="fn">process</span>(chunk);
+}
+
+<span class="cm">// Custom Transform stream</span>
+<span class="kw">import</span> { Transform } <span class="kw">from</span> <span class="str">'node:stream'</span>;
+
+<span class="kw">const</span> upperCase = <span class="kw">new</span> <span class="cl">Transform</span>({
+  <span class="fn">transform</span>(chunk, encoding, callback) {
+    callback(<span class="kw">null</span>, chunk.<span class="fn">toString</span>().<span class="fn">toUpperCase</span>());
+  }
+});</pre></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== ASYNC/AWAIT ========== -->
+<div id="async-js" class="tab-content">
+    <div class="inner-nav">
+        <button class="inner-tab-btn active" data-tab="as-promises" onclick="openInnerTab('as-promises')">Promises</button>
+        <button class="inner-tab-btn" data-tab="as-async" onclick="openInnerTab('as-async')">Async/Await</button>
+        <button class="inner-tab-btn" data-tab="as-patterns" onclick="openInnerTab('as-patterns')">Patterns</button>
+        <button class="inner-tab-btn" data-tab="as-practice" onclick="openInnerTab('as-practice')">✏️ Practice</button>
+    </div>
+
+    <div id="as-promises" class="inner-tab-content active">
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">Promise Fundamentals</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="cm">// A Promise has 3 states: pending → fulfilled | rejected</span>
+<span class="kw">const</span> p = <span class="kw">new</span> <span class="cl">Promise</span>((resolve, reject) => {
+  <span class="fn">setTimeout</span>(() => {
+    <span class="kw">if</span> (<span class="cl">Math</span>.<span class="fn">random</span>() > <span class="num">0.5</span>) {
+      <span class="fn">resolve</span>(<span class="str">'success!'</span>);   <span class="cm">// fulfilled with value</span>
+    } <span class="kw">else</span> {
+      <span class="fn">reject</span>(<span class="kw">new</span> <span class="cl">Error</span>(<span class="str">'failed'</span>));  <span class="cm">// rejected with reason</span>
+    }
+  }, <span class="num">1000</span>);
+});
+
+<span class="cm">// Chaining</span>
+p.<span class="fn">then</span>(value  => <span class="fn">console</span>.<span class="fn">log</span>(value))    <span class="cm">// on fulfilled</span>
+ .<span class="fn">catch</span>(error  => <span class="fn">console</span>.<span class="fn">error</span>(error))  <span class="cm">// on rejected</span>
+ .<span class="fn">finally</span>(() => <span class="fn">cleanup</span>());              <span class="cm">// always runs</span>
+
+<span class="cm">// .then() transforms the value (creates new Promise)</span>
+<span class="fn">fetch</span>(<span class="str">'/api/user'</span>)
+  .<span class="fn">then</span>(res  => res.<span class="fn">json</span>())               <span class="cm">// parse JSON</span>
+  .<span class="fn">then</span>(user => user.name)               <span class="cm">// extract field</span>
+  .<span class="fn">then</span>(name => <span class="fn">console</span>.<span class="fn">log</span>(name));      <span class="cm">// use it</span>
+
+<span class="cm">// Static Promise methods</span>
+<span class="cl">Promise</span>.<span class="fn">resolve</span>(<span class="str">'val'</span>);   <span class="cm">// immediately fulfilled</span>
+<span class="cl">Promise</span>.<span class="fn">reject</span>(<span class="kw">new</span> <span class="cl">Error</span>());  <span class="cm">// immediately rejected</span></pre></div></div>
+            </div>
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">Promise Combinators</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="kw">const</span> p1 = <span class="fn">fetch</span>(<span class="str">'/api/user'</span>).<span class="fn">then</span>(r => r.<span class="fn">json</span>());
+<span class="kw">const</span> p2 = <span class="fn">fetch</span>(<span class="str">'/api/posts'</span>).<span class="fn">then</span>(r => r.<span class="fn">json</span>());
+<span class="kw">const</span> p3 = <span class="fn">fetch</span>(<span class="str">'/api/config'</span>).<span class="fn">then</span>(r => r.<span class="fn">json</span>());
+
+<span class="cm">// all — wait for ALL to succeed; rejects if ANY fails</span>
+<span class="kw">const</span> [user, posts, config] = <span class="kw">await</span> <span class="cl">Promise</span>.<span class="fn">all</span>([p1, p2, p3]);
+
+<span class="cm">// allSettled — wait for ALL, never rejects</span>
+<span class="kw">const</span> results = <span class="kw">await</span> <span class="cl">Promise</span>.<span class="fn">allSettled</span>([p1, p2, p3]);
+results.<span class="fn">forEach</span>(r => {
+  <span class="kw">if</span> (r.status === <span class="str">'fulfilled'</span>) <span class="fn">use</span>(r.value);
+  <span class="kw">else</span>                            <span class="fn">log</span>(r.reason);
+});
+
+<span class="cm">// race — first to settle (fulfilled OR rejected) wins</span>
+<span class="kw">const</span> winner = <span class="kw">await</span> <span class="cl">Promise</span>.<span class="fn">race</span>([p1, <span class="fn">timeout</span>(<span class="num">5000</span>)]);
+
+<span class="cm">// any — first FULFILLED wins; rejects if ALL reject</span>
+<span class="kw">const</span> fastest = <span class="kw">await</span> <span class="cl">Promise</span>.<span class="fn">any</span>([mirror1, mirror2, mirror3]);</pre></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="as-async" class="inner-tab-content">
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">async / await</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="cm">// async function always returns a Promise</span>
+<span class="kw">async function</span> <span class="fn">getUser</span>(id) {
+  <span class="cm">// await pauses execution until Promise settles</span>
+  <span class="kw">const</span> res  = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`/api/user/<span class="op">${id}</span>`</span>);
+
+  <span class="cm">// Throw on non-OK response</span>
+  <span class="kw">if</span> (!res.ok) <span class="kw">throw new</span> <span class="cl">Error</span>(<span class="str">`HTTP <span class="op">${res.status}</span>`</span>);
+
+  <span class="kw">return</span> res.<span class="fn">json</span>();  <span class="cm">// returned value wraps in Promise.resolve()</span>
+}
+
+<span class="cm">// Error handling with try/catch</span>
+<span class="kw">async function</span> <span class="fn">loadDashboard</span>() {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> user  = <span class="kw">await</span> <span class="fn">getUser</span>(<span class="num">1</span>);
+    <span class="kw">const</span> posts = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`/api/posts?uid=<span class="op">${user.id}</span>`</span>).<span class="fn">then</span>(r => r.<span class="fn">json</span>());
+    <span class="fn">render</span>(user, posts);
+  } <span class="kw">catch</span> (err) {
+    <span class="fn">showError</span>(err);
+  } <span class="kw">finally</span> {
+    <span class="fn">hideLoader</span>();
+  }
+}
+
+<span class="cm">// Parallel fetches — don't await sequentially!</span>
+<span class="kw">const</span> [user, posts] = <span class="kw">await</span> <span class="cl">Promise</span>.<span class="fn">all</span>([
+  <span class="fn">getUser</span>(<span class="num">1</span>),
+  <span class="fn">getPosts</span>(<span class="num">1</span>)
+]);</pre></div></div>
+            </div>
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">Async Iteration</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="cm">// Async generator — yields values over time</span>
+<span class="kw">async function</span>* <span class="fn">paginate</span>(url) {
+  <span class="kw">let</span> nextUrl = url;
+  <span class="kw">while</span> (nextUrl) {
+    <span class="kw">const</span> res  = <span class="kw">await</span> <span class="fn">fetch</span>(nextUrl);
+    <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>();
+    <span class="kw">yield</span> data.items;             <span class="cm">// yield each page's items</span>
+    nextUrl = data.nextPage;      <span class="cm">// null when done</span>
+  }
+}
+
+<span class="cm">// Consume with for-await-of</span>
+<span class="kw">for await</span> (<span class="kw">const</span> page <span class="kw">of</span> <span class="fn">paginate</span>(<span class="str">'/api/products'</span>)) {
+  <span class="fn">processPage</span>(page);
+}
+
+<span class="cm">// AbortController — cancel async operations</span>
+<span class="kw">const</span> controller = <span class="kw">new</span> <span class="cl">AbortController</span>();
+<span class="kw">const</span> { signal }  = controller;
+
+<span class="fn">fetch</span>(<span class="str">'/api/heavy'</span>, { signal })
+  .<span class="fn">then</span>(r => r.<span class="fn">json</span>())
+  .<span class="fn">catch</span>(err => {
+    <span class="kw">if</span> (err.name === <span class="str">'AbortError'</span>) <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'Cancelled'</span>);
+    <span class="kw">else</span> <span class="kw">throw</span> err;
+  });
+
+<span class="cm">// Cancel after 5 seconds</span>
+<span class="fn">setTimeout</span>(() => controller.<span class="fn">abort</span>(), <span class="num">5000</span>);</pre></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="as-patterns" class="inner-tab-content">
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">Common Async Patterns</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="cm">// Retry with exponential backoff</span>
+<span class="kw">async function</span> <span class="fn">retry</span>(fn, retries = <span class="num">3</span>, delay = <span class="num">300</span>) {
+  <span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i <= retries; i++) {
+    <span class="kw">try</span> { <span class="kw">return await</span> <span class="fn">fn</span>(); }
+    <span class="kw">catch</span> (err) {
+      <span class="kw">if</span> (i === retries) <span class="kw">throw</span> err;
+      <span class="kw">await</span> <span class="kw">new</span> <span class="cl">Promise</span>(r => <span class="fn">setTimeout</span>(r, delay * <span class="num">2</span>**i));
+    }
+  }
+}
+
+<span class="cm">// Timeout wrapper</span>
+<span class="kw">function</span> <span class="fn">withTimeout</span>(promise, ms) {
+  <span class="kw">const</span> timeout = <span class="kw">new</span> <span class="cl">Promise</span>((_, reject) =>
+    <span class="fn">setTimeout</span>(() => reject(<span class="kw">new</span> <span class="cl">Error</span>(<span class="str">'Timeout'</span>)), ms)
+  );
+  <span class="kw">return</span> <span class="cl">Promise</span>.<span class="fn">race</span>([promise, timeout]);
+}
+
+<span class="cm">// Queue / rate limit parallel requests</span>
+<span class="kw">async function</span> <span class="fn">batchProcess</span>(items, fn, concurrency = <span class="num">3</span>) {
+  <span class="kw">const</span> results = [];
+  <span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < items.length; i += concurrency) {
+    <span class="kw">const</span> batch = items.<span class="fn">slice</span>(i, i + concurrency);
+    results.<span class="fn">push</span>(...<span class="kw">await</span> <span class="cl">Promise</span>.<span class="fn">all</span>(batch.<span class="fn">map</span>(fn)));
+  }
+  <span class="kw">return</span> results;
+}</pre></div></div>
+            </div>
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">Event Loop Phases</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="cm">/*  Execution order in JS:
+    1. Synchronous code (call stack)
+    2. Microtasks (Promise.then, queueMicrotask)
+    3. Macrotasks (setTimeout, setInterval, I/O)
+*/</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'1 sync'</span>);
+
+<span class="fn">setTimeout</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'4 macro'</span>), <span class="num">0</span>);
+
+<span class="cl">Promise</span>.<span class="fn">resolve</span>()
+  .<span class="fn">then</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'3 micro'</span>));
+
+<span class="fn">queueMicrotask</span>(() => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'2 micro (earlier)'</span>));
+
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'1 sync (end)'</span>);
+
+<span class="cm">/* Output:
+   1 sync
+   1 sync (end)
+   2 micro (earlier)
+   3 micro
+   4 macro
+*/</span>
+
+<span class="cm">// Async/await is just syntactic sugar:</span>
+<span class="kw">const</span> result = <span class="kw">await</span> doSomething();
+<span class="cm">// ≡ doSomething().then(result => { ... })</span></pre></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="as-practice" class="inner-tab-content">
+        <div class="practice-home">
+            <div class="practice-intro">
+                <div class="practice-intro-icon">✏️</div>
+                <h2 class="practice-intro-title">Async JS Practice</h2>
+                <p class="practice-intro-desc">AI quizzes from guide content only.</p>
+            </div>
+            <div class="practice-topic-grid" id="as-grid"></div>
+        </div>
+        <div class="quiz-view" style="display:none;">
+            <div class="quiz-header"><button class="quiz-back-btn" onclick="backToTopics()">← Topics</button><span id="quiz-topic-label" class="quiz-topic-label"></span><span id="quiz-progress" class="quiz-progress"></span></div>
+            <div id="quiz-loading" class="quiz-loading"><div class="quiz-spinner"></div><p>Generating quiz…</p></div>
+            <div id="quiz-error" class="quiz-error" style="display:none;"><p>❌ Failed. Try again.</p></div>
+            <div id="quiz-question-area"></div>
+        </div>
+        <div class="results-view" style="display:none;">
+            <div class="results-card">
+                <div id="results-emoji" class="results-emoji"></div><h2 id="results-title" class="results-title"></h2><p id="results-score" class="results-score"></p>
+                <div id="results-breakdown" class="results-breakdown"></div>
+                <div class="results-actions"><button class="results-btn primary" onclick="retryQuiz()">🔄 Retry</button><button class="results-btn secondary" onclick="backToTopics()">📚 Topics</button></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== RXJS ========== -->
+<div id="rxjs" class="tab-content">
+    <div class="inner-nav">
+        <button class="inner-tab-btn active" data-tab="rx-core" onclick="openInnerTab('rx-core')">Observables</button>
+        <button class="inner-tab-btn" data-tab="rx-ops" onclick="openInnerTab('rx-ops')">Operators</button>
+        <button class="inner-tab-btn" data-tab="rx-subjects" onclick="openInnerTab('rx-subjects')">Subjects</button>
+    </div>
+
+    <div id="rx-core" class="inner-tab-content active">
+        <div class="info-box" style="border-left-color:#fb923c; background:rgba(251,146,60,0.05);">
+            <div class="info-label">Reactive Programming</div>
+            RxJS treats events as <strong>streams over time</strong> that can be composed, transformed, and combined using operators. An <strong>Observable</strong> is a lazy push-based collection — nothing happens until you <code>subscribe()</code>.
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">Observable & Observer</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">RxJS</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="kw">import</span> { Observable, of, from, fromEvent, interval } <span class="kw">from</span> <span class="str">'rxjs'</span>;
+
+<span class="cm">// Create observable manually</span>
+<span class="kw">const</span> obs$ = <span class="kw">new</span> <span class="cl">Observable</span>&lt;<span class="tp">number</span>&gt;(subscriber => {
+  subscriber.<span class="fn">next</span>(<span class="num">1</span>);    <span class="cm">// push value</span>
+  subscriber.<span class="fn">next</span>(<span class="num">2</span>);
+  subscriber.<span class="fn">next</span>(<span class="num">3</span>);
+  subscriber.<span class="fn">complete</span>(); <span class="cm">// stream ends</span>
+  <span class="cm">// subscriber.error(err); — stream errors</span>
+  <span class="kw">return</span> () => <span class="fn">cleanup</span>(); <span class="cm">// teardown on unsubscribe</span>
+});
+
+<span class="cm">// Subscribe (Observer object)</span>
+<span class="kw">const</span> sub = obs$.<span class="fn">subscribe</span>({
+  next:     (v) => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'Value:'</span>, v),
+  error:    (e) => <span class="fn">console</span>.<span class="fn">error</span>(<span class="str">'Error:'</span>, e),
+  complete: ()  => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'Done'</span>),
+});
+
+sub.<span class="fn">unsubscribe</span>();  <span class="cm">// stop receiving, run teardown</span>
+
+<span class="cm">// Creation helpers</span>
+<span class="fn">of</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>)              <span class="cm">// from discrete values</span>
+<span class="fn">from</span>([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>])           <span class="cm">// from array/promise/iterable</span>
+<span class="fn">interval</span>(<span class="num">1000</span>)            <span class="cm">// emit 0,1,2... every second</span>
+<span class="fn">fromEvent</span>(btn, <span class="str">'click'</span>)   <span class="cm">// DOM events as stream</span></pre></div></div>
+            </div>
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">Marble Diagram Reference</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">RxJS Concepts</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="cm">/*  Marble notation:
+    ---a---b---c---|  (values a,b,c then complete)
+    ---a---b---#      (values then error)
+    ---a---b---       (infinite)
+    |                 (empty, immediate complete)
+*/</span>
+
+<span class="cm">// Observable vs Promise comparison</span>
+<span class="cm">/*
+  Promise:
+    - Eager (runs immediately)
+    - Single value
+    - Not cancellable
+    - No operators
+
+  Observable:
+    - Lazy (runs on subscribe)
+    - Multiple values over time
+    - Cancellable via unsubscribe
+    - Rich operator library
+*/</span>
+
+<span class="cm">// Converting Promise to Observable</span>
+<span class="kw">import</span> { from } <span class="kw">from</span> <span class="str">'rxjs'</span>;
+<span class="kw">const</span> user$ = <span class="fn">from</span>(<span class="fn">fetch</span>(<span class="str">'/api/user'</span>).<span class="fn">then</span>(r => r.<span class="fn">json</span>()));</pre></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rx-ops" class="inner-tab-content">
+        <div class="card">
+            <div class="card-title" style="color:#fb923c;">Essential Operators (pipe)</div>
+            <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">RxJS</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+            <div class="code-body"><pre><span class="kw">import</span> {
+  map, filter, take, skip, debounceTime, distinctUntilChanged,
+  switchMap, mergeMap, concatMap, exhaustMap,
+  catchError, retry, tap, shareReplay, combineLatest, withLatestFrom
+} <span class="kw">from</span> <span class="str">'rxjs/operators'</span>;
+
+<span class="cm">// Operators compose with pipe()</span>
+search$.<span class="fn">pipe</span>(
+  <span class="fn">debounceTime</span>(<span class="num">300</span>),            <span class="cm">// wait 300ms after last value</span>
+  <span class="fn">distinctUntilChanged</span>(),        <span class="cm">// skip if same as last value</span>
+  <span class="fn">filter</span>(q => q.<span class="fn">length</span> >= <span class="num">2</span>),  <span class="cm">// only if length >= 2</span>
+  <span class="fn">switchMap</span>(q =>                  <span class="cm">// cancel prev inner obs, subscribe new</span>
+    <span class="fn">from</span>(<span class="fn">searchAPI</span>(q)).<span class="fn">pipe</span>(
+      <span class="fn">catchError</span>(() => <span class="fn">of</span>([]))    <span class="cm">// don't kill stream on error</span>
+    )
+  )
+).<span class="fn">subscribe</span>(results => <span class="fn">render</span>(results));
+
+<span class="cm">// Flattening strategies (inner observable handling):</span>
+<span class="cm">// mergeMap   — run all concurrently (unordered)</span>
+<span class="cm">// concatMap  — queue sequentially (preserves order)</span>
+<span class="cm">// switchMap  — cancel prev on new value (search/typeahead)</span>
+<span class="cm">// exhaustMap — ignore new until current completes (login btn)</span>
+
+<span class="cm">// Combining observables</span>
+<span class="fn">combineLatest</span>([user$, settings$])
+  .<span class="fn">subscribe</span>(([user, settings]) => <span class="fn">render</span>(user, settings));
+
+<span class="cm">// ShareReplay — multicast + cache last N values for late subscribers</span>
+<span class="kw">const</span> shared$ = expensiveOp$.<span class="fn">pipe</span>(<span class="fn">shareReplay</span>(<span class="num">1</span>));</pre></div></div>
+        </div>
+    </div>
+
+    <div id="rx-subjects" class="inner-tab-content">
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">Subjects — Observable + Observer</div>
+                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">RxJS</span><div class="code-dots"><span></span><span></span><span></span></div></div>
+                <div class="code-body"><pre><span class="kw">import</span> { Subject, BehaviorSubject, ReplaySubject } <span class="kw">from</span> <span class="str">'rxjs'</span>;
+
+<span class="cm">// Subject — multicast, no initial value</span>
+<span class="kw">const</span> events$ = <span class="kw">new</span> <span class="cl">Subject</span>&lt;<span class="tp">string</span>&gt;();
+events$.<span class="fn">subscribe</span>(v => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'A:'</span>, v));
+events$.<span class="fn">subscribe</span>(v => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'B:'</span>, v));
+events$.<span class="fn">next</span>(<span class="str">'hello'</span>);  <span class="cm">// both A and B receive 'hello'</span>
+
+<span class="cm">// BehaviorSubject — has current value, emits to new subscribers</span>
+<span class="kw">const</span> count$ = <span class="kw">new</span> <span class="cl">BehaviorSubject</span>(<span class="num">0</span>);
+count$.<span class="fn">next</span>(<span class="num">1</span>);
+count$.<span class="fn">subscribe</span>(v => <span class="fn">console</span>.<span class="fn">log</span>(v));  <span class="cm">// immediately gets 1</span>
+<span class="fn">console</span>.<span class="fn">log</span>(count$.value);               <span class="cm">// synchronous read: 1</span>
+
+<span class="cm">// ReplaySubject — replays N last values to new subscribers</span>
+<span class="kw">const</span> log$ = <span class="kw">new</span> <span class="cl">ReplaySubject</span>(<span class="num">3</span>);  <span class="cm">// buffer 3</span>
+log$.<span class="fn">next</span>(<span class="str">'a'</span>); log$.<span class="fn">next</span>(<span class="str">'b'</span>); log$.<span class="fn">next</span>(<span class="str">'c'</span>); log$.<span class="fn">next</span>(<span class="str">'d'</span>);
+log$.<span class="fn">subscribe</span>(v => <span class="fn">console</span>.<span class="fn">log</span>(v)); <span class="cm">// gets b, c, d</span></pre></div></div>
+            </div>
+            <div class="card">
+                <div class="card-title" style="color:#fb923c;">Quick Reference</div>
+                <table class="compare-table">
+                    <thead><tr><th>Subject Type</th><th>Initial Value</th><th>Late Sub Gets</th></tr></thead>
+                    <tbody>
+                        <tr><td>Subject</td><td>None</td><td>Nothing past</td></tr>
+                        <tr><td>BehaviorSubject</td><td>Required</td><td>Current value</td></tr>
+                        <tr><td>ReplaySubject(N)</td><td>None</td><td>Last N values</td></tr>
+                        <tr><td>AsyncSubject</td><td>None</td><td>Last value on complete</td></tr>
+                    </tbody>
+                </table>
+                <table class="compare-table" style="margin-top:1rem;">
+                    <thead><tr><th>Operator</th><th>Use When</th></tr></thead>
+                    <tbody>
+                        <tr><td>switchMap</td><td>Latest wins (search, route change)</td></tr>
+                        <tr><td>mergeMap</td><td>All concurrent (file uploads)</td></tr>
+                        <tr><td>concatMap</td><td>Ordered queue (analytics)</td></tr>
+                        <tr><td>exhaustMap</td><td>Ignore duplicates (login submit)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</main>
+
+<script>
+window._practiceTopics = {
+    'js-events': [
+        { id: 'ev1', label: 'Event Basics', icon: '🎯', color: '#fb923c',
+          content: 'addEventListener(type, handler, options). removeEventListener. once:true, passive:true, capture:true options. event.preventDefault(), event.stopPropagation(), event.stopImmediatePropagation(). event.target vs event.currentTarget. event.type, event.timeStamp, event.bubbles' },
+        { id: 'ev2', label: 'Event Propagation', icon: '🫧', color: '#f59e0b',
+          content: '3 phases: Capture (document→target), Target, Bubble (target→document). Default is bubble phase. Pass true or {capture:true} for capture. Event delegation: attach one listener on parent, use e.target.matches() to identify child. stopPropagation stops bubbling.' },
+        { id: 'ev3', label: 'Debounce & Throttle', icon: '⏱️', color: '#ef4444',
+          content: 'Debounce: wait N ms after LAST call. Use for search input, resize. Throttle: fire at most once per N ms. Use for scroll, mousemove. requestAnimationFrame throttle for visual updates. clearTimeout/setTimeout pattern for debounce.' },
+    ],
+    'async-js': [
+        { id: 'as1', label: 'Promises', icon: '🤝', color: '#fb923c',
+          content: '3 states: pending → fulfilled or rejected. new Promise((resolve,reject)=>{}). .then(onFulfilled), .catch(onRejected), .finally(). Promise.all (all succeed), Promise.allSettled (all settle), Promise.race (first settles), Promise.any (first succeeds). Promise.resolve/reject shortcuts.' },
+        { id: 'as2', label: 'Async/Await', icon: '⚡', color: '#f59e0b',
+          content: 'async function always returns a Promise. await pauses until Promise settles. try/catch for error handling. Parallel: await Promise.all([fn1(), fn2()]) — do NOT await sequentially if independent. for-await-of for async generators. AbortController + signal to cancel fetch.' },
+        { id: 'as3', label: 'Event Loop', icon: '🔄', color: '#ef4444',
+          content: 'Order: 1. Synchronous (call stack). 2. Microtasks (Promise.then, queueMicrotask). 3. Macrotasks (setTimeout, setInterval, I/O). setTimeout(fn, 0) runs AFTER all microtasks. async/await is syntactic sugar over Promise.then chains.' },
+    ],
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const evGrid = document.getElementById('ev-grid');
+    buildTopicGrid('js-events', window._practiceTopics['js-events'], evGrid);
+    const asGrid = document.getElementById('as-grid');
+    buildTopicGrid('async-js', window._practiceTopics['async-js'], asGrid);
+});
+</script>
+</body>
+</html>
