@@ -58,8 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
    PRACTICE MODULE
    ============================================ */
 
-const PROXY_URL = 'https://codelearning.owensanrios.workers.dev';
-
 const quizState = {
     questions: [], current: 0, score: 0,
     answered: false, topic: null, answers: [], langId: null
@@ -93,34 +91,53 @@ async function startQuiz(langId, topicId) {
     document.getElementById('quiz-question-area').style.display = 'none';
     document.getElementById('quiz-error').style.display = 'none';
 
+    /* Animate loading text to reflect retry state */
+    const loadingP = document.querySelector('#quiz-loading p');
+    const retryMessages = ['Generating quiz…', 'Server busy — retrying…', 'Still trying…', 'One more attempt…'];
+    let retryTick = 0;
+    const retryTimer = setInterval(() => {
+        retryTick = Math.min(retryTick + 1, retryMessages.length - 1);
+        if (loadingP) loadingP.textContent = retryMessages[retryTick];
+    }, 900);
+
     try {
         const result = await _fetchQuiz(topic, langId);
+        clearInterval(retryTimer);
+        if (loadingP) loadingP.textContent = 'Generating quiz…';
         quizState.questions = result.questions;
         document.getElementById('quiz-loading').style.display = 'none';
         document.getElementById('quiz-question-area').style.display = 'block';
         _renderQuestion();
     } catch (err) {
+        clearInterval(retryTimer);
+        if (loadingP) loadingP.textContent = 'Generating quiz…';
         console.error('Quiz error:', err);
         document.getElementById('quiz-loading').style.display = 'none';
-        document.getElementById('quiz-error').style.display = 'flex';
+        const errEl = document.getElementById('quiz-error');
+        errEl.style.display = 'flex';
+        const errP = errEl.querySelector('p');
+        if (errP) errP.textContent = `❌ ${err.message || 'Could not generate quiz. Try again.'}`;
     }
 }
 
-async function _fetchQuiz(topic, langId) {
-    const langName = langId.replace(/-/g, '/').toUpperCase();
+/* ---- Config — swap this URL if your worker changes ---- */
+const PROXY_URL = 'https://codelearning.owensanrios.workers.dev';
 
-    const prompt = `You are a programming quiz generator for a code learning website.
+async function _fetchQuiz(topic, langId, _attempt = 0) {
+    const langName = langId.replace(/-/g, ' ').toUpperCase();
+
+    const promptText = `You are a programming quiz generator for a code learning website for all ages.
 Generate EXACTLY 5 multiple-choice questions based ONLY on the content provided below.
 Hard rules:
-- Focus on ${langName} syntax, concepts, and best practices from the content.
-- Each question has exactly 4 options labeled as plain text (no A/B/C/D prefix needed).
+- Focus on ${langName} syntax, concepts, and best practices from the provided content only.
+- Each question has exactly 4 answer options as plain text (no A/B/C/D prefix).
 - Exactly ONE option is correct.
-- Include code snippets in questions where appropriate (wrap code in backticks).
+- Include short code snippets in questions where helpful (wrap in backticks).
 - Keep difficulty beginner to intermediate.
 - Vary styles: "What does X do?", "Which is correct?", "What will this output?", fill-in-the-blank.
 
-RETURN STRICT JSON ONLY — no markdown, no preamble:
-{"questions":[{"q":"question","opts":["opt1","opt2","opt3","opt4"],"ans":0,"tip":"short explanation"}]}
+MUST RETURN STRICT JSON ONLY — no markdown fences, no preamble:
+{"questions":[{"q":"question text","opts":["opt1","opt2","opt3","opt4"],"ans":0,"tip":"short explanation"}]}
 
 Topic: "${topic.label}"
 Content:
@@ -130,9 +147,7 @@ ${topic.content}`;
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            contents: [{
-                parts: [{ text: prompt }]
-            }],
+            contents: [{ parts: [{ text: promptText }] }],
             generationConfig: {
                 temperature: 0.2,
                 responseMimeType: 'application/json'
@@ -140,54 +155,30 @@ ${topic.content}`;
         })
     });
 
-    const data = await res.json();
-    if (!res.ok) {
-        const errorMessage = data?.error?.message || data?.error || JSON.stringify(data);
-        console.error('Proxy/API Error:', data);
-        throw new Error(`HTTP ${res.status}: ${errorMessage}`);
+    /* 503 = Gemini overloaded — retry up to 3 times with backoff */
+    if (res.status === 503 && _attempt < 3) {
+        const wait = (2 ** _attempt) * 800;   /* 800ms → 1.6s → 3.2s */
+        console.warn(`Gemini 503 — retrying in ${wait}ms (attempt ${_attempt + 1}/3)`);
+        await new Promise(r => setTimeout(r, wait));
+        return _fetchQuiz(topic, langId, _attempt + 1);
     }
 
-    const rawJsonText = (() => {
-        const candidate = data?.candidates?.[0];
-        if (!candidate) return null;
+    const data = await res.json();
 
-        const content = candidate.content;
-        if (typeof content === 'string') return content;
-        if (Array.isArray(content) && content.length > 0) {
-            if (typeof content[0]?.text === 'string') return content[0].text;
-            if (Array.isArray(content[0]?.parts) && content[0].parts.length > 0) {
-                return content[0].parts[0].text;
-            }
-        }
-        if (content?.parts?.length > 0) {
-            return content.parts[0].text;
-        }
-        return null;
-    })();
-
-    if (!rawJsonText) {
-        console.error('Proxy response did not contain expected text payload:', data);
-        throw new Error('Quiz response missing content. Check the console.');
+    if (!res.ok) {
+        const msg = data?.error?.message || `HTTP ${res.status}`;
+        throw new Error(msg);
     }
 
     try {
-        let parsed = typeof rawJsonText === 'string'
-            ? JSON.parse(rawJsonText.trim())
-            : rawJsonText;
-
-        if (Array.isArray(parsed)) {
-            parsed = { questions: parsed };
-        }
-
-        if (!parsed || !Array.isArray(parsed.questions)) {
-            console.error('Unexpected quiz data format from proxy:', parsed);
-            throw new Error('Invalid quiz data format received from proxy.');
-        }
-
+        const rawText = data.candidates[0].content.parts[0].text;
+        const clean   = rawText.replace(/```json|```/g, '').trim();
+        let parsed    = JSON.parse(clean);
+        if (Array.isArray(parsed)) parsed = { questions: parsed };
         return parsed;
-    } catch (err) {
-        console.error('Failed to parse quiz JSON from proxy response:', rawJsonText, err);
-        throw new Error('Could not parse the quiz data. Check the console.');
+    } catch (e) {
+        console.error('Failed to parse Gemini response:', data);
+        throw new Error('Could not parse quiz data from response.');
     }
 }
 
