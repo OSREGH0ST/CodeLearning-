@@ -1,275 +1,53 @@
 /* ============================================
-   CODE HUB — SHARED SCRIPT
+   CODELEARNING — SHARED SCRIPT
    ============================================ */
 
 /* ---- Tab switching ---- */
 function switchLang(langId) {
+    // Hide all tab contents and remove active class from buttons
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.lang-btn').forEach(el => el.classList.remove('active'));
+    
+    // Show target tab content and set button as active
     const target = document.getElementById(langId);
-    if (target) target.classList.add('active');
-    document.querySelectorAll(`.lang-btn[data-lang="${langId}"]`).forEach(el => el.classList.add('active'));
+    if (target) {
+        target.classList.add('active');
+        // Find the button that corresponds to this langId
+        const btn = document.querySelector(`.lang-btn[data-lang="${langId}"]`);
+        if (btn) btn.classList.add('active');
 
-    // reset inner tabs to first
-    const firstInner = target && target.querySelector('.inner-tab-btn');
-    if (firstInner) {
-        const tabName = firstInner.dataset.tab;
-        if (tabName) openInnerTab(tabName, target);
-    }
-
-    // init practice if open
-    const practicePane = target && target.querySelector('.practice-home');
-    if (practicePane && practicePane.children.length === 0) {
-        const topics = window._practiceTopics && window._practiceTopics[langId];
-        if (topics) buildTopicGrid(langId, topics, practicePane.querySelector('.practice-topic-grid'));
+        // Reset inner tabs to the first one in the new section
+        const firstInner = target.querySelector('.inner-tab-btn');
+        if (firstInner) {
+            const tabName = firstInner.dataset.tab;
+            if (tabName) openInnerTab(tabName, target);
+        }
     }
 }
 
 function openInnerTab(tabName, scopeEl) {
     const scope = scopeEl || document;
-    scope.querySelectorAll('.inner-tab-content').forEach(el => el.classList.remove('active'));
-    scope.querySelectorAll('.inner-tab-btn').forEach(el => el.classList.remove('active'));
-    const target = scope.querySelector(`#${tabName}`);
+    
+    // Find the parent tab-content of the clicked button to limit scope if not provided
+    let currentScope = scope;
+    if (!scopeEl) {
+        const btn = document.querySelector(`.inner-tab-btn[data-tab="${tabName}"]`);
+        if (btn) currentScope = btn.closest('.tab-content');
+    }
+
+    // Hide all inner tab contents and remove active class from buttons within the scope
+    currentScope.querySelectorAll('.inner-tab-content').forEach(el => el.classList.remove('active'));
+    currentScope.querySelectorAll('.inner-tab-btn').forEach(el => el.classList.remove('active'));
+    
+    // Show target inner tab content and set button as active
+    const target = currentScope.querySelector(`#${tabName}`);
     if (target) target.classList.add('active');
-    scope.querySelectorAll(`.inner-tab-btn[data-tab="${tabName}"]`).forEach(el => el.classList.add('active'));
+    
+    const activeBtn = currentScope.querySelector(`.inner-tab-btn[data-tab="${tabName}"]`);
+    if (activeBtn) activeBtn.classList.add('active');
 }
 
-/* ---- Mobile menu ---- */
+/* ---- Mobile menu (if needed in future) ---- */
 document.addEventListener('DOMContentLoaded', () => {
-    const toggle = document.getElementById('menuToggle');
-    const nav    = document.getElementById('langNav');
-    if (toggle && nav) {
-        toggle.addEventListener('click', () => {
-            toggle.classList.toggle('active');
-            nav.classList.toggle('active');
-        });
-    }
-
-    // Close menu on lang select (mobile)
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (toggle) toggle.classList.remove('active');
-            if (nav) nav.classList.remove('active');
-        });
-    });
+    // Initial setup if needed
 });
-
-/* ============================================
-   PRACTICE MODULE
-   ============================================ */
-
-const quizState = {
-    questions: [], current: 0, score: 0,
-    answered: false, topic: null, answers: [], langId: null
-};
-
-function buildTopicGrid(langId, topics, gridEl) {
-    if (!gridEl || gridEl.children.length > 0) return;
-    gridEl.innerHTML = topics.map(t => `
-        <button class="practice-topic-card" onclick="startQuiz('${langId}','${t.id}')" style="--tc:${t.color}">
-            <span class="ptc-icon">${t.icon}</span>
-            <span>${t.label}</span>
-        </button>
-    `).join('');
-}
-
-async function startQuiz(langId, topicId) {
-    const topics = window._practiceTopics[langId];
-    const topic  = topics.find(t => t.id === topicId);
-    if (!topic) return;
-
-    quizState.topic   = topic;
-    quizState.langId  = langId;
-    quizState.current = 0;
-    quizState.score   = 0;
-    quizState.answers = [];
-
-    _showView('quiz', langId);
-    document.getElementById('quiz-topic-label').textContent = `${topic.icon} ${topic.label}`;
-    document.getElementById('quiz-progress').textContent = '';
-    document.getElementById('quiz-loading').style.display = 'flex';
-    document.getElementById('quiz-question-area').style.display = 'none';
-    document.getElementById('quiz-error').style.display = 'none';
-
-    /* Animate loading text to reflect retry state */
-    const loadingP = document.querySelector('#quiz-loading p');
-    const retryMessages = ['Generating quiz…', 'Server busy — retrying…', 'Still trying…', 'One more attempt…'];
-    let retryTick = 0;
-    const retryTimer = setInterval(() => {
-        retryTick = Math.min(retryTick + 1, retryMessages.length - 1);
-        if (loadingP) loadingP.textContent = retryMessages[retryTick];
-    }, 900);
-
-    try {
-        const result = await _fetchQuiz(topic, langId);
-        clearInterval(retryTimer);
-        if (loadingP) loadingP.textContent = 'Generating quiz…';
-        quizState.questions = result.questions;
-        document.getElementById('quiz-loading').style.display = 'none';
-        document.getElementById('quiz-question-area').style.display = 'block';
-        _renderQuestion();
-    } catch (err) {
-        clearInterval(retryTimer);
-        if (loadingP) loadingP.textContent = 'Generating quiz…';
-        console.error('Quiz error:', err);
-        document.getElementById('quiz-loading').style.display = 'none';
-        const errEl = document.getElementById('quiz-error');
-        errEl.style.display = 'flex';
-        const errP = errEl.querySelector('p');
-        if (errP) errP.textContent = `❌ ${err.message || 'Could not generate quiz. Try again.'}`;
-    }
-}
-
-/* ---- Config — swap this URL if your worker changes ---- */
-const PROXY_URL = 'https://codelearning.owensanrios.workers.dev';
-
-async function _fetchQuiz(topic, langId, _attempt = 0) {
-    const langName = langId.replace(/-/g, ' ').toUpperCase();
-
-    const promptText = `You are a programming quiz generator for a code learning website for all ages.
-Generate EXACTLY 5 multiple-choice questions based ONLY on the content provided below.
-Hard rules:
-- Focus on ${langName} syntax, concepts, and best practices from the provided content only.
-- Each question has exactly 4 answer options as plain text (no A/B/C/D prefix).
-- Exactly ONE option is correct.
-- Include short code snippets in questions where helpful (wrap in backticks).
-- Keep difficulty beginner to intermediate.
-- Vary styles: "What does X do?", "Which is correct?", "What will this output?", fill-in-the-blank.
-
-MUST RETURN STRICT JSON ONLY — no markdown fences, no preamble:
-{"questions":[{"q":"question text","opts":["opt1","opt2","opt3","opt4"],"ans":0,"tip":"short explanation"}]}
-
-Topic: "${topic.label}"
-Content:
-${topic.content}`;
-
-    const res = await fetch(PROXY_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            contents: [{ parts: [{ text: promptText }] }],
-            generationConfig: {
-                temperature: 0.2,
-                responseMimeType: 'application/json'
-            }
-        })
-    });
-
-    /* 503 = Gemini overloaded — retry up to 3 times with backoff */
-    if (res.status === 503 && _attempt < 3) {
-        const wait = (2 ** _attempt) * 800;   /* 800ms → 1.6s → 3.2s */
-        console.warn(`Gemini 503 — retrying in ${wait}ms (attempt ${_attempt + 1}/3)`);
-        await new Promise(r => setTimeout(r, wait));
-        return _fetchQuiz(topic, langId, _attempt + 1);
-    }
-
-    const data = await res.json();
-
-    if (!res.ok) {
-        const msg = data?.error?.message || `HTTP ${res.status}`;
-        throw new Error(msg);
-    }
-
-    try {
-        const rawText = data.candidates[0].content.parts[0].text;
-        const clean   = rawText.replace(/```json|```/g, '').trim();
-        let parsed    = JSON.parse(clean);
-        if (Array.isArray(parsed)) parsed = { questions: parsed };
-        return parsed;
-    } catch (e) {
-        console.error('Failed to parse Gemini response:', data);
-        throw new Error('Could not parse quiz data from response.');
-    }
-}
-
-function _renderQuestion() {
-    const { questions, current } = quizState;
-    const q     = questions[current];
-    const total = questions.length;
-    document.getElementById('quiz-progress').textContent = `${current + 1} / ${total}`;
-
-    // Convert backtick code in text to <code> tags
-    function renderText(str) {
-        return str.replace(/`([^`]+)`/g, '<code>$1</code>');
-    }
-
-    document.getElementById('quiz-question-area').innerHTML = `
-        <div class="quiz-card">
-            <p class="quiz-q-label">Question ${current + 1} <span style="opacity:.4">of ${total}</span></p>
-            <p class="quiz-q-text">${renderText(q.q)}</p>
-            <div class="quiz-options">
-                ${q.opts.map((opt, i) => `
-                    <button class="quiz-opt-btn" id="qopt-${i}" onclick="selectAnswer(${i})">${renderText(opt)}</button>
-                `).join('')}
-            </div>
-            <div id="quiz-feedback" class="quiz-feedback" style="display:none;"></div>
-            <button id="quiz-next-btn" class="quiz-next-btn" onclick="nextQuestion()" style="display:none;">
-                ${current + 1 < total ? 'Next →' : 'See Results'}
-            </button>
-        </div>`;
-    quizState.answered = false;
-}
-
-function selectAnswer(idx) {
-    if (quizState.answered) return;
-    quizState.answered = true;
-    const q       = quizState.questions[quizState.current];
-    const correct = q.ans;
-    const isRight = idx === correct;
-    if (isRight) quizState.score++;
-    quizState.answers.push({ selected: idx, correct, isRight });
-
-    q.opts.forEach((_, i) => {
-        const btn = document.getElementById(`qopt-${i}`);
-        btn.disabled = true;
-        if (i === correct)   btn.classList.add('q-correct');
-        else if (i === idx)  btn.classList.add('q-wrong');
-        else                 btn.classList.add('q-dim');
-    });
-
-    const fb = document.getElementById('quiz-feedback');
-    fb.style.display = 'flex';
-    fb.className = `quiz-feedback ${isRight ? 'fb-correct' : 'fb-wrong'}`;
-    fb.innerHTML = `<span>${isRight ? '✅ Correct!' : `❌ Answer: <strong>${q.opts[correct]}</strong>`}${q.tip ? ` — ${q.tip}` : ''}</span>`;
-    document.getElementById('quiz-next-btn').style.display = 'block';
-}
-
-function nextQuestion() {
-    quizState.current++;
-    if (quizState.current < quizState.questions.length) {
-        _renderQuestion();
-    } else {
-        _showResults();
-    }
-}
-
-function _showResults() {
-    _showView('results', quizState.langId);
-    const { score, questions } = quizState;
-    const total = questions.length;
-    const pct   = Math.round((score / total) * 100);
-    const [emoji, title] = pct === 100 ? ['🏆','Perfect!'] : pct >= 80 ? ['🌟','Great work!'] : pct >= 60 ? ['👍','Good effort!'] : ['📖','Keep coding!'];
-
-    document.getElementById('results-emoji').textContent = emoji;
-    document.getElementById('results-title').textContent = title;
-    document.getElementById('results-score').textContent = `${score} / ${total}  ·  ${pct}%`;
-
-    document.getElementById('results-breakdown').innerHTML = quizState.questions.map((q, i) => {
-        const a = quizState.answers[i];
-        return `<div class="rb-item ${a.isRight ? 'rb-right' : 'rb-wrong'}">
-            <span>${a.isRight ? '✅' : '❌'}</span>
-            <div><p class="rb-q">${q.q}</p>${!a.isRight ? `<p class="rb-ans">✓ ${q.opts[a.correct]}</p>` : ''}</div>
-        </div>`;
-    }).join('');
-}
-
-function retryQuiz()        { startQuiz(quizState.langId, quizState.topic.id); }
-function backToTopics()     { _showView('home', quizState.langId); }
-
-function _showView(view, langId) {
-    const scope = langId ? document.getElementById(langId) : document;
-    if (!scope) return;
-    scope.querySelector('.practice-home') && (scope.querySelector('.practice-home').style.display = view === 'home'    ? 'block' : 'none');
-    scope.querySelector('.quiz-view')     && (scope.querySelector('.quiz-view').style.display     = view === 'quiz'    ? 'block' : 'none');
-    scope.querySelector('.results-view')  && (scope.querySelector('.results-view').style.display  = view === 'results' ? 'block' : 'none');
-}

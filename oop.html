@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OOP — Code Hub</title>
+    <title>OOP — CodeLearning</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        :root { --accent: #a78bfa; --accent-gradient: linear-gradient(135deg, #a78bfa, #ec4899); }
-        .lang-btn.active { color: #a78bfa; border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.08); }
-        .inner-tab-btn.active { border-bottom-color: #a78bfa; color: #a78bfa; }
+        :root { --accent: #a78bfa; }
     </style>
     <script src="script.js" defer></script>
 </head>
@@ -20,676 +18,84 @@
     <div class="header-content">
         <a href="index.html" class="back-link">← Hub</a>
         <div class="header-title">🧱 Object-Oriented Programming</div>
-        <button class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></button>
-        <nav class="lang-nav" id="langNav">
-            <button class="lang-btn active" data-lang="python" onclick="switchLang('python')">Python</button>
-            <button class="lang-btn" data-lang="java" onclick="switchLang('java')">Java</button>
-            <button class="lang-btn" data-lang="cpp" onclick="switchLang('cpp')">C++</button>
-            <button class="lang-btn" data-lang="csharp" onclick="switchLang('csharp')">C#</button>
+        <nav class="lang-nav">
+            <button class="lang-btn active" data-lang="concepts" onclick="switchLang('concepts')">Conceptos</button>
+            <button class="lang-btn" data-lang="patterns" onclick="switchLang('patterns')">Patrones</button>
         </nav>
     </div>
 </header>
 
 <main>
+    <!-- CONCEPTOS -->
+    <div id="concepts" class="tab-content active">
+        <div class="inner-nav">
+            <button class="inner-tab-btn active" data-tab="oop-pillars" onclick="openInnerTab('oop-pillars')">Pilares</button>
+            <button class="inner-tab-btn" data-tab="oop-solid" onclick="openInnerTab('oop-solid')">SOLID</button>
+        </div>
 
-<!-- ========== PYTHON ========== -->
-<div id="python" class="tab-content active">
-    <div class="inner-nav">
-        <button class="inner-tab-btn active" data-tab="py-syntax" onclick="openInnerTab('py-syntax')">Syntax</button>
-        <button class="inner-tab-btn" data-tab="py-control" onclick="openInnerTab('py-control')">Control Structures</button>
-        <button class="inner-tab-btn" data-tab="py-paradigm" onclick="openInnerTab('py-paradigm')">OOP</button>
-        <button class="inner-tab-btn" data-tab="py-practice" onclick="openInnerTab('py-practice')">✏️ Practice</button>
-    </div>
-
-    <div id="py-syntax" class="inner-tab-content active">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#a78bfa;">Variables & Types</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Python</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm"># Dynamic typing — no declaration keyword needed</span>
-name   = <span class="str">"Alice"</span>
-age    = <span class="num">30</span>
-price  = <span class="num">9.99</span>
-active = <span class="kw">True</span>    <span class="cm"># capitalized booleans</span>
-nil    = <span class="kw">None</span>
-
-<span class="cm"># Type hints (optional, Python 3.5+)</span>
-name: <span class="tp">str</span>  = <span class="str">"Bob"</span>
-age:  <span class="tp">int</span>  = <span class="num">25</span>
-data: <span class="tp">list</span>[<span class="tp">int</span>] = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
-
-<span class="cm"># Collections</span>
-lst   = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]          <span class="cm"># list (mutable)</span>
-tpl   = (<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>)          <span class="cm"># tuple (immutable)</span>
-d     = {<span class="str">"a"</span>: <span class="num">1</span>, <span class="str">"b"</span>: <span class="num">2</span>}  <span class="cm"># dict</span>
-s     = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>}          <span class="cm"># set (unique values)</span>
-
-<span class="cm"># f-strings (Python 3.6+)</span>
-msg = <span class="str">f"Hello, <span class="op">{name}</span>! Age: <span class="op">{age * 2}</span>"</span>
-
-<span class="cm"># Walrus operator (Python 3.8+)</span>
-<span class="kw">if</span> n := <span class="fn">len</span>(lst): <span class="fn">print</span>(n)</pre></div></div>
+        <div id="oop-pillars" class="inner-tab-content active">
+            <p class="section-label">Los 4 Pilares de la POO</p>
+            <div class="senior-tip">
+                <div class="senior-tip-header">💡 Senior Dev Tip</div>
+                <p>La POO no es solo crear clases. Es sobre modelar el mundo real de forma que el código sea mantenible y extensible. Prioriza la composición sobre la herencia.</p>
             </div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Encapsulamiento</div>
+                    <p>Ocultar el estado interno de un objeto y solo permitir el acceso a través de métodos públicos.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">Abstracción</div>
+                    <p>Simplificar la complejidad ocultando los detalles de implementación y mostrando solo la funcionalidad necesaria.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">Herencia</div>
+                    <p>Permitir que una clase herede atributos y métodos de otra clase (Clase Padre).</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">Polimorfismo</div>
+                    <p>La capacidad de un objeto de tomar muchas formas (ej. un método que se comporta diferente según el objeto que lo llama).</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="oop-solid" class="inner-tab-content">
+            <p class="section-label">Principios SOLID</p>
             <div class="card">
-                <div class="card-title" style="color:#a78bfa;">Functions & Unpacking</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Python</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm"># Default, *args, **kwargs</span>
-<span class="kw">def</span> <span class="fn">greet</span>(name: <span class="tp">str</span>, greeting: <span class="tp">str</span> = <span class="str">"Hi"</span>) -> <span class="tp">str</span>:
-    <span class="kw">return</span> <span class="str">f"<span class="op">{greeting}</span>, <span class="op">{name}</span>"</span>
-
-<span class="kw">def</span> <span class="fn">variadic</span>(*args: <span class="tp">int</span>, **kwargs: <span class="tp">str</span>) -> <span class="kw">None</span>:
-    <span class="fn">print</span>(args, kwargs)
-
-<span class="cm"># Lambda</span>
-double = <span class="kw">lambda</span> x: x * <span class="num">2</span>
-
-<span class="cm"># Unpacking</span>
-a, b, *rest = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
-first, *_, last = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>]
-
-<span class="cm"># List comprehension</span>
-squares  = [x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>)]
-filtered = [x <span class="kw">for</span> x <span class="kw">in</span> squares <span class="kw">if</span> x > <span class="num">10</span>]
-
-<span class="cm"># Dict comprehension</span>
-sq_map = {x: x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>)}</pre></div></div>
+                <div class="card-title">¿Por qué SOLID?</div>
+                <p>Son 5 principios de diseño destinados a hacer que los diseños de software sean más comprensibles, flexibles y mantenibles.</p>
+                <table class="compare-table">
+                    <thead><tr><th>Principio</th><th>Descripción</th></tr></thead>
+                    <tbody>
+                        <tr><td>S: Single Responsibility</td><td>Una clase debe tener una única razón para cambiar.</td></tr>
+                        <tr><td>O: Open/Closed</td><td>Abierto para extensión, cerrado para modificación.</td></tr>
+                        <tr><td>L: Liskov Substitution</td><td>Las subclases deben ser sustituibles por sus clases base.</td></tr>
+                        <tr><td>I: Interface Segregation</td><td>Muchas interfaces específicas son mejores que una general.</td></tr>
+                        <tr><td>D: Dependency Inversion</td><td>Depender de abstracciones, no de implementaciones.</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
-    <div id="py-control" class="inner-tab-content">
-        <div class="grid-2">
+    <!-- PATRONES -->
+    <div id="patterns" class="tab-content">
+        <div class="inner-nav">
+            <button class="inner-tab-btn active" data-tab="pat-creational" onclick="openInnerTab('pat-creational')">Creacionales</button>
+            <button class="inner-tab-btn" data-tab="pat-structural" onclick="openInnerTab('pat-structural')">Estructurales</button>
+        </div>
+        <div id="pat-creational" class="inner-tab-content active">
+            <p class="section-label">Patrones Creacionales</p>
             <div class="card">
-                <div class="card-title" style="color:#a78bfa;">Control Flow</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Python</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm"># if / elif / else</span>
-<span class="kw">if</span> score >= <span class="num">90</span>:
-    grade = <span class="str">"A"</span>
-<span class="kw">elif</span> score >= <span class="num">70</span>:
-    grade = <span class="str">"B"</span>
-<span class="kw">else</span>:
-    grade = <span class="str">"F"</span>
-
-<span class="cm"># match (Python 3.10+) — structural pattern matching</span>
-<span class="kw">match</span> command:
-    <span class="kw">case</span> <span class="str">"quit"</span>:
-        <span class="fn">quit</span>()
-    <span class="kw">case</span> <span class="str">"go"</span> | <span class="str">"start"</span>:
-        <span class="fn">start</span>()
-    <span class="kw">case</span> _:
-        <span class="fn">print</span>(<span class="str">"unknown"</span>)
-
-<span class="cm"># Loops</span>
-<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>): <span class="fn">print</span>(i)
-
-<span class="kw">for</span> idx, val <span class="kw">in</span> <span class="fn">enumerate</span>(items):
-    <span class="fn">print</span>(idx, val)
-
-<span class="kw">for</span> k, v <span class="kw">in</span> d.<span class="fn">items</span>():
-    <span class="fn">print</span>(k, v)
-
-<span class="cm"># while with else</span>
-<span class="kw">while</span> condition:
-    <span class="kw">pass</span>
-<span class="kw">else</span>:
-    <span class="cm"># runs if loop didn't break</span>
-    <span class="fn">print</span>(<span class="str">"done"</span>)</pre></div></div>
+                <div class="card-title">Singleton</div>
+                <p>Garantiza que una clase tenga una única instancia y proporciona un punto de acceso global a ella.</p>
             </div>
             <div class="card">
-                <div class="card-title" style="color:#a78bfa;">Exceptions</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Python</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm"># try / except / else / finally</span>
-<span class="kw">try</span>:
-    result = risky_op()
-<span class="kw">except</span> <span class="cl">ValueError</span> <span class="kw">as</span> e:
-    <span class="fn">print</span>(<span class="str">f"Bad value: <span class="op">{e}</span>"</span>)
-<span class="kw">except</span> (<span class="cl">TypeError</span>, <span class="cl">KeyError</span>):
-    <span class="fn">print</span>(<span class="str">"Type or Key error"</span>)
-<span class="kw">else</span>:
-    <span class="fn">print</span>(<span class="str">"No exception!"</span>)  <span class="cm"># runs if no error</span>
-<span class="kw">finally</span>:
-    <span class="fn">cleanup</span>()
-
-<span class="cm"># Raise</span>
-<span class="kw">raise</span> <span class="cl">ValueError</span>(<span class="str">"Invalid input"</span>)
-
-<span class="cm"># Custom exception</span>
-<span class="kw">class</span> <span class="cl">AppError</span>(<span class="cl">Exception</span>):
-    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, msg: <span class="tp">str</span>, code: <span class="tp">int</span>):
-        <span class="kw">super</span>().<span class="fn">__init__</span>(msg)
-        <span class="kw">self</span>.code = code
-
-<span class="cm"># Context manager</span>
-<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"file.txt"</span>) <span class="kw">as</span> f:
-    data = f.<span class="fn">read</span>()</pre></div></div>
+                <div class="card-title">Factory Method</div>
+                <p>Proporciona una interfaz para crear objetos en una superclase, pero permite que las subclases alteren el tipo de objetos que se crearán.</p>
             </div>
         </div>
     </div>
-
-    <div id="py-paradigm" class="inner-tab-content">
-        <div class="card">
-            <div class="card-title" style="color:#a78bfa;">Classes & OOP</div>
-            <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Python</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-            <div class="code-body"><pre><span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass, field
-<span class="kw">from</span> abc <span class="kw">import</span> ABC, abstractmethod
-
-<span class="kw">class</span> <span class="cl">Animal</span>:
-    <span class="cm"># Class variable (shared)</span>
-    count: <span class="tp">int</span> = <span class="num">0</span>
-
-    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, name: <span class="tp">str</span>, sound: <span class="tp">str</span>) -> <span class="kw">None</span>:
-        <span class="kw">self</span>._name  = name       <span class="cm"># protected (convention)</span>
-        <span class="kw">self</span>.__sound = sound     <span class="cm"># private (name-mangled)</span>
-        <span class="cl">Animal</span>.count += <span class="num">1</span>
-
-    <span class="dc">@property</span>
-    <span class="kw">def</span> <span class="fn">name</span>(<span class="kw">self</span>) -> <span class="tp">str</span>:
-        <span class="kw">return</span> <span class="kw">self</span>._name
-
-    <span class="dc">@name.setter</span>
-    <span class="kw">def</span> <span class="fn">name</span>(<span class="kw">self</span>, v: <span class="tp">str</span>) -> <span class="kw">None</span>:
-        <span class="kw">if not</span> v: <span class="kw">raise</span> <span class="cl">ValueError</span>(<span class="str">"empty"</span>)
-        <span class="kw">self</span>._name = v
-
-    <span class="kw">def</span> <span class="fn">speak</span>(<span class="kw">self</span>) -> <span class="tp">str</span>:
-        <span class="kw">return</span> <span class="str">f"<span class="op">{self._name}</span>: <span class="op">{self.__sound}</span>"</span>
-
-    <span class="dc">@classmethod</span>
-    <span class="kw">def</span> <span class="fn">from_dict</span>(<span class="tp">cls</span>, d: <span class="tp">dict</span>) -> <span class="str">"Animal"</span>:
-        <span class="kw">return</span> <span class="tp">cls</span>(d[<span class="str">"name"</span>], d[<span class="str">"sound"</span>])
-
-    <span class="dc">@staticmethod</span>
-    <span class="kw">def</span> <span class="fn">validate</span>(name: <span class="tp">str</span>) -> <span class="tp">bool</span>:
-        <span class="kw">return</span> <span class="fn">bool</span>(name.strip())
-
-    <span class="kw">def</span> <span class="fn">__repr__</span>(<span class="kw">self</span>) -> <span class="tp">str</span>:
-        <span class="kw">return</span> <span class="str">f"Animal(<span class="op">{self._name!r}</span>)"</span>
-
-<span class="cm"># Inheritance</span>
-<span class="kw">class</span> <span class="cl">Dog</span>(<span class="cl">Animal</span>):
-    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, name: <span class="tp">str</span>, breed: <span class="tp">str</span>):
-        <span class="kw">super</span>().<span class="fn">__init__</span>(name, <span class="str">"Woof"</span>)
-        <span class="kw">self</span>.breed = breed
-
-    <span class="kw">def</span> <span class="fn">speak</span>(<span class="kw">self</span>) -> <span class="tp">str</span>:  <span class="cm"># override</span>
-        <span class="kw">return</span> <span class="str">f"<span class="op">{self._name}</span> barks!"</span>
-
-<span class="cm"># Abstract base class</span>
-<span class="kw">class</span> <span class="cl">Shape</span>(ABC):
-    <span class="dc">@abstractmethod</span>
-    <span class="kw">def</span> <span class="fn">area</span>(<span class="kw">self</span>) -> <span class="tp">float</span>: ...
-
-<span class="cm"># Dataclass — auto __init__, __repr__, __eq__</span>
-<span class="dc">@dataclass</span>
-<span class="kw">class</span> <span class="cl">Point</span>:
-    x: <span class="tp">float</span>
-    y: <span class="tp">float</span>
-    tags: <span class="tp">list</span> = field(default_factory=list)</pre></div></div>
-        </div>
-    </div>
-
-    <div id="py-practice" class="inner-tab-content">
-        <div class="practice-home">
-            <div class="practice-intro">
-                <div class="practice-intro-icon">✏️</div>
-                <h2 class="practice-intro-title">Python Practice</h2>
-                <p class="practice-intro-desc">AI quizzes from guide content.</p>
-            </div>
-            <div class="practice-topic-grid" id="py-grid"></div>
-        </div>
-        <div class="quiz-view" style="display:none;">
-            <div class="quiz-header"><button class="quiz-back-btn" onclick="backToTopics()">← Topics</button><span id="quiz-topic-label" class="quiz-topic-label"></span><span id="quiz-progress" class="quiz-progress"></span></div>
-            <div id="quiz-loading" class="quiz-loading"><div class="quiz-spinner"></div><p>Generating quiz…</p></div>
-            <div id="quiz-error" class="quiz-error" style="display:none;"><p>❌ Failed.</p></div>
-            <div id="quiz-question-area"></div>
-        </div>
-        <div class="results-view" style="display:none;">
-            <div class="results-card">
-                <div id="results-emoji" class="results-emoji"></div><h2 id="results-title" class="results-title"></h2><p id="results-score" class="results-score"></p>
-                <div id="results-breakdown" class="results-breakdown"></div>
-                <div class="results-actions"><button class="results-btn primary" onclick="retryQuiz()">🔄 Retry</button><button class="results-btn secondary" onclick="backToTopics()">📚 Topics</button></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ========== JAVA ========== -->
-<div id="java" class="tab-content">
-    <div class="inner-nav">
-        <button class="inner-tab-btn active" data-tab="java-syntax" onclick="openInnerTab('java-syntax')">Syntax</button>
-        <button class="inner-tab-btn" data-tab="java-control" onclick="openInnerTab('java-control')">Control Structures</button>
-        <button class="inner-tab-btn" data-tab="java-paradigm" onclick="openInnerTab('java-paradigm')">OOP</button>
-    </div>
-    <div id="java-syntax" class="inner-tab-content active">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#a78bfa;">Variables & Types</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Java</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Primitive types</span>
-<span class="tp">int</span>     age    = <span class="num">30</span>;
-<span class="tp">double</span>  price  = <span class="num">9.99</span>;
-<span class="tp">boolean</span> active = <span class="kw">true</span>;
-<span class="tp">char</span>    grade  = <span class="str">'A'</span>;
-<span class="tp">long</span>    big    = <span class="num">10_000_000L</span>;
-
-<span class="cm">// Reference types</span>
-<span class="cl">String</span>  name = <span class="str">"Alice"</span>;
-<span class="tp">var</span>     list = <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;<span class="cl">String</span>&gt;();  <span class="cm">// var infers type</span>
-
-<span class="cm">// Arrays</span>
-<span class="tp">int</span>[] nums  = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>};
-<span class="tp">int</span>[] zeros = <span class="kw">new</span> <span class="tp">int</span>[<span class="num">10</span>];
-
-<span class="cm">// Collections (import java.util.*)</span>
-<span class="cl">List</span>&lt;<span class="cl">String</span>&gt;        list = <span class="kw">new</span> <span class="cl">ArrayList</span>&lt;&gt;();
-<span class="cl">Map</span>&lt;<span class="cl">String</span>,<span class="cl">Integer</span>&gt; map  = <span class="kw">new</span> <span class="cl">HashMap</span>&lt;&gt;();
-<span class="cl">Set</span>&lt;<span class="cl">Integer</span>&gt;        set  = <span class="kw">new</span> <span class="cl">HashSet</span>&lt;&gt;();
-
-<span class="cm">// Constants</span>
-<span class="kw">static final</span> <span class="tp">int</span> MAX = <span class="num">100</span>;</pre></div></div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#a78bfa;">Methods & Generics</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Java</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Method signature</span>
-<span class="kw">public static</span> <span class="tp">int</span> <span class="fn">add</span>(<span class="tp">int</span> a, <span class="tp">int</span> b) {
-    <span class="kw">return</span> a + b;
-}
-
-<span class="cm">// Varargs</span>
-<span class="kw">public static</span> <span class="tp">int</span> <span class="fn">sum</span>(<span class="tp">int</span>... nums) {
-    <span class="kw">return</span> <span class="cl">Arrays</span>.<span class="fn">stream</span>(nums).<span class="fn">sum</span>();
-}
-
-<span class="cm">// Generics</span>
-<span class="kw">public</span> &lt;<span class="cl">T</span> <span class="kw">extends</span> <span class="cl">Comparable</span>&lt;<span class="cl">T</span>&gt;&gt; <span class="cl">T</span> <span class="fn">max</span>(<span class="cl">T</span> a, <span class="cl">T</span> b) {
-    <span class="kw">return</span> a.<span class="fn">compareTo</span>(b) > <span class="num">0</span> ? a : b;
-}
-
-<span class="cm">// Lambda (Java 8+)</span>
-<span class="cl">Runnable</span> r = () -> <span class="fn">System</span>.<span class="fn">out</span>.<span class="fn">println</span>(<span class="str">"hi"</span>);
-list.<span class="fn">sort</span>((a, b) -> a.<span class="fn">compareTo</span>(b));
-
-<span class="cm">// Streams</span>
-list.<span class="fn">stream</span>()
-    .<span class="fn">filter</span>(s -> s.<span class="fn">length</span>() > <span class="num">3</span>)
-    .<span class="fn">map</span>(<span class="cl">String</span>::<span class="fn">toUpperCase</span>)
-    .<span class="fn">collect</span>(<span class="cl">Collectors</span>.<span class="fn">toList</span>());</pre></div></div>
-            </div>
-        </div>
-    </div>
-    <div id="java-control" class="inner-tab-content">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#a78bfa;">Control Flow</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Java</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Enhanced switch expression (Java 14+)</span>
-<span class="kw">String</span> label = <span class="kw">switch</span> (day) {
-    <span class="kw">case</span> MONDAY, TUESDAY -> <span class="str">"Weekday"</span>;
-    <span class="kw">case</span> SATURDAY, SUNDAY -> <span class="str">"Weekend"</span>;
-    <span class="kw">default</span> -> <span class="str">"Midweek"</span>;
-};
-
-<span class="cm">// Enhanced for loop</span>
-<span class="kw">for</span> (<span class="tp">int</span> n : nums) { <span class="fn">System</span>.<span class="fn">out</span>.<span class="fn">println</span>(n); }
-
-<span class="cm">// try-with-resources (auto-close)</span>
-<span class="kw">try</span> (<span class="cl">FileReader</span> fr = <span class="kw">new</span> <span class="cl">FileReader</span>(<span class="str">"f.txt"</span>)) {
-    <span class="cm">// fr auto-closed on exit</span>
-} <span class="kw">catch</span> (<span class="cl">IOException</span> e) {
-    e.<span class="fn">printStackTrace</span>();
-}
-
-<span class="cm">// Pattern matching instanceof (Java 16+)</span>
-<span class="kw">if</span> (obj <span class="kw">instanceof</span> <span class="cl">String</span> s) {
-    <span class="fn">System</span>.<span class="fn">out</span>.<span class="fn">println</span>(s.<span class="fn">length</span>());
-}</pre></div></div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#a78bfa;">Optional & Records</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Java</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Optional — avoid NullPointerException</span>
-<span class="cl">Optional</span>&lt;<span class="cl">String</span>&gt; opt = <span class="cl">Optional</span>.<span class="fn">ofNullable</span>(name);
-<span class="tp">String</span> val = opt.<span class="fn">orElse</span>(<span class="str">"default"</span>);
-opt.<span class="fn">ifPresent</span>(v -> <span class="fn">System</span>.<span class="fn">out</span>.<span class="fn">println</span>(v));
-
-<span class="cm">// Record (Java 16+) — immutable data class</span>
-<span class="kw">record</span> <span class="cl">Point</span>(<span class="tp">double</span> x, <span class="tp">double</span> y) {
-    <span class="cm">// auto-generates: constructor, getters, equals, hashCode, toString</span>
-    <span class="kw">double</span> <span class="fn">distanceTo</span>(<span class="cl">Point</span> other) {
-        <span class="kw">return</span> <span class="cl">Math</span>.<span class="fn">hypot</span>(x - other.x, y - other.y);
-    }
-}
-
-<span class="kw">var</span> p = <span class="kw">new</span> <span class="cl">Point</span>(<span class="num">1.0</span>, <span class="num">2.0</span>);
-p.<span class="fn">x</span>(); <span class="cm">// accessor</span></pre></div></div>
-            </div>
-        </div>
-    </div>
-    <div id="java-paradigm" class="inner-tab-content">
-        <div class="card">
-            <div class="card-title" style="color:#a78bfa;">OOP Pillars in Java</div>
-            <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Java</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-            <div class="code-body"><pre><span class="cm">// Encapsulation</span>
-<span class="kw">public class</span> <span class="cl">BankAccount</span> {
-    <span class="kw">private double</span> balance;
-
-    <span class="kw">public double</span> <span class="fn">getBalance</span>() { <span class="kw">return</span> balance; }
-    <span class="kw">public void</span> <span class="fn">deposit</span>(<span class="kw">double</span> amount) {
-        <span class="kw">if</span> (amount > <span class="num">0</span>) balance += amount;
-    }
-}
-
-<span class="cm">// Abstraction + Inheritance</span>
-<span class="kw">abstract class</span> <span class="cl">Shape</span> {
-    <span class="kw">abstract double</span> <span class="fn">area</span>();
-    <span class="kw">void</span> <span class="fn">print</span>() { <span class="fn">System</span>.<span class="fn">out</span>.<span class="fn">println</span>(<span class="str">"Area: "</span> + <span class="fn">area</span>()); }
-}
-
-<span class="kw">class</span> <span class="cl">Circle</span> <span class="kw">extends</span> <span class="cl">Shape</span> {
-    <span class="kw">final double</span> r;
-    <span class="cl">Circle</span>(<span class="kw">double</span> r) { <span class="kw">this</span>.r = r; }
-    <span class="kw">double</span> <span class="fn">area</span>() { <span class="kw">return</span> Math.PI * r * r; }
-}
-
-<span class="cm">// Interface with default method</span>
-<span class="kw">interface</span> <span class="cl">Drawable</span> {
-    <span class="kw">void</span> <span class="fn">draw</span>();
-    <span class="kw">default void</span> <span class="fn">hide</span>() { <span class="fn">System</span>.<span class="fn">out</span>.<span class="fn">println</span>(<span class="str">"hidden"</span>); }
-}
-
-<span class="cm">// Polymorphism</span>
-<span class="cl">Shape</span> s = <span class="kw">new</span> <span class="cl">Circle</span>(<span class="num">5</span>);
-s.<span class="fn">area</span>();  <span class="cm">// calls Circle's implementation</span>
-
-<span class="cm">// Sealed class (Java 17+)</span>
-<span class="kw">sealed class</span> <span class="cl">Expr</span> <span class="kw">permits</span> <span class="cl">Num</span>, <span class="cl">Add</span> { }
-<span class="kw">record</span> <span class="cl">Num</span>(<span class="kw">int</span> v) <span class="kw">extends</span> <span class="cl">Expr</span> { }
-<span class="kw">record</span> <span class="cl">Add</span>(<span class="cl">Expr</span> l, <span class="cl">Expr</span> r) <span class="kw">extends</span> <span class="cl">Expr</span> { }</pre></div></div>
-        </div>
-    </div>
-</div>
-
-<!-- ========== C++ ========== -->
-<div id="cpp" class="tab-content">
-    <div class="inner-nav">
-        <button class="inner-tab-btn active" data-tab="cpp-syntax" onclick="openInnerTab('cpp-syntax')">Syntax</button>
-        <button class="inner-tab-btn" data-tab="cpp-control" onclick="openInnerTab('cpp-control')">Control Structures</button>
-        <button class="inner-tab-btn" data-tab="cpp-paradigm" onclick="openInnerTab('cpp-paradigm')">OOP & Memory</button>
-    </div>
-    <div id="cpp-syntax" class="inner-tab-content active">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#a78bfa;">Types & Variables</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">C++</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="kw">#include</span> <span class="str">&lt;iostream&gt;</span>
-<span class="kw">#include</span> <span class="str">&lt;string&gt;</span>
-<span class="kw">#include</span> <span class="str">&lt;vector&gt;</span>
-<span class="kw">using namespace</span> std;
-
-<span class="tp">int</span>    age    = <span class="num">30</span>;
-<span class="tp">double</span> price  = <span class="num">9.99</span>;
-<span class="tp">bool</span>   active = <span class="kw">true</span>;
-<span class="tp">char</span>   grade  = <span class="str">'A'</span>;
-<span class="tp">string</span> name   = <span class="str">"Alice"</span>;
-
-<span class="cm">// auto type deduction</span>
-<span class="kw">auto</span> x = <span class="num">42</span>;
-<span class="kw">auto</span> s = <span class="tp">string</span>(<span class="str">"hello"</span>);
-
-<span class="cm">// Constants</span>
-<span class="kw">const</span> <span class="tp">int</span> MAX = <span class="num">100</span>;
-<span class="kw">constexpr</span> <span class="tp">double</span> PI = <span class="num">3.14159</span>;
-
-<span class="cm">// References & Pointers</span>
-<span class="tp">int</span>  val = <span class="num">10</span>;
-<span class="tp">int</span>& ref = val;   <span class="cm">// reference (alias)</span>
-<span class="tp">int</span>* ptr = &val;  <span class="cm">// pointer (address)</span>
-*ptr = <span class="num">20</span>;        <span class="cm">// dereference</span>
-
-<span class="cm">// STL containers</span>
-vector&lt;<span class="tp">int</span>&gt;        nums = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>};
-map&lt;<span class="tp">string</span>, <span class="tp">int</span>&gt; m;
-m[<span class="str">"alice"</span>] = <span class="num">25</span>;</pre></div></div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#a78bfa;">Functions & Templates</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">C++</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Pass by value, reference, const ref</span>
-<span class="tp">void</span> <span class="fn">modify</span>(<span class="tp">int</span>& n) { n++; }
-<span class="tp">void</span> <span class="fn">print</span>(<span class="kw">const</span> <span class="tp">string</span>& s) { cout &lt;&lt; s; }
-
-<span class="cm">// Default args</span>
-<span class="tp">string</span> <span class="fn">greet</span>(<span class="tp">string</span> name, <span class="tp">string</span> g = <span class="str">"Hello"</span>) {
-    <span class="kw">return</span> g + <span class="str">", "</span> + name;
-}
-
-<span class="cm">// Function templates</span>
-<span class="kw">template</span>&lt;<span class="kw">typename</span> <span class="cl">T</span>&gt;
-<span class="cl">T</span> <span class="fn">maxOf</span>(<span class="cl">T</span> a, <span class="cl">T</span> b) { <span class="kw">return</span> a > b ? a : b; }
-
-<span class="cm">// Lambda (C++11)</span>
-<span class="kw">auto</span> add = [](<span class="tp">int</span> a, <span class="tp">int</span> b) { <span class="kw">return</span> a + b; };
-
-<span class="cm">// Range-based for (C++11)</span>
-<span class="kw">for</span> (<span class="kw">const auto</span>& n : nums) { cout &lt;&lt; n &lt;&lt; <span class="str">" "</span>; }
-
-<span class="cm">// Smart pointers (avoid raw new/delete)</span>
-<span class="kw">auto</span> p = make_unique&lt;Dog&gt;(<span class="str">"Rex"</span>);
-<span class="kw">auto</span> s = make_shared&lt;Cat&gt;(<span class="str">"Mia"</span>);</pre></div></div>
-            </div>
-        </div>
-    </div>
-    <div id="cpp-control" class="inner-tab-content">
-        <div class="info-box warn">
-            <div class="info-label">C++ Control Structures</div>
-            Same as C/Java syntax (if/else, switch, for, while) but with range-based for and structured bindings added in C++11/17.
-        </div>
-        <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">C++</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-        <div class="code-body"><pre><span class="cm">// Structured bindings (C++17)</span>
-<span class="kw">auto</span> [key, val] = *m.<span class="fn">begin</span>();
-<span class="kw">for</span> (<span class="kw">auto</span>& [k, v] : myMap) { cout &lt;&lt; k &lt;&lt; <span class="str">":"</span> &lt;&lt; v; }
-
-<span class="cm">// if with init statement (C++17)</span>
-<span class="kw">if</span> (<span class="kw">auto</span> it = m.<span class="fn">find</span>(<span class="str">"key"</span>); it != m.<span class="fn">end</span>()) {
-    cout &lt;&lt; it-&gt;second;
-}
-
-<span class="cm">// Exception handling</span>
-<span class="kw">try</span> {
-    <span class="kw">throw</span> runtime_error(<span class="str">"oops"</span>);
-} <span class="kw">catch</span> (<span class="kw">const</span> exception& e) {
-    cerr &lt;&lt; e.<span class="fn">what</span>();
-} <span class="kw">catch</span> (...) {
-    cerr &lt;&lt; <span class="str">"unknown error"</span>;
-}
-
-<span class="cm">// STL algorithms</span>
-sort(nums.<span class="fn">begin</span>(), nums.<span class="fn">end</span>());
-<span class="kw">auto</span> it = find(nums.<span class="fn">begin</span>(), nums.<span class="fn">end</span>(), <span class="num">3</span>);
-<span class="kw">auto</span> cnt = count_if(nums.<span class="fn">begin</span>(), nums.<span class="fn">end</span>(), [](<span class="tp">int</span> n){ <span class="kw">return</span> n > <span class="num">2</span>; });</pre></div></div>
-    </div>
-    <div id="cpp-paradigm" class="inner-tab-content">
-        <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">C++</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-        <div class="code-body"><pre><span class="kw">class</span> <span class="cl">Animal</span> {
-<span class="kw">public</span>:
-    <span class="fn">Animal</span>(<span class="tp">string</span> name): _name(name) {}  <span class="cm">// initializer list</span>
-    <span class="kw">virtual</span> ~<span class="fn">Animal</span>() = <span class="kw">default</span>;       <span class="cm">// virtual destructor</span>
-    <span class="kw">virtual</span> <span class="tp">string</span> <span class="fn">speak</span>() <span class="kw">const</span> = <span class="num">0</span>;  <span class="cm">// pure virtual</span>
-    <span class="tp">string</span> <span class="fn">name</span>() <span class="kw">const</span> { <span class="kw">return</span> _name; }
-<span class="kw">protected</span>:
-    <span class="tp">string</span> _name;
-};
-
-<span class="kw">class</span> <span class="cl">Dog</span> : <span class="kw">public</span> <span class="cl">Animal</span> {
-<span class="kw">public</span>:
-    <span class="kw">using</span> <span class="cl">Animal</span>::<span class="cl">Animal</span>;  <span class="cm">// inherit constructor</span>
-    <span class="tp">string</span> <span class="fn">speak</span>() <span class="kw">const override</span> { <span class="kw">return</span> <span class="str">"Woof"</span>; }
-};
-
-<span class="cm">// Move semantics (C++11) — avoid deep copies</span>
-<span class="kw">class</span> <span class="cl">Resource</span> {
-<span class="kw">public</span>:
-    <span class="fn">Resource</span>(<span class="cl">Resource</span>&&) <span class="kw">noexcept</span>;             <span class="cm">// move constructor</span>
-    <span class="cl">Resource</span>& <span class="kw">operator</span>=(<span class="cl">Resource</span>&&) <span class="kw">noexcept</span>;  <span class="cm">// move assignment</span>
-};
-
-<span class="cm">// Usage — polymorphism via pointer/ref</span>
-unique_ptr&lt;<span class="cl">Animal</span>&gt; a = make_unique&lt;<span class="cl">Dog</span>&gt;(<span class="str">"Rex"</span>);
-cout &lt;&lt; a-><span class="fn">speak</span>();  <span class="cm">// "Woof" — dynamic dispatch</span></pre></div></div>
-    </div>
-</div>
-
-<!-- ========== C# ========== -->
-<div id="csharp" class="tab-content">
-    <div class="inner-nav">
-        <button class="inner-tab-btn active" data-tab="cs-syntax" onclick="openInnerTab('cs-syntax')">Syntax</button>
-        <button class="inner-tab-btn" data-tab="cs-control" onclick="openInnerTab('cs-control')">Control Structures</button>
-        <button class="inner-tab-btn" data-tab="cs-paradigm" onclick="openInnerTab('cs-paradigm')">OOP</button>
-    </div>
-    <div id="cs-syntax" class="inner-tab-content active">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#a78bfa;">Variables & Types</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">C#</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Types (strongly typed)</span>
-<span class="tp">int</span>     age    = <span class="num">30</span>;
-<span class="tp">double</span>  price  = <span class="num">9.99</span>;
-<span class="tp">bool</span>    active = <span class="kw">true</span>;
-<span class="tp">string</span>  name   = <span class="str">"Alice"</span>;
-<span class="tp">decimal</span> money  = <span class="num">1000.50m</span>;  <span class="cm">// precise decimal</span>
-
-<span class="cm">// var — compiler infers type</span>
-<span class="kw">var</span> list = <span class="kw">new</span> <span class="cl">List</span>&lt;<span class="tp">string</span>&gt;();
-
-<span class="cm">// Nullable types</span>
-<span class="tp">int</span>?    maybeAge = <span class="kw">null</span>;
-<span class="tp">string</span>? maybeName = <span class="kw">null</span>;
-
-<span class="cm">// String interpolation</span>
-<span class="kw">var</span> msg = <span class="str">$"Hello, <span class="op">{name}</span>! Age: <span class="op">{age}</span>"</span>;
-
-<span class="cm">// Pattern matching null check</span>
-<span class="kw">if</span> (maybeName <span class="kw">is not null</span>) { }
-
-<span class="cm">// Tuple</span>
-(<span class="tp">string</span> First, <span class="tp">int</span> Count) t = (<span class="str">"a"</span>, <span class="num">3</span>);
-<span class="fn">Console</span>.<span class="fn">WriteLine</span>(t.First);</pre></div></div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#a78bfa;">LINQ & Collections</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">C#</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="kw">using</span> System.Linq;
-
-<span class="kw">var</span> nums = <span class="kw">new</span>[] { <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span> };
-
-<span class="cm">// LINQ method syntax</span>
-<span class="kw">var</span> evens  = nums.<span class="fn">Where</span>(n => n % <span class="num">2</span> == <span class="num">0</span>);
-<span class="kw">var</span> doubled = nums.<span class="fn">Select</span>(n => n * <span class="num">2</span>);
-<span class="kw">var</span> sum    = nums.<span class="fn">Sum</span>();
-<span class="kw">var</span> first  = nums.<span class="fn">First</span>(n => n > <span class="num">3</span>);
-<span class="kw">var</span> sorted = nums.<span class="fn">OrderByDescending</span>(n => n);
-
-<span class="cm">// LINQ query syntax</span>
-<span class="kw">var</span> query = <span class="kw">from</span> n <span class="kw">in</span> nums
-            <span class="kw">where</span> n > <span class="num">2</span>
-            <span class="kw">orderby</span> n
-            <span class="kw">select</span> n * n;
-
-<span class="cm">// Dictionary</span>
-<span class="kw">var</span> dict = <span class="kw">new</span> <span class="cl">Dictionary</span>&lt;<span class="tp">string</span>, <span class="tp">int</span>&gt; {
-    [<span class="str">"a"</span>] = <span class="num">1</span>, [<span class="str">"b"</span>] = <span class="num">2</span>
-};</pre></div></div>
-            </div>
-        </div>
-    </div>
-    <div id="cs-control" class="inner-tab-content">
-        <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">C#</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-        <div class="code-body"><pre><span class="cm">// Switch expression (C# 8+)</span>
-<span class="kw">string</span> grade = score <span class="kw">switch</span> {
-    >= <span class="num">90</span> => <span class="str">"A"</span>,
-    >= <span class="num">70</span> => <span class="str">"B"</span>,
-    _     => <span class="str">"F"</span>
-};
-
-<span class="cm">// Pattern matching</span>
-<span class="kw">if</span> (obj <span class="kw">is</span> <span class="cl">Circle</span> c && c.Radius > <span class="num">0</span>) { }
-
-<span class="cm">// Null-coalescing</span>
-<span class="kw">string</span> display = name ?? <span class="str">"Guest"</span>;
-name ??= <span class="str">"Default"</span>;  <span class="cm">// assign if null</span>
-
-<span class="cm">// foreach</span>
-<span class="kw">foreach</span> (<span class="kw">var</span> item <span class="kw">in</span> list) { }
-
-<span class="cm">// Exception filters</span>
-<span class="kw">try</span> { risky(); }
-<span class="kw">catch</span> (<span class="cl">Exception</span> e) <span class="kw">when</span> (e.Message.<span class="fn">Contains</span>(<span class="str">"timeout"</span>)) {
-    <span class="cm">// only catches when condition is true</span>
-}
-
-<span class="cm">// async / await</span>
-<span class="kw">public async</span> <span class="cl">Task</span>&lt;<span class="tp">string</span>&gt; <span class="fn">FetchAsync</span>(<span class="tp">string</span> url) {
-    <span class="kw">var</span> response = <span class="kw">await</span> _http.<span class="fn">GetAsync</span>(url);
-    <span class="kw">return await</span> response.<span class="fn">Content</span>.<span class="fn">ReadAsStringAsync</span>();
-}</pre></div></div>
-    </div>
-    <div id="cs-paradigm" class="inner-tab-content">
-        <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">C#</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-        <div class="code-body"><pre><span class="cm">// Primary constructor (C# 12)</span>
-<span class="kw">class</span> <span class="cl">Person</span>(<span class="tp">string</span> name, <span class="tp">int</span> age) {
-    <span class="kw">public string</span> Name { <span class="kw">get</span>; } = name;
-    <span class="kw">public int</span>    Age  { <span class="kw">get</span>; } = age;
-
-    <span class="kw">public string</span> <span class="fn">Describe</span>() => <span class="str">$"<span class="op">{Name}</span>, <span class="op">{Age}</span>"</span>;
-}
-
-<span class="cm">// Interface + implementation</span>
-<span class="kw">interface</span> <span class="cl">IAnimal</span> {
-    <span class="tp">string</span> <span class="fn">Speak</span>();
-    <span class="kw">void</span>   <span class="fn">Move</span>() => <span class="fn">Console</span>.<span class="fn">WriteLine</span>(<span class="str">"moving"</span>); <span class="cm">// default impl</span>
-}
-
-<span class="kw">class</span> <span class="cl">Dog</span> : <span class="cl">IAnimal</span> {
-    <span class="kw">public string</span> <span class="fn">Speak</span>() => <span class="str">"Woof"</span>;
-}
-
-<span class="cm">// Record (immutable, value semantics)</span>
-<span class="kw">record</span> <span class="cl">Point</span>(<span class="tp">double</span> X, <span class="tp">double</span> Y);
-
-<span class="kw">var</span> p1 = <span class="kw">new</span> <span class="cl">Point</span>(<span class="num">1</span>, <span class="num">2</span>);
-<span class="kw">var</span> p2 = p1 <span class="kw">with</span> { Y = <span class="num">10</span> };  <span class="cm">// non-destructive mutation</span>
-
-<span class="cm">// Events & Delegates</span>
-<span class="kw">public event</span> <span class="cl">EventHandler</span>&lt;<span class="cl">Args</span>&gt; OnChange;
-<span class="fn">OnChange</span>?.Invoke(<span class="kw">this</span>, <span class="kw">new</span> <span class="cl">Args</span>());</pre></div></div>
-    </div>
-</div>
-
 </main>
-
-<script>
-window._practiceTopics = {
-    'python': [
-        { id: 'py1', label: 'Variables & Types', icon: '📦', color: '#a78bfa',
-          content: 'Dynamic typing. int, float, bool(True/False), None, str. Type hints: name: str. Lists [], tuples (), dicts {k:v}, sets {v}. f-strings f"{expr}". walrus operator :=. List comprehension [x for x in range(10)]' },
-        { id: 'py2', label: 'Control Flow', icon: '🔀', color: '#c084fc',
-          content: 'if/elif/else. match/case (Python 3.10). for x in iterable. range(). enumerate(). dict.items(). while/else. break/continue. try/except/else/finally. raise. Context managers with open() as f.' },
-        { id: 'py3', label: 'Functions & OOP', icon: '🧱', color: '#ec4899',
-          content: 'def, *args, **kwargs, default args. lambda. Closures. @property, @classmethod, @staticmethod. class __init__(self), self, super(). Private: __attr (name mangling). Protected: _attr. abstract classes from abc import ABC, abstractmethod. @dataclass' },
-    ],
-    'java': [
-        { id: 'ja1', label: 'Types & Methods', icon: '☕', color: '#a78bfa',
-          content: 'Primitive types: int, double, boolean, char, long. Reference types: String, ArrayList, HashMap. var keyword. Arrays. Collections: List, Map, Set. Static methods. Varargs int...nums. Generics <T extends Comparable<T>>. Lambdas. Streams: filter/map/collect' },
-        { id: 'ja2', label: 'OOP Pillars', icon: '🏗️', color: '#fb923c',
-          content: 'Encapsulation: private fields + getters/setters. Inheritance: extends, super, override. Abstraction: abstract class, interface with default methods. Polymorphism. instanceof pattern matching. Records (immutable data class). Sealed classes (Java 17)' },
-    ],
-};
-
-document.addEventListener('DOMContentLoaded', () => {
-    const pyGrid = document.getElementById('py-grid');
-    buildTopicGrid('python', window._practiceTopics['python'], pyGrid);
-});
-</script>
 </body>
 </html>

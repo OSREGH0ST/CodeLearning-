@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Dev — Code Hub</title>
+    <title>Web Dev — CodeLearning</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        :root { --accent: #22d3ee; --accent-gradient: linear-gradient(135deg, #22d3ee, #3b82f6); }
-        .lang-btn.active { color: #22d3ee; border-color: rgba(34,211,238,0.3); background: rgba(34,211,238,0.08); }
-        .inner-tab-btn.active { border-bottom-color: #22d3ee; color: #22d3ee; }
+        :root { --accent: #22d3ee; }
     </style>
     <script src="script.js" defer></script>
 </head>
@@ -20,808 +18,93 @@
     <div class="header-content">
         <a href="index.html" class="back-link">← Hub</a>
         <div class="header-title">🌐 Web Development</div>
-        <button class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></button>
-        <nav class="lang-nav" id="langNav">
-            <button class="lang-btn active" data-lang="html-css" onclick="switchLang('html-css')">HTML/CSS</button>
-            <button class="lang-btn" data-lang="javascript" onclick="switchLang('javascript')">JavaScript</button>
-            <button class="lang-btn" data-lang="typescript" onclick="switchLang('typescript')">TypeScript</button>
-            <button class="lang-btn" data-lang="php" onclick="switchLang('php')">PHP</button>
+        <nav class="lang-nav">
+            <button class="lang-btn active" data-lang="frontend" onclick="switchLang('frontend')">Frontend</button>
+            <button class="lang-btn" data-lang="backend" onclick="switchLang('backend')">Backend</button>
         </nav>
     </div>
 </header>
 
 <main>
-
-<!-- ========== HTML/CSS ========== -->
-<div id="html-css" class="tab-content active">
-    <div class="inner-nav">
-        <button class="inner-tab-btn active" data-tab="hc-syntax" onclick="openInnerTab('hc-syntax')">Syntax</button>
-        <button class="inner-tab-btn" data-tab="hc-control" onclick="openInnerTab('hc-control')">Box Model & Layout</button>
-        <button class="inner-tab-btn" data-tab="hc-paradigm" onclick="openInnerTab('hc-paradigm')">Selectors & Specificity</button>
-        <button class="inner-tab-btn" data-tab="hc-practice" onclick="openInnerTab('hc-practice')">✏️ Practice</button>
-    </div>
-
-    <!-- SYNTAX -->
-    <div id="hc-syntax" class="inner-tab-content active">
-        <p class="section-label">HTML Structure</p>
-        <div class="code-block">
-            <div class="code-block-header">
-                <span class="code-lang-badge">HTML</span>
-                <div class="code-dots"><span></span><span></span><span></span></div>
-            </div>
-            <div class="code-body"><pre><span class="cm">&lt;!-- Basic HTML5 document boilerplate --&gt;</span>
-<span class="kw">&lt;!DOCTYPE</span> <span class="tp">html</span><span class="kw">&gt;</span>
-<span class="kw">&lt;html</span> <span class="fn">lang</span>=<span class="str">"en"</span><span class="kw">&gt;</span>
-  <span class="kw">&lt;head&gt;</span>
-    <span class="kw">&lt;meta</span> <span class="fn">charset</span>=<span class="str">"UTF-8"</span><span class="kw">&gt;</span>
-    <span class="kw">&lt;meta</span> <span class="fn">name</span>=<span class="str">"viewport"</span> <span class="fn">content</span>=<span class="str">"width=device-width, initial-scale=1.0"</span><span class="kw">&gt;</span>
-    <span class="kw">&lt;title&gt;</span>Page Title<span class="kw">&lt;/title&gt;</span>
-    <span class="kw">&lt;link</span> <span class="fn">rel</span>=<span class="str">"stylesheet"</span> <span class="fn">href</span>=<span class="str">"style.css"</span><span class="kw">&gt;</span>
-  <span class="kw">&lt;/head&gt;</span>
-  <span class="kw">&lt;body&gt;</span>
-    <span class="kw">&lt;header&gt;</span><span class="kw">&lt;nav&gt;</span>...<span class="kw">&lt;/nav&gt;&lt;/header&gt;</span>
-    <span class="kw">&lt;main&gt;</span>
-      <span class="kw">&lt;section&gt;</span>
-        <span class="kw">&lt;h1&gt;</span>Heading<span class="kw">&lt;/h1&gt;</span>
-        <span class="kw">&lt;p&gt;</span>Paragraph text<span class="kw">&lt;/p&gt;</span>
-        <span class="kw">&lt;a</span> <span class="fn">href</span>=<span class="str">"#"</span><span class="kw">&gt;</span>Link<span class="kw">&lt;/a&gt;</span>
-        <span class="kw">&lt;img</span> <span class="fn">src</span>=<span class="str">"img.jpg"</span> <span class="fn">alt</span>=<span class="str">"Description"</span><span class="kw">&gt;</span>
-      <span class="kw">&lt;/section&gt;</span>
-    <span class="kw">&lt;/main&gt;</span>
-    <span class="kw">&lt;footer&gt;</span>...<span class="kw">&lt;/footer&gt;</span>
-  <span class="kw">&lt;/body&gt;</span>
-<span class="kw">&lt;/html&gt;</span></pre></div>
+    <!-- FRONTEND -->
+    <div id="frontend" class="tab-content active">
+        <div class="inner-nav">
+            <button class="inner-tab-btn active" data-tab="fe-roadmap" onclick="openInnerTab('fe-roadmap')">Roadmap</button>
+            <button class="inner-tab-btn" data-tab="fe-concepts" onclick="openInnerTab('fe-concepts')">Conceptos</button>
+            <button class="inner-tab-btn" data-tab="fe-resources" onclick="openInnerTab('fe-resources')">Recursos</button>
         </div>
 
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Common HTML Tags</div>
-                <table class="compare-table">
-                    <thead><tr><th>Tag</th><th>Purpose</th></tr></thead>
-                    <tbody>
-                        <tr><td>&lt;div&gt;</td><td>Generic block container</td></tr>
-                        <tr><td>&lt;span&gt;</td><td>Generic inline container</td></tr>
-                        <tr><td>&lt;ul&gt; / &lt;ol&gt;</td><td>Unordered / ordered list</td></tr>
-                        <tr><td>&lt;li&gt;</td><td>List item</td></tr>
-                        <tr><td>&lt;form&gt;</td><td>Form wrapper</td></tr>
-                        <tr><td>&lt;input&gt;</td><td>Form input field</td></tr>
-                        <tr><td>&lt;button&gt;</td><td>Clickable button</td></tr>
-                        <tr><td>&lt;table&gt;</td><td>Data table</td></tr>
-                    </tbody>
-                </table>
+        <div id="fe-roadmap" class="inner-tab-content active">
+            <p class="section-label">Ruta de Aprendizaje Frontend</p>
+            <div class="senior-tip">
+                <div class="senior-tip-header">💡 Senior Dev Tip</div>
+                <p>No empieces por React. Domina HTML semántico y CSS moderno (Flexbox/Grid) primero. El 80% de los problemas de UI se resuelven con buen CSS, no con JavaScript.</p>
             </div>
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">CSS Rule Syntax</div>
-                <div class="code-block">
-                    <div class="code-block-header"><span class="code-lang-badge">CSS</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                    <div class="code-body"><pre><span class="cm">/* Selector { property: value; } */</span>
-
-<span class="fn">h1</span> {
-  <span class="tp">color</span>: <span class="str">#1e293b</span>;
-  <span class="tp">font-size</span>: <span class="num">2rem</span>;
-  <span class="tp">font-weight</span>: <span class="num">700</span>;
-  <span class="tp">margin-bottom</span>: <span class="num">1rem</span>;
-}
-
-<span class="fn">.card</span> {
-  <span class="tp">background</span>: <span class="fn">white</span>;
-  <span class="tp">border-radius</span>: <span class="num">8px</span>;
-  <span class="tp">padding</span>: <span class="num">1.5rem</span>;
-  <span class="tp">box-shadow</span>: <span class="num">0 2px 8px</span> <span class="fn">rgba</span>(<span class="num">0,0,0,0.1</span>);
-}
-
-<span class="fn">#header</span> {
-  <span class="tp">position</span>: sticky;
-  <span class="tp">top</span>: <span class="num">0</span>;
-}</pre></div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Fase 1: Fundamentos</div>
+                    <p>HTML5 Semántico, CSS3, Responsive Design y JavaScript Básico (DOM, Eventos).</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">Fase 2: Herramientas</div>
+                    <p>Git, NPM/PNPM, Preprocesadores (Sass) y Frameworks de CSS (Tailwind).</p>
                 </div>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-title" style="color:#22d3ee;">CSS Variables & Custom Properties</div>
-            <div class="code-block">
-                <div class="code-block-header"><span class="code-lang-badge">CSS</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">/* Define on :root for global scope */</span>
-<span class="fn">:root</span> {
-  <span class="tp">--color-primary</span>: <span class="str">#3b82f6</span>;
-  <span class="tp">--color-bg</span>: <span class="str">#f8fafc</span>;
-  <span class="tp">--spacing-md</span>: <span class="num">1rem</span>;
-  <span class="tp">--radius</span>: <span class="num">8px</span>;
-  <span class="tp">--font-body</span>: <span class="str">'Inter', sans-serif</span>;
-}
-
-<span class="fn">.button</span> {
-  <span class="tp">background</span>: <span class="fn">var</span>(<span class="tp">--color-primary</span>);   <span class="cm">/* use with var() */</span>
-  <span class="tp">padding</span>: <span class="fn">var</span>(<span class="tp">--spacing-md</span>);
-  <span class="tp">border-radius</span>: <span class="fn">var</span>(<span class="tp">--radius</span>);
-}
-
-<span class="cm">/* Override in a nested scope */</span>
-<span class="fn">.dark-theme</span> {
-  <span class="tp">--color-bg</span>: <span class="str">#0f172a</span>;
-  <span class="tp">--color-primary</span>: <span class="str">#60a5fa</span>;
-}</pre></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- BOX MODEL & LAYOUT -->
-    <div id="hc-control" class="inner-tab-content">
-        <p class="section-label">Box Model</p>
-        <div class="info-box">
-            <div class="info-label">Core Rule</div>
-            Every element is a rectangular box: <strong>content → padding → border → margin</strong>. Use <code>box-sizing: border-box</code> so padding/border don't add to declared width.
-        </div>
-        <div class="grid-2">
+        <div id="fe-concepts" class="inner-tab-content">
+            <p class="section-label">Conceptos Clave</p>
             <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Flexbox</div>
+                <div class="card-title">El DOM (Document Object Model)</div>
+                <p>Es la representación en memoria de tu HTML. Manipularlo eficientemente es la clave de las aplicaciones web interactivas.</p>
                 <div class="code-block">
-                    <div class="code-block-header"><span class="code-lang-badge">CSS</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                    <div class="code-body"><pre><span class="fn">.container</span> {
-  <span class="tp">display</span>: flex;
-  <span class="tp">flex-direction</span>: row;        <span class="cm">/* row | column */</span>
-  <span class="tp">justify-content</span>: center;   <span class="cm">/* main axis */</span>
-  <span class="tp">align-items</span>: center;       <span class="cm">/* cross axis */</span>
-  <span class="tp">gap</span>: <span class="num">1rem</span>;
-  <span class="tp">flex-wrap</span>: wrap;
-}
-
-<span class="fn">.item</span> {
-  <span class="tp">flex</span>: <span class="num">1</span>;          <span class="cm">/* grow-shrink-basis */</span>
-  <span class="tp">flex-shrink</span>: <span class="num">0</span>;   <span class="cm">/* don't shrink */</span>
-}</pre></div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">CSS Grid</div>
-                <div class="code-block">
-                    <div class="code-block-header"><span class="code-lang-badge">CSS</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                    <div class="code-body"><pre><span class="fn">.grid</span> {
-  <span class="tp">display</span>: grid;
-  <span class="tp">grid-template-columns</span>:
-    <span class="fn">repeat</span>(<span class="num">3</span>, <span class="num">1fr</span>);         <span class="cm">/* 3 equal cols */</span>
-  <span class="tp">grid-template-rows</span>:
-    <span class="fn">auto</span> <span class="num">200px</span>;             <span class="cm">/* row sizes */</span>
-  <span class="tp">gap</span>: <span class="num">1rem 1.5rem</span>;        <span class="cm">/* row col gap */</span>
-}
-
-<span class="fn">.span-full</span> {
-  <span class="tp">grid-column</span>: <span class="num">1 / -1</span>;    <span class="cm">/* spans all cols */</span>
-}</pre></div>
+                    <div class="code-body">
+                        <pre>document.querySelector('.btn').addEventListener('click', () => {
+  console.log('¡Hola Mundo!');
+});</pre>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-title" style="color:#22d3ee;">Responsive — Media Queries</div>
-            <div class="code-block">
-                <div class="code-block-header"><span class="code-lang-badge">CSS</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">/* Mobile-first approach: base styles are mobile */</span>
-<span class="fn">.grid</span> { <span class="tp">grid-template-columns</span>: <span class="num">1fr</span>; }
 
-<span class="cm">/* Tablet+ */</span>
-<span class="kw">@media</span> (<span class="tp">min-width</span>: <span class="num">768px</span>) {
-  <span class="fn">.grid</span> { <span class="tp">grid-template-columns</span>: <span class="fn">repeat</span>(<span class="num">2</span>, <span class="num">1fr</span>); }
-}
-
-<span class="cm">/* Desktop+ */</span>
-<span class="kw">@media</span> (<span class="tp">min-width</span>: <span class="num">1024px</span>) {
-  <span class="fn">.grid</span> { <span class="tp">grid-template-columns</span>: <span class="fn">repeat</span>(<span class="num">3</span>, <span class="num">1fr</span>); }
-}
-
-<span class="cm">/* Dark mode */</span>
-<span class="kw">@media</span> (<span class="tp">prefers-color-scheme</span>: dark) {
-  <span class="fn">body</span> { <span class="tp">background</span>: <span class="str">#0f172a</span>; }
-}</pre></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SELECTORS -->
-    <div id="hc-paradigm" class="inner-tab-content">
-        <div class="card">
-            <div class="card-title" style="color:#22d3ee;">Selector Types & Specificity</div>
+        <div id="fe-resources" class="inner-tab-content">
+            <p class="section-label">Recursos Curados</p>
             <table class="compare-table">
-                <thead><tr><th>Selector</th><th>Example</th><th>Specificity</th></tr></thead>
+                <thead><tr><th>Recurso</th><th>Descripción</th></tr></thead>
                 <tbody>
-                    <tr><td>Element</td><td>p { }</td><td>0-0-1 (lowest)</td></tr>
-                    <tr><td>Class</td><td>.card { }</td><td>0-1-0</td></tr>
-                    <tr><td>Attribute</td><td>[type="text"] { }</td><td>0-1-0</td></tr>
-                    <tr><td>Pseudo-class</td><td>a:hover { }</td><td>0-1-0</td></tr>
-                    <tr><td>ID</td><td>#header { }</td><td>1-0-0</td></tr>
-                    <tr><td>Inline style</td><td>style="..."</td><td>Overrides all</td></tr>
-                    <tr><td>!important</td><td>color: red !important</td><td>Nuclear option — avoid</td></tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Pseudo-classes</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">CSS</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="fn">a:hover</span>      { <span class="tp">color</span>: blue; }
-<span class="fn">li:first-child</span> { <span class="tp">font-weight</span>: bold; }
-<span class="fn">li:last-child</span>  { <span class="tp">border</span>: none; }
-<span class="fn">li:nth-child</span>(<span class="num">2n</span>) { <span class="tp">background</span>: <span class="str">#f0f0f0</span>; }
-<span class="fn">input:focus</span>  { <span class="tp">outline</span>: <span class="str">2px solid blue</span>; }
-<span class="fn">input:valid</span>  { <span class="tp">border-color</span>: green; }
-<span class="fn">.btn:not(.disabled)</span> { <span class="tp">cursor</span>: pointer; }</pre></div></div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Pseudo-elements</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">CSS</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="fn">p::first-line</span>  { <span class="tp">font-weight</span>: bold; }
-<span class="fn">p::first-letter</span> { <span class="tp">font-size</span>: <span class="num">2em</span>; }
-
-<span class="fn">.card::before</span> {
-  <span class="tp">content</span>: <span class="str">''</span>;
-  <span class="tp">display</span>: block;
-  <span class="tp">width</span>: <span class="num">100%</span>;
-  <span class="tp">height</span>: <span class="num">3px</span>;
-  <span class="tp">background</span>: <span class="fn">var</span>(<span class="tp">--accent</span>);
-}
-
-<span class="fn">::selection</span> {
-  <span class="tp">background</span>: <span class="str">#3b82f6</span>;
-  <span class="tp">color</span>: <span class="fn">white</span>;
-}</pre></div></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PRACTICE -->
-    <div id="hc-practice" class="inner-tab-content">
-        <div class="practice-home">
-            <div class="practice-intro">
-                <div class="practice-intro-icon">✏️</div>
-                <h2 class="practice-intro-title">HTML/CSS Practice</h2>
-                <p class="practice-intro-desc">AI-generated quizzes based on what's in this guide.</p>
-            </div>
-            <div class="practice-topic-grid" id="hc-grid"></div>
-        </div>
-        <div class="quiz-view" style="display:none;">
-            <div class="quiz-header">
-                <button class="quiz-back-btn" onclick="backToTopics()">← Topics</button>
-                <span id="quiz-topic-label" class="quiz-topic-label"></span>
-                <span id="quiz-progress" class="quiz-progress"></span>
-            </div>
-            <div id="quiz-loading" class="quiz-loading"><div class="quiz-spinner"></div><p>Generating quiz…</p></div>
-            <div id="quiz-error" class="quiz-error" style="display:none;"><p>❌ Could not generate quiz.</p><button class="results-btn secondary" onclick="backToTopics()">← Back</button></div>
-            <div id="quiz-question-area"></div>
-        </div>
-        <div class="results-view" style="display:none;">
-            <div class="results-card">
-                <div id="results-emoji" class="results-emoji"></div>
-                <h2 id="results-title" class="results-title"></h2>
-                <p id="results-score" class="results-score"></p>
-                <div id="results-breakdown" class="results-breakdown"></div>
-                <div class="results-actions">
-                    <button class="results-btn primary" onclick="retryQuiz()">🔄 Retry</button>
-                    <button class="results-btn secondary" onclick="backToTopics()">📚 Topics</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ========== JAVASCRIPT ========== -->
-<div id="javascript" class="tab-content">
-    <div class="inner-nav">
-        <button class="inner-tab-btn active" data-tab="js-syntax" onclick="openInnerTab('js-syntax')">Syntax</button>
-        <button class="inner-tab-btn" data-tab="js-control" onclick="openInnerTab('js-control')">Control Structures</button>
-        <button class="inner-tab-btn" data-tab="js-paradigm" onclick="openInnerTab('js-paradigm')">Functions & Scope</button>
-        <button class="inner-tab-btn" data-tab="js-practice" onclick="openInnerTab('js-practice')">✏️ Practice</button>
-    </div>
-    <div id="js-syntax" class="inner-tab-content active">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Variables</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="kw">const</span> name = <span class="str">"Alice"</span>;      <span class="cm">// immutable binding</span>
-<span class="kw">let</span> count = <span class="num">0</span>;            <span class="cm">// block-scoped mutable</span>
-<span class="kw">var</span> legacy = <span class="str">"avoid"</span>;    <span class="cm">// function-scoped, hoisted</span>
-
-<span class="cm">// Data types</span>
-<span class="kw">const</span> num    = <span class="num">42</span>;
-<span class="kw">const</span> float  = <span class="num">3.14</span>;
-<span class="kw">const</span> bool   = <span class="kw">true</span>;
-<span class="kw">const</span> nil    = <span class="kw">null</span>;
-<span class="kw">const</span> undef  = <span class="kw">undefined</span>;
-<span class="kw">const</span> sym    = <span class="fn">Symbol</span>(<span class="str">"id"</span>);
-
-<span class="cm">// Arrays & Objects</span>
-<span class="kw">const</span> arr  = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];
-<span class="kw">const</span> obj  = { name: <span class="str">"Bob"</span>, age: <span class="num">30</span> };
-
-<span class="cm">// Type check</span>
-<span class="kw">typeof</span> name  <span class="cm">// "string"</span>
-<span class="fn">Array</span>.<span class="fn">isArray</span>(arr)  <span class="cm">// true</span></pre></div></div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Destructuring & Spread</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Array destructuring</span>
-<span class="kw">const</span> [first, second, ...rest] = [<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>];
-
-<span class="cm">// Object destructuring</span>
-<span class="kw">const</span> { name, age = <span class="num">25</span> } = person;  <span class="cm">// default value</span>
-<span class="kw">const</span> { name: userName } = person;  <span class="cm">// rename</span>
-
-<span class="cm">// Spread operator</span>
-<span class="kw">const</span> merged = { ...obj1, ...obj2 };
-<span class="kw">const</span> copy   = [...arr, <span class="num">4</span>, <span class="num">5</span>];
-
-<span class="cm">// Template literals</span>
-<span class="kw">const</span> msg = <span class="str">`Hello, <span class="op">${name}</span>! You are <span class="op">${age}</span> old.`</span>;
-
-<span class="cm">// Optional chaining</span>
-<span class="kw">const</span> city = user?.address?.city;
-<span class="kw">const</span> val  = map?.get(<span class="str">"key"</span>);</pre></div></div>
-            </div>
-        </div>
-    </div>
-    <div id="js-control" class="inner-tab-content">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Conditionals</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// if / else if / else</span>
-<span class="kw">if</span> (score >= <span class="num">90</span>) {
-  <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"A"</span>);
-} <span class="kw">else if</span> (score >= <span class="num">70</span>) {
-  <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"B"</span>);
-} <span class="kw">else</span> {
-  <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"F"</span>);
-}
-
-<span class="cm">// Ternary</span>
-<span class="kw">const</span> label = score >= <span class="num">60</span> <span class="op">?</span> <span class="str">"pass"</span> <span class="op">:</span> <span class="str">"fail"</span>;
-
-<span class="cm">// Switch</span>
-<span class="kw">switch</span> (day) {
-  <span class="kw">case</span> <span class="str">"Mon"</span>:
-    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Start"</span>);
-    <span class="kw">break</span>;
-  <span class="kw">default</span>:
-    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Other"</span>);
-}
-
-<span class="cm">// Nullish coalescing</span>
-<span class="kw">const</span> name = user.name <span class="op">??</span> <span class="str">"Guest"</span>;</pre></div></div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Loops</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// for loop</span>
-<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < arr.length; i++) { }
-
-<span class="cm">// for...of  (values — use for arrays)</span>
-<span class="kw">for</span> (<span class="kw">const</span> item <span class="kw">of</span> arr) { }
-
-<span class="cm">// for...in  (keys — use for objects)</span>
-<span class="kw">for</span> (<span class="kw">const</span> key <span class="kw">in</span> obj)  { }
-
-<span class="cm">// while</span>
-<span class="kw">while</span> (condition) { }
-
-<span class="cm">// Array methods (preferred over loops)</span>
-arr.<span class="fn">forEach</span>(x => <span class="fn">console</span>.<span class="fn">log</span>(x));
-<span class="kw">const</span> doubled = arr.<span class="fn">map</span>(x => x * <span class="num">2</span>);
-<span class="kw">const</span> evens   = arr.<span class="fn">filter</span>(x => x % <span class="num">2</span> === <span class="num">0</span>);
-<span class="kw">const</span> sum     = arr.<span class="fn">reduce</span>((acc, x) => acc + x, <span class="num">0</span>);</pre></div></div>
-            </div>
-        </div>
-    </div>
-    <div id="js-paradigm" class="inner-tab-content">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Functions</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Function declaration (hoisted)</span>
-<span class="kw">function</span> <span class="fn">greet</span>(name) {
-  <span class="kw">return</span> <span class="str">`Hi <span class="op">${name}</span>`</span>;
-}
-
-<span class="cm">// Arrow function (not hoisted, no own 'this')</span>
-<span class="kw">const</span> <span class="fn">add</span> = (a, b) => a + b;
-<span class="kw">const</span> <span class="fn">double</span> = x => x * <span class="num">2</span>;
-<span class="kw">const</span> <span class="fn">log</span> = () => <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"hi"</span>);
-
-<span class="cm">// Default params & rest</span>
-<span class="kw">function</span> <span class="fn">greet</span>(name = <span class="str">"World"</span>, ...extras) { }
-
-<span class="cm">// Closures</span>
-<span class="kw">function</span> <span class="fn">counter</span>() {
-  <span class="kw">let</span> count = <span class="num">0</span>;
-  <span class="kw">return</span> () => ++count;  <span class="cm">// closes over count</span>
-}
-<span class="kw">const</span> inc = <span class="fn">counter</span>();
-<span class="fn">inc</span>(); <span class="cm">// 1</span>
-<span class="fn">inc</span>(); <span class="cm">// 2</span></pre></div></div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Classes (OOP in JS)</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">JavaScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="kw">class</span> <span class="cl">Animal</span> {
-  <span class="fn">#name</span>;  <span class="cm">// private field</span>
-
-  <span class="kw">constructor</span>(name) {
-    <span class="kw">this</span>.<span class="fn">#name</span> = name;
-  }
-
-  <span class="fn">speak</span>() {
-    <span class="kw">return</span> <span class="str">`<span class="op">${this.#name}</span> makes a sound`</span>;
-  }
-
-  <span class="kw">get</span> <span class="fn">name</span>() { <span class="kw">return</span> <span class="kw">this</span>.<span class="fn">#name</span>; }
-
-  <span class="kw">static</span> <span class="fn">create</span>(name) {
-    <span class="kw">return new</span> <span class="cl">Animal</span>(name);
-  }
-}
-
-<span class="kw">class</span> <span class="cl">Dog</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
-  <span class="fn">speak</span>() { <span class="kw">return</span> <span class="str">"Woof!"</span>; }
-}
-
-<span class="kw">const</span> d = <span class="kw">new</span> <span class="cl">Dog</span>(<span class="str">"Rex"</span>);
-d.<span class="fn">speak</span>();  <span class="cm">// "Woof!"</span></pre></div></div>
-            </div>
-        </div>
-    </div>
-    <div id="js-practice" class="inner-tab-content">
-        <div class="practice-home">
-            <div class="practice-intro">
-                <div class="practice-intro-icon">✏️</div>
-                <h2 class="practice-intro-title">JavaScript Practice</h2>
-                <p class="practice-intro-desc">AI-generated quizzes based on what's in this guide.</p>
-            </div>
-            <div class="practice-topic-grid" id="js-grid"></div>
-        </div>
-        <div class="quiz-view" style="display:none;">
-            <div class="quiz-header">
-                <button class="quiz-back-btn" onclick="backToTopics()">← Topics</button>
-                <span id="quiz-topic-label" class="quiz-topic-label"></span>
-                <span id="quiz-progress" class="quiz-progress"></span>
-            </div>
-            <div id="quiz-loading" class="quiz-loading"><div class="quiz-spinner"></div><p>Generating quiz…</p></div>
-            <div id="quiz-error" class="quiz-error" style="display:none;"><p>❌ Failed to load.</p></div>
-            <div id="quiz-question-area"></div>
-        </div>
-        <div class="results-view" style="display:none;">
-            <div class="results-card">
-                <div id="results-emoji" class="results-emoji"></div>
-                <h2 id="results-title" class="results-title"></h2>
-                <p id="results-score" class="results-score"></p>
-                <div id="results-breakdown" class="results-breakdown"></div>
-                <div class="results-actions">
-                    <button class="results-btn primary" onclick="retryQuiz()">🔄 Retry</button>
-                    <button class="results-btn secondary" onclick="backToTopics()">📚 Topics</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ========== TYPESCRIPT ========== -->
-<div id="typescript" class="tab-content">
-    <div class="inner-nav">
-        <button class="inner-tab-btn active" data-tab="ts-syntax" onclick="openInnerTab('ts-syntax')">Syntax & Types</button>
-        <button class="inner-tab-btn" data-tab="ts-control" onclick="openInnerTab('ts-control')">Interfaces & Generics</button>
-        <button class="inner-tab-btn" data-tab="ts-paradigm" onclick="openInnerTab('ts-paradigm')">Advanced Types</button>
-    </div>
-    <div id="ts-syntax" class="inner-tab-content active">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Type Annotations</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">TypeScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Primitives</span>
-<span class="kw">const</span> name: <span class="tp">string</span>  = <span class="str">"Alice"</span>;
-<span class="kw">const</span> age:  <span class="tp">number</span>  = <span class="num">30</span>;
-<span class="kw">const</span> active: <span class="tp">boolean</span> = <span class="kw">true</span>;
-
-<span class="cm">// Arrays</span>
-<span class="kw">const</span> nums: <span class="tp">number</span>[]      = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];
-<span class="kw">const</span> strs: <span class="tp">Array</span>&lt;<span class="tp">string</span>&gt; = [<span class="str">"a"</span>, <span class="str">"b"</span>];
-
-<span class="cm">// Union & Literal</span>
-<span class="kw">let</span> id: <span class="tp">string</span> | <span class="tp">number</span>;
-<span class="kw">type</span> <span class="cl">Dir</span> = <span class="str">"left"</span> | <span class="str">"right"</span> | <span class="str">"up"</span>;
-
-<span class="cm">// Tuple</span>
-<span class="kw">const</span> pair: [<span class="tp">string</span>, <span class="tp">number</span>] = [<span class="str">"age"</span>, <span class="num">30</span>];
-
-<span class="cm">// Any / Unknown (avoid any)</span>
-<span class="kw">let</span> x: <span class="tp">unknown</span>;   <span class="cm">// safer than any</span>
-<span class="kw">let</span> y: <span class="tp">never</span>;     <span class="cm">// unreachable code</span>
-<span class="kw">let</span> z: <span class="tp">void</span>;      <span class="cm">// no return value</span></pre></div></div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Functions in TS</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">TypeScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Typed parameters & return type</span>
-<span class="kw">function</span> <span class="fn">add</span>(a: <span class="tp">number</span>, b: <span class="tp">number</span>): <span class="tp">number</span> {
-  <span class="kw">return</span> a + b;
-}
-
-<span class="cm">// Optional & default params</span>
-<span class="kw">function</span> <span class="fn">greet</span>(
-  name: <span class="tp">string</span>,
-  greeting?: <span class="tp">string</span>,
-  age: <span class="tp">number</span> = <span class="num">18</span>
-): <span class="tp">string</span> {
-  <span class="kw">return</span> <span class="str">`<span class="op">${greeting ?? "Hi"}</span>, <span class="op">${name}</span>`</span>;
-}
-
-<span class="cm">// Function type alias</span>
-<span class="kw">type</span> <span class="cl">Callback</span> = (err: <span class="tp">Error</span> | <span class="kw">null</span>, data: <span class="tp">string</span>) => <span class="tp">void</span>;
-
-<span class="cm">// Overloads</span>
-<span class="kw">function</span> <span class="fn">parse</span>(v: <span class="tp">string</span>): <span class="tp">number</span>;
-<span class="kw">function</span> <span class="fn">parse</span>(v: <span class="tp">number</span>): <span class="tp">string</span>;
-<span class="kw">function</span> <span class="fn">parse</span>(v: <span class="kw">any</span>): <span class="kw">any</span> { <span class="kw">return</span> v; }</pre></div></div>
-            </div>
-        </div>
-    </div>
-    <div id="ts-control" class="inner-tab-content">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Interfaces vs Types</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">TypeScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Interface — extendable, good for objects/classes</span>
-<span class="kw">interface</span> <span class="cl">User</span> {
-  id: <span class="tp">number</span>;
-  name: <span class="tp">string</span>;
-  email?: <span class="tp">string</span>;   <span class="cm">// optional</span>
-  <span class="kw">readonly</span> role: <span class="tp">string</span>;
-}
-
-<span class="kw">interface</span> <span class="cl">Admin</span> <span class="kw">extends</span> <span class="cl">User</span> {
-  permissions: <span class="tp">string</span>[];
-}
-
-<span class="cm">// Type alias — unions, intersections, primitives</span>
-<span class="kw">type</span> <span class="cl">ID</span>     = <span class="tp">string</span> | <span class="tp">number</span>;
-<span class="kw">type</span> <span class="cl">Point</span>  = { x: <span class="tp">number</span>; y: <span class="tp">number</span> };
-<span class="kw">type</span> <span class="cl">Shape</span>  = <span class="cl">Point</span> & { radius: <span class="tp">number</span> };  <span class="cm">// intersection</span></pre></div></div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Generics</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">TypeScript</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Generic function</span>
-<span class="kw">function</span> <span class="fn">identity</span>&lt;<span class="cl">T</span>&gt;(arg: <span class="cl">T</span>): <span class="cl">T</span> {
-  <span class="kw">return</span> arg;
-}
-
-<span class="cm">// Generic interface</span>
-<span class="kw">interface</span> <span class="cl">ApiResponse</span>&lt;<span class="cl">T</span>&gt; {
-  data: <span class="cl">T</span>;
-  status: <span class="tp">number</span>;
-  message: <span class="tp">string</span>;
-}
-
-<span class="cm">// Generic constraint</span>
-<span class="kw">function</span> <span class="fn">getLength</span>&lt;<span class="cl">T</span> <span class="kw">extends</span> { length: <span class="tp">number</span> }&gt;(
-  arg: <span class="cl">T</span>
-): <span class="tp">number</span> {
-  <span class="kw">return</span> arg.length;
-}
-
-<span class="kw">const</span> res: <span class="cl">ApiResponse</span>&lt;<span class="cl">User</span>&gt; = {
-  data: { id: <span class="num">1</span>, name: <span class="str">"Alice"</span>, role: <span class="str">"admin"</span> },
-  status: <span class="num">200</span>,
-  message: <span class="str">"ok"</span>
-};</pre></div></div>
-            </div>
-        </div>
-    </div>
-    <div id="ts-paradigm" class="inner-tab-content">
-        <div class="card">
-            <div class="card-title" style="color:#22d3ee;">Utility Types</div>
-            <table class="compare-table">
-                <thead><tr><th>Utility</th><th>Effect</th><th>Example</th></tr></thead>
-                <tbody>
-                    <tr><td>Partial&lt;T&gt;</td><td>All props optional</td><td>Partial&lt;User&gt;</td></tr>
-                    <tr><td>Required&lt;T&gt;</td><td>All props required</td><td>Required&lt;User&gt;</td></tr>
-                    <tr><td>Readonly&lt;T&gt;</td><td>All props readonly</td><td>Readonly&lt;User&gt;</td></tr>
-                    <tr><td>Pick&lt;T, K&gt;</td><td>Select specific keys</td><td>Pick&lt;User, "id" | "name"&gt;</td></tr>
-                    <tr><td>Omit&lt;T, K&gt;</td><td>Remove specific keys</td><td>Omit&lt;User, "password"&gt;</td></tr>
-                    <tr><td>Record&lt;K, V&gt;</td><td>Map of key-value pairs</td><td>Record&lt;string, number&gt;</td></tr>
-                    <tr><td>ReturnType&lt;F&gt;</td><td>Return type of function</td><td>ReturnType&lt;typeof greet&gt;</td></tr>
+                    <tr><td><a href="https://developer.mozilla.org/" target="_blank" style="color:var(--accent)">MDN Web Docs</a></td><td>La biblia del desarrollo web.</td></tr>
+                    <tr><td><a href="https://www.freecodecamp.org/" target="_blank" style="color:var(--accent)">FreeCodeCamp</a></td><td>Certificaciones gratuitas y prácticas.</td></tr>
+                    <tr><td><a href="https://midu.dev/" target="_blank" style="color:var(--accent)">Midu.dev</a></td><td>Cursos de React y JS en español.</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
-</div>
 
-<!-- ========== PHP ========== -->
-<div id="php" class="tab-content">
-    <div class="inner-nav">
-        <button class="inner-tab-btn active" data-tab="php-syntax" onclick="openInnerTab('php-syntax')">Syntax</button>
-        <button class="inner-tab-btn" data-tab="php-control" onclick="openInnerTab('php-control')">Control Structures</button>
-        <button class="inner-tab-btn" data-tab="php-paradigm" onclick="openInnerTab('php-paradigm')">OOP in PHP</button>
-    </div>
-    <div id="php-syntax" class="inner-tab-content active">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Variables & Types</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">PHP</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">&lt;?php</span>
-<span class="cm">// Variables always start with $</span>
-<span class="op">$name</span>   = <span class="str">"Alice"</span>;
-<span class="op">$age</span>    = <span class="num">30</span>;
-<span class="op">$price</span>  = <span class="num">9.99</span>;
-<span class="op">$active</span> = <span class="kw">true</span>;
-<span class="op">$nil</span>    = <span class="kw">null</span>;
-
-<span class="cm">// Type declarations (PHP 8)</span>
-<span class="kw">declare</span>(strict_types=<span class="num">1</span>);
-
-<span class="cm">// Arrays (both list and map)</span>
-<span class="op">$colors</span> = [<span class="str">"red"</span>, <span class="str">"green"</span>, <span class="str">"blue"</span>];
-<span class="op">$user</span>   = [
-  <span class="str">"name"</span> => <span class="str">"Bob"</span>,
-  <span class="str">"age"</span>  => <span class="num">25</span>
-];
-
-<span class="cm">// String interpolation</span>
-<span class="op">$msg</span> = <span class="str">"Hello, <span class="op">$name</span>"</span>;
-<span class="op">$msg</span> = <span class="str">"Hi, {<span class="op">$user</span>[<span class="str">'name'</span>]}"</span>;
-
-<span class="cm">// Constants</span>
-<span class="kw">define</span>(<span class="str">"MAX"</span>, <span class="num">100</span>);
-<span class="kw">const</span> <span class="cl">PI</span> = <span class="num">3.14</span>;</pre></div></div>
+    <!-- BACKEND -->
+    <div id="backend" class="tab-content">
+        <div class="inner-nav">
+            <button class="inner-tab-btn active" data-tab="be-roadmap" onclick="openInnerTab('be-roadmap')">Roadmap</button>
+            <button class="inner-tab-btn" data-tab="be-concepts" onclick="openInnerTab('be-concepts')">Conceptos</button>
+        </div>
+        <div id="be-roadmap" class="inner-tab-content active">
+            <p class="section-label">Ruta de Aprendizaje Backend</p>
+            <div class="senior-tip">
+                <div class="senior-tip-header">💡 Senior Dev Tip</div>
+                <p>El backend no es solo bases de datos. Aprende sobre protocolos (HTTP/HTTPS), seguridad (OWASP) y cómo escalar aplicaciones.</p>
             </div>
             <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Functions</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">PHP</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Typed function (PHP 8)</span>
-<span class="kw">function</span> <span class="fn">add</span>(<span class="tp">int</span> <span class="op">$a</span>, <span class="tp">int</span> <span class="op">$b</span>): <span class="tp">int</span> {
-  <span class="kw">return</span> <span class="op">$a</span> + <span class="op">$b</span>;
-}
-
-<span class="cm">// Default params & nullable</span>
-<span class="kw">function</span> <span class="fn">greet</span>(<span class="tp">string</span> <span class="op">$name</span>, <span class="op">?string</span> <span class="op">$title</span> = <span class="kw">null</span>): <span class="tp">string</span> {
-  <span class="kw">return</span> <span class="str">"Hello, <span class="op">{<span class="op">$title</span>} <span class="op">$name</span>"</span>;
-}
-
-<span class="cm">// Arrow functions (PHP 7.4+)</span>
-<span class="op">$double</span> = fn(<span class="op">$x</span>) => <span class="op">$x</span> * <span class="num">2</span>;
-
-<span class="cm">// Variadic</span>
-<span class="kw">function</span> <span class="fn">sum</span>(<span class="tp">int</span> ...<span class="op">$nums</span>): <span class="tp">int</span> {
-  <span class="kw">return</span> <span class="fn">array_sum</span>(<span class="op">$nums</span>);
-}
-
-<span class="cm">// Named arguments (PHP 8)</span>
-<span class="fn">greet</span>(name: <span class="str">"Alice"</span>, title: <span class="str">"Dr."</span>);</pre></div></div>
+                <div class="card-title">Stack Sugerido</div>
+                <p>Node.js (Express), Python (FastAPI) o Go. Bases de datos: PostgreSQL (Relacional) y Redis (Cache).</p>
+            </div>
+        </div>
+        <div id="be-concepts" class="inner-tab-content">
+            <p class="section-label">Arquitectura</p>
+            <div class="card">
+                <div class="card-title">REST vs GraphQL</div>
+                <p>REST es el estándar basado en recursos, mientras que GraphQL permite al cliente pedir exactamente lo que necesita.</p>
             </div>
         </div>
     </div>
-    <div id="php-control" class="inner-tab-content">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Control Flow</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">PHP</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Match expression (PHP 8 — strict)</span>
-<span class="op">$result</span> = <span class="kw">match</span>(<span class="op">$status</span>) {
-  <span class="num">200</span>     => <span class="str">"OK"</span>,
-  <span class="num">404</span>     => <span class="str">"Not Found"</span>,
-  <span class="num">500</span>     => <span class="str">"Server Error"</span>,
-  <span class="kw">default</span> => <span class="str">"Unknown"</span>,
-};
-
-<span class="cm">// Nullsafe operator</span>
-<span class="op">$city</span> = <span class="op">$user</span>?->getAddress()?->getCity();
-
-<span class="cm">// foreach</span>
-<span class="kw">foreach</span> (<span class="op">$users</span> <span class="kw">as</span> <span class="op">$key</span> => <span class="op">$user</span>) {
-  <span class="fn">echo</span> <span class="op">$user</span>[<span class="str">'name'</span>];
-}
-
-<span class="cm">// try/catch</span>
-<span class="kw">try</span> {
-  <span class="fn">dangerousOp</span>();
-} <span class="kw">catch</span> (<span class="cl">RuntimeException</span> <span class="op">$e</span>) {
-  <span class="fn">log_error</span>(<span class="op">$e</span>-><span class="fn">getMessage</span>());
-} <span class="kw">finally</span> {
-  <span class="fn">cleanup</span>();
-}</pre></div></div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#22d3ee;">Array Functions</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">PHP</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="op">$nums</span> = [<span class="num">3</span>, <span class="num">1</span>, <span class="num">4</span>, <span class="num">1</span>, <span class="num">5</span>, <span class="num">9</span>];
-
-<span class="cm">// Map / filter / reduce</span>
-<span class="op">$doubled</span> = <span class="fn">array_map</span>(fn(<span class="op">$n</span>) => <span class="op">$n</span>*<span class="num">2</span>, <span class="op">$nums</span>);
-<span class="op">$big</span>     = <span class="fn">array_filter</span>(<span class="op">$nums</span>, fn(<span class="op">$n</span>) => <span class="op">$n</span> > <span class="num">3</span>);
-<span class="op">$sum</span>     = <span class="fn">array_reduce</span>(<span class="op">$nums</span>, fn(<span class="op">$c</span>,<span class="op">$n</span>) => <span class="op">$c</span>+<span class="op">$n</span>, <span class="num">0</span>);
-
-<span class="cm">// Sort</span>
-<span class="fn">sort</span>(<span class="op">$nums</span>);
-<span class="fn">usort</span>(<span class="op">$users</span>, fn(<span class="op">$a</span>,<span class="op">$b</span>) => <span class="op">$a</span>[<span class="str">'age'</span>] - <span class="op">$b</span>[<span class="str">'age'</span>]);
-
-<span class="cm">// Spread in function call</span>
-<span class="fn">sum</span>(...<span class="op">$nums</span>);</pre></div></div>
-            </div>
-        </div>
-    </div>
-    <div id="php-paradigm" class="inner-tab-content">
-        <div class="card">
-            <div class="card-title" style="color:#22d3ee;">OOP in PHP</div>
-            <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">PHP</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-            <div class="code-body"><pre><span class="kw">class</span> <span class="cl">BankAccount</span> {
-  <span class="cm">// Typed, visibility-controlled properties</span>
-  <span class="kw">private</span> <span class="tp">float</span> <span class="op">$balance</span> = <span class="num">0.0</span>;
-
-  <span class="cm">// Constructor promotion (PHP 8)</span>
-  <span class="kw">public function</span> <span class="fn">__construct</span>(
-    <span class="kw">private readonly</span> <span class="tp">string</span> <span class="op">$owner</span>,
-    <span class="tp">float</span> <span class="op">$initial</span> = <span class="num">0</span>
-  ) {
-    <span class="op">$this</span>-><span class="op">balance</span> = <span class="op">$initial</span>;
-  }
-
-  <span class="kw">public function</span> <span class="fn">deposit</span>(<span class="tp">float</span> <span class="op">$amount</span>): <span class="tp">void</span> {
-    <span class="kw">if</span> (<span class="op">$amount</span> <= <span class="num">0</span>) <span class="kw">throw new</span> <span class="cl">InvalidArgumentException</span>();
-    <span class="op">$this</span>-><span class="op">balance</span> += <span class="op">$amount</span>;
-  }
-
-  <span class="kw">public function</span> <span class="fn">getBalance</span>(): <span class="tp">float</span> {
-    <span class="kw">return</span> <span class="op">$this</span>-><span class="op">balance</span>;
-  }
-}
-
-<span class="cm">// Interface</span>
-<span class="kw">interface</span> <span class="cl">Printable</span> {
-  <span class="kw">public function</span> <span class="fn">print</span>(): <span class="tp">void</span>;
-}
-
-<span class="cm">// Abstract class</span>
-<span class="kw">abstract class</span> <span class="cl">Shape</span> {
-  <span class="kw">abstract public function</span> <span class="fn">area</span>(): <span class="tp">float</span>;
-}
-
-<span class="op">$acc</span> = <span class="kw">new</span> <span class="cl">BankAccount</span>(<span class="str">"Alice"</span>, <span class="num">100</span>);
-<span class="op">$acc</span>-><span class="fn">deposit</span>(<span class="num">50</span>);</pre></div></div>
-        </div>
-    </div>
-</div>
-
 </main>
-
-<script>
-// Practice topics data
-window._practiceTopics = {
-    'html-css': [
-        { id: 'hc1', label: 'HTML Structure', icon: '🏗️', color: '#22d3ee',
-          content: 'DOCTYPE html, html/head/body, semantic elements (header,main,section,article,footer,nav), block vs inline elements, void elements, attributes (class, id, href, src, alt), forms (form, input, button, label)' },
-        { id: 'hc2', label: 'CSS Selectors', icon: '🎯', color: '#3b82f6',
-          content: 'Element selector, class (.class), ID (#id), descendant, child (>), attribute ([type="text"]), pseudo-class (:hover, :first-child, :nth-child), pseudo-element (::before, ::after), specificity: 0-0-1 element, 0-1-0 class, 1-0-0 ID' },
-        { id: 'hc3', label: 'Flexbox & Grid', icon: '📐', color: '#a78bfa',
-          content: 'Flexbox: display:flex, flex-direction, justify-content, align-items, gap, flex-wrap, flex:1. CSS Grid: display:grid, grid-template-columns, repeat(3,1fr), grid-column span, gap' },
-        { id: 'hc4', label: 'Box Model', icon: '📦', color: '#fb923c',
-          content: 'Content → padding → border → margin. box-sizing: border-box. margin:auto for centering. display: block, inline, inline-block, none. position: static, relative, absolute, fixed, sticky' },
-    ],
-    'javascript': [
-        { id: 'js1', label: 'Variables & Types', icon: '📦', color: '#22d3ee',
-          content: 'const (immutable), let (block-scoped), var (avoid). Types: string, number, boolean, null, undefined, symbol. typeof operator. Arrays [], objects {}. Template literals ${expr}' },
-        { id: 'js2', label: 'Control Flow', icon: '🔀', color: '#3b82f6',
-          content: 'if/else if/else, ternary operator (? :), switch/case/break/default, nullish coalescing (??), optional chaining (?.). for, while, for...of (arrays), for...in (objects)' },
-        { id: 'js3', label: 'Functions', icon: '⚙️', color: '#a78bfa',
-          content: 'function declaration (hoisted), arrow function (=>), default params, rest (...args), closures, IIFE. Array methods: map, filter, reduce, forEach, find, some, every' },
-        { id: 'js4', label: 'Classes & OOP', icon: '🧱', color: '#fb923c',
-          content: 'class, constructor, this, get/set, static, extends, super, private fields (#). Prototype chain. instanceof operator' },
-    ],
-};
-
-// Initialize default tab practice grids
-document.addEventListener('DOMContentLoaded', () => {
-    const hcGrid = document.getElementById('hc-grid');
-    buildTopicGrid('html-css', window._practiceTopics['html-css'], hcGrid);
-    const jsGrid = document.getElementById('js-grid');
-    buildTopicGrid('javascript', window._practiceTopics['javascript'], jsGrid);
-});
-</script>
 </body>
 </html>

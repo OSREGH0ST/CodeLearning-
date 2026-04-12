@@ -1,18 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Hub — Programming Learning Center</title>
+    <title>CodeLearning — Senior Dev Hub</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-dark: #0f172a;
+            --web-cyan: #22d3ee;
+            --oop-purple: #a78bfa;
+            --mobile-green: #34d399;
+            --eop-orange: #fb923c;
+            --text-dim: rgba(255, 255, 255, 0.5);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'DM Sans', sans-serif;
-            background: #080c12;
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-dark);
+            color: white;
             overflow: hidden;
         }
 
@@ -30,7 +40,7 @@
             position: relative;
             overflow: hidden;
             text-decoration: none;
-            transition: flex 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: flex 0.7s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
         }
 
@@ -41,27 +51,23 @@
             inset: 0;
             background-size: cover;
             background-position: center;
-            transition: transform 0.65s ease;
-            filter: brightness(0.35);
+            transition: transform 0.7s ease;
+            filter: brightness(0.3);
         }
 
         .pane:hover .pane-bg {
-            transform: scale(1.07);
-            filter: brightness(0.45);
+            transform: scale(1.05);
+            filter: brightness(0.4);
         }
 
-        .pane-grid {
+        .pane-overlay {
             position: absolute;
             inset: 0;
-            opacity: 0.04;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px);
-            background-size: 40px 40px;
-            transition: opacity 0.4s;
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.2));
+            transition: opacity 0.5s ease;
         }
 
-        .pane:hover .pane-grid { opacity: 0.09; }
+        .pane:hover .pane-overlay { opacity: 0.8; }
 
         .pane-content {
             position: relative;
@@ -70,136 +76,112 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            padding: 2rem 1.5rem;
+            padding: 2rem;
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .pane-icon {
-            font-size: 3rem;
-            margin-bottom: 1.25rem;
-            transition: transform 0.4s ease;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.5s ease;
             filter: drop-shadow(0 0 20px currentColor);
         }
 
-        .pane:hover .pane-icon { transform: scale(1.15) translateY(-4px); }
+        .pane:hover .pane-icon { transform: scale(1.1) translateY(-5px); }
 
-        .pane-tag {
+        .pane-label {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 9px;
+            font-size: 10px;
             font-weight: 700;
-            letter-spacing: 0.25em;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
             margin-bottom: 0.75rem;
-            opacity: 0.6;
+            opacity: 0.7;
         }
 
         .pane-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 2.75rem;
-            font-weight: 800;
+            font-family: 'Crimson Pro', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            font-style: italic;
             color: white;
             margin-bottom: 0.5rem;
-            letter-spacing: -0.03em;
+            letter-spacing: -0.02em;
             line-height: 1;
-            transition: all 0.4s;
         }
 
         .pane-subtitle {
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.4);
+            font-size: 0.85rem;
+            color: var(--text-dim);
             font-weight: 500;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             margin-bottom: 1.5rem;
-        }
-
-        .pane-langs {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.4rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .lang-chip {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            padding: 0.25rem 0.6rem;
-            border-radius: 0.25rem;
-            border: 1px solid;
-            background: rgba(255,255,255,0.05);
-            color: rgba(255,255,255,0.6);
-            transition: all 0.3s;
-        }
-
-        .pane:hover .lang-chip {
-            color: rgba(255,255,255,0.85);
-            background: rgba(255,255,255,0.1);
         }
 
         .pane-cta {
             opacity: 0;
-            transform: translateY(8px);
-            transition: all 0.3s ease 0.05s;
+            transform: translateY(10px);
+            transition: all 0.3s ease 0.1s;
         }
 
         .pane:hover .pane-cta { opacity: 1; transform: translateY(0); }
 
-        .cta-btn {
+        .cta-pill {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.6rem 1.4rem;
-            border-radius: 0.375rem;
+            padding: 0.65rem 1.5rem;
+            border-radius: 9999px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
             font-weight: 700;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             border: 1px solid;
-            background: rgba(255,255,255,0.06);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(8px);
             color: white;
-            transition: all 0.25s;
+            transition: all 0.3s ease;
         }
 
-        .cta-btn:hover { background: rgba(255,255,255,0.12); }
+        /* Color Variants */
+        .pane-web .pane-label { color: var(--web-cyan); }
+        .pane-web .cta-pill { border-color: rgba(34, 211, 238, 0.4); color: var(--web-cyan); }
+        
+        .pane-oop .pane-label { color: var(--oop-purple); }
+        .pane-oop .cta-pill { border-color: rgba(167, 139, 250, 0.4); color: var(--oop-purple); }
 
-        /* Web — Cyan */
-        .pane-web .pane-tag { color: #22d3ee; }
-        .pane-web .lang-chip { border-color: rgba(34,211,238,0.3); }
-        .pane-web .cta-btn { border-color: rgba(34,211,238,0.5); color: #22d3ee; }
-        .pane-web:hover .pane-title { text-shadow: 0 0 40px rgba(34,211,238,0.4); }
+        .pane-mobile .pane-label { color: var(--mobile-green); }
+        .pane-mobile .cta-pill { border-color: rgba(52, 211, 153, 0.4); color: var(--mobile-green); }
 
-        /* OOP — Purple */
-        .pane-oop .pane-tag { color: #a78bfa; }
-        .pane-oop .lang-chip { border-color: rgba(167,139,250,0.3); }
-        .pane-oop .cta-btn { border-color: rgba(167,139,250,0.5); color: #a78bfa; }
-        .pane-oop:hover .pane-title { text-shadow: 0 0 40px rgba(167,139,250,0.4); }
+        .pane-eop .pane-label { color: var(--eop-orange); }
+        .pane-eop .cta-pill { border-color: rgba(251, 146, 60, 0.4); color: var(--eop-orange); }
 
-        /* Mobile — Green */
-        .pane-mobile .pane-tag { color: #34d399; }
-        .pane-mobile .lang-chip { border-color: rgba(52,211,153,0.3); }
-        .pane-mobile .cta-btn { border-color: rgba(52,211,153,0.5); color: #34d399; }
-        .pane-mobile:hover .pane-title { text-shadow: 0 0 40px rgba(52,211,153,0.4); }
-
-        /* EOP — Orange */
-        .pane-eop .pane-tag { color: #fb923c; }
-        .pane-eop .lang-chip { border-color: rgba(251,146,60,0.3); }
-        .pane-eop .cta-btn { border-color: rgba(251,146,60,0.5); color: #fb923c; }
-        .pane-eop:hover .pane-title { text-shadow: 0 0 40px rgba(251,146,60,0.4); }
-
-        /* Dividers */
-        .pane-divider {
+        /* Watermarks */
+        .pane-watermark {
             position: absolute;
-            right: 0; top: 0; bottom: 0;
-            width: 1px;
-            background: rgba(255,255,255,0.06);
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 120px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.03);
+            user-select: none;
+            pointer-events: none;
+            line-height: 1;
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Site header */
+        /* Site Header */
         .site-header {
             position: absolute;
-            top: 1.5rem;
+            top: 2rem;
             left: 50%;
             transform: translateX(-50%);
             z-index: 30;
@@ -209,135 +191,103 @@
 
         .site-header h1 {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 700;
-            letter-spacing: 0.4em;
+            letter-spacing: 0.5em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.25);
+            color: rgba(255, 255, 255, 0.3);
         }
 
-        /* Code rain decoration */
-        .code-rain {
+        /* Dividers */
+        .divider {
             position: absolute;
-            bottom: 1.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 100px;
-            font-weight: 700;
-            color: rgba(255,255,255,0.025);
-            user-select: none;
-            pointer-events: none;
-            line-height: 1;
-            white-space: nowrap;
+            right: 0; top: 0; bottom: 0;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.08);
         }
 
         @media (max-width: 768px) {
             .hub-container { flex-direction: column; }
             .pane, .pane:hover { flex: 1 !important; }
-            .pane-title { font-size: 2rem; }
-            .pane-divider { display: none; }
-            .code-rain { font-size: 50px; }
+            .pane-title { font-size: 2.5rem; }
+            .divider { display: none; }
+            .pane-watermark { font-size: 60px; }
+            body { overflow-y: auto; }
         }
     </style>
 </head>
 <body>
-    <div class="hub-container">
+    <div class="site-header">
+        <h1>CodeLearning Hub</h1>
+    </div>
 
+    <div class="hub-container">
         <!-- WEB -->
         <a href="web.html" class="pane pane-web">
             <div class="pane-bg" style="background-image: url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2069&auto=format&fit=crop')"></div>
-            <div class="pane-grid"></div>
+            <div class="pane-overlay"></div>
             <div class="pane-content">
-                <div class="pane-icon" style="color:#22d3ee;">🌐</div>
-                <p class="pane-tag">Web Development</p>
-                <h2 class="pane-title">Web</h2>
-                <p class="pane-subtitle">Frontend & Backend</p>
-                <div class="pane-langs">
-                    <span class="lang-chip">HTML/CSS</span>
-                    <span class="lang-chip">JavaScript</span>
-                    <span class="lang-chip">TypeScript</span>
-                    <span class="lang-chip">PHP</span>
-                </div>
+                <div class="pane-icon" style="color: var(--web-cyan);">🌐</div>
+                <p class="pane-label">Frontend & Backend</p>
+                <h2 class="pane-title">Web Dev</h2>
+                <p class="pane-subtitle">Modern Web Architecture</p>
                 <div class="pane-cta">
-                    <span class="cta-btn">Start Learning →</span>
+                    <span class="cta-pill">Explorar Ruta →</span>
                 </div>
             </div>
-            <div class="code-rain">&lt;/&gt;</div>
-            <div class="pane-divider"></div>
+            <div class="pane-watermark">&lt;/&gt;</div>
+            <div class="divider"></div>
         </a>
 
         <!-- OOP -->
         <a href="oop.html" class="pane pane-oop">
             <div class="pane-bg" style="background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop')"></div>
-            <div class="pane-grid"></div>
+            <div class="pane-overlay"></div>
             <div class="pane-content">
-                <div class="pane-icon" style="color:#a78bfa;">🧱</div>
-                <p class="pane-tag">Object-Oriented</p>
+                <div class="pane-icon" style="color: var(--oop-purple);">🧱</div>
+                <p class="pane-label">Object-Oriented</p>
                 <h2 class="pane-title">OOP</h2>
-                <p class="pane-subtitle">Classes & Patterns</p>
-                <div class="pane-langs">
-                    <span class="lang-chip">Python</span>
-                    <span class="lang-chip">Java</span>
-                    <span class="lang-chip">C++</span>
-                    <span class="lang-chip">C#</span>
-                </div>
+                <p class="pane-subtitle">Classes & Design Patterns</p>
                 <div class="pane-cta">
-                    <span class="cta-btn">Start Learning →</span>
+                    <span class="cta-pill">Explorar Ruta →</span>
                 </div>
             </div>
-            <div class="code-rain">{ }</div>
-            <div class="pane-divider"></div>
+            <div class="pane-watermark">{ }</div>
+            <div class="divider"></div>
         </a>
 
         <!-- MOBILE -->
         <a href="mobile.html" class="pane pane-mobile">
             <div class="pane-bg" style="background-image: url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2070&auto=format&fit=crop')"></div>
-            <div class="pane-grid"></div>
+            <div class="pane-overlay"></div>
             <div class="pane-content">
-                <div class="pane-icon" style="color:#34d399;">📱</div>
-                <p class="pane-tag">Mobile Development</p>
+                <div class="pane-icon" style="color: var(--mobile-green);">📱</div>
+                <p class="pane-label">Native & Hybrid</p>
                 <h2 class="pane-title">Mobile</h2>
-                <p class="pane-subtitle">Native & Cross-Platform</p>
-                <div class="pane-langs">
-                    <span class="lang-chip">Swift</span>
-                    <span class="lang-chip">Kotlin</span>
-                    <span class="lang-chip">Dart</span>
-                </div>
+                <p class="pane-subtitle">iOS, Android & Flutter</p>
                 <div class="pane-cta">
-                    <span class="cta-btn">Start Learning →</span>
+                    <span class="cta-pill">Explorar Ruta →</span>
                 </div>
             </div>
-            <div class="code-rain">[ ]</div>
-            <div class="pane-divider"></div>
+            <div class="pane-watermark">[ ]</div>
+            <div class="divider"></div>
         </a>
 
         <!-- EOP -->
         <a href="eop.html" class="pane pane-eop">
             <div class="pane-bg" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop')"></div>
-            <div class="pane-grid"></div>
+            <div class="pane-overlay"></div>
             <div class="pane-content">
-                <div class="pane-icon" style="color:#fb923c;">⚡</div>
-                <p class="pane-tag">Event-Oriented</p>
+                <div class="pane-icon" style="color: var(--eop-orange);">⚡</div>
+                <p class="pane-label">Event-Oriented</p>
                 <h2 class="pane-title">EOP</h2>
                 <p class="pane-subtitle">Async & Event-Driven</p>
-                <div class="pane-langs">
-                    <span class="lang-chip">JS Events</span>
-                    <span class="lang-chip">Node.js</span>
-                    <span class="lang-chip">Async/Await</span>
-                    <span class="lang-chip">RxJS</span>
-                </div>
                 <div class="pane-cta">
-                    <span class="cta-btn">Start Learning →</span>
+                    <span class="cta-pill">Explorar Ruta →</span>
                 </div>
             </div>
-            <div class="code-rain">( )</div>
+            <div class="pane-watermark">( )</div>
         </a>
-
-    </div>
-
-    <div class="site-header">
-        <h1>Code Hub</h1>
     </div>
 </body>
 </html>

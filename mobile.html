@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Dev — Code Hub</title>
+    <title>Mobile — CodeLearning</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        :root { --accent: #34d399; --accent-gradient: linear-gradient(135deg, #34d399, #06b6d4); }
-        .lang-btn.active { color: #34d399; border-color: rgba(52,211,153,0.3); background: rgba(52,211,153,0.08); }
-        .inner-tab-btn.active { border-bottom-color: #34d399; color: #34d399; }
+        :root { --accent: #34d399; }
     </style>
     <script src="script.js" defer></script>
 </head>
@@ -20,571 +18,45 @@
     <div class="header-content">
         <a href="index.html" class="back-link">← Hub</a>
         <div class="header-title">📱 Mobile Development</div>
-        <button class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></button>
-        <nav class="lang-nav" id="langNav">
-            <button class="lang-btn active" data-lang="swift" onclick="switchLang('swift')">Swift (iOS)</button>
-            <button class="lang-btn" data-lang="kotlin" onclick="switchLang('kotlin')">Kotlin (Android)</button>
-            <button class="lang-btn" data-lang="dart" onclick="switchLang('dart')">Dart/Flutter</button>
+        <nav class="lang-nav">
+            <button class="lang-btn active" data-lang="native" onclick="switchLang('native')">Nativo</button>
+            <button class="lang-btn" data-lang="hybrid" onclick="switchLang('hybrid')">Híbrido</button>
         </nav>
     </div>
 </header>
 
 <main>
-
-<!-- ========== SWIFT ========== -->
-<div id="swift" class="tab-content active">
-    <div class="inner-nav">
-        <button class="inner-tab-btn active" data-tab="sw-syntax" onclick="openInnerTab('sw-syntax')">Syntax</button>
-        <button class="inner-tab-btn" data-tab="sw-control" onclick="openInnerTab('sw-control')">Control Structures</button>
-        <button class="inner-tab-btn" data-tab="sw-paradigm" onclick="openInnerTab('sw-paradigm')">OOP & Protocols</button>
-    </div>
-
-    <div id="sw-syntax" class="inner-tab-content active">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#34d399;">Variables & Types</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Swift</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="kw">let</span> name: <span class="tp">String</span>  = <span class="str">"Alice"</span>   <span class="cm">// immutable</span>
-<span class="kw">var</span> age:  <span class="tp">Int</span>     = <span class="num">30</span>       <span class="cm">// mutable</span>
-<span class="kw">let</span> price: <span class="tp">Double</span> = <span class="num">9.99</span>
-<span class="kw">var</span> active: <span class="tp">Bool</span>  = <span class="kw">true</span>
-
-<span class="cm">// Type inference</span>
-<span class="kw">let</span> inferred = <span class="str">"Swift infers String"</span>
-
-<span class="cm">// Optionals — value may be nil</span>
-<span class="kw">var</span> maybe: <span class="tp">String</span>? = <span class="kw">nil</span>
-maybe = <span class="str">"now has value"</span>
-
-<span class="cm">// Optional binding</span>
-<span class="kw">if let</span> val = maybe {
-    <span class="fn">print</span>(val)
-}
-
-<span class="cm">// Nil coalescing</span>
-<span class="kw">let</span> safe = maybe ?? <span class="str">"default"</span>
-
-<span class="cm">// String interpolation</span>
-<span class="kw">let</span> msg = <span class="str">"Hello, <span class="op">\(name)</span>! Age: <span class="op">\(age)</span>"</span>
-
-<span class="cm">// Collections</span>
-<span class="kw">var</span> arr:  [<span class="tp">Int</span>]         = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
-<span class="kw">var</span> dict: [<span class="tp">String</span>: <span class="tp">Int</span>] = [<span class="str">"a"</span>: <span class="num">1</span>, <span class="str">"b"</span>: <span class="num">2</span>]
-<span class="kw">var</span> set:  <span class="tp">Set</span>&lt;<span class="tp">Int</span>&gt;      = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]</pre></div></div>
+    <div id="native" class="tab-content active">
+        <div class="inner-nav">
+            <button class="inner-tab-btn active" data-tab="mob-ios" onclick="openInnerTab('mob-ios')">iOS (Swift)</button>
+            <button class="inner-tab-btn" data-tab="mob-android" onclick="openInnerTab('mob-android')">Android (Kotlin)</button>
+        </div>
+        <div id="mob-ios" class="inner-tab-content active">
+            <p class="section-label">Desarrollo iOS</p>
+            <div class="senior-tip">
+                <div class="senior-tip-header">💡 Senior Dev Tip</div>
+                <p>SwiftUI es el futuro, pero entender UIKit es esencial para mantener aplicaciones legadas y comprender cómo funciona el ciclo de vida de la vista en iOS.</p>
             </div>
             <div class="card">
-                <div class="card-title" style="color:#34d399;">Functions & Closures</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Swift</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// External and internal param labels</span>
-<span class="kw">func</span> <span class="fn">greet</span>(user name: <span class="tp">String</span>, with greeting: <span class="tp">String</span> = <span class="str">"Hi"</span>) -> <span class="tp">String</span> {
-    <span class="kw">return</span> <span class="str">"<span class="op">\(greeting)</span>, <span class="op">\(name)</span>"</span>
-}
-<span class="fn">greet</span>(user: <span class="str">"Alice"</span>, with: <span class="str">"Hey"</span>)
-
-<span class="cm">// Omit label with _</span>
-<span class="kw">func</span> <span class="fn">add</span>(_ a: <span class="tp">Int</span>, _ b: <span class="tp">Int</span>) -> <span class="tp">Int</span> { a + b }
-<span class="fn">add</span>(<span class="num">2</span>, <span class="num">3</span>)  <span class="cm">// no labels at call site</span>
-
-<span class="cm">// Closures</span>
-<span class="kw">let</span> doubled = arr.<span class="fn">map</span> { $0 * <span class="num">2</span> }
-<span class="kw">let</span> big     = arr.<span class="fn">filter</span> { $0 > <span class="num">1</span> }
-<span class="kw">let</span> sum     = arr.<span class="fn">reduce</span>(<span class="num">0</span>, +)
-
-<span class="cm">// Throwing functions</span>
-<span class="kw">func</span> <span class="fn">parse</span>(_ s: <span class="tp">String</span>) <span class="kw">throws</span> -> <span class="tp">Int</span> {
-    <span class="kw">guard let</span> n = <span class="tp">Int</span>(s) <span class="kw">else</span> {
-        <span class="kw">throw</span> <span class="cl">ParseError</span>.invalid
-    }
-    <span class="kw">return</span> n
-}
-
-<span class="kw">let</span> n = <span class="kw">try?</span> <span class="fn">parse</span>(<span class="str">"42"</span>)  <span class="cm">// optional result</span></pre></div></div>
+                <div class="card-title">Swift & SwiftUI</div>
+                <p>Swift es un lenguaje potente e intuitivo. SwiftUI permite crear interfaces de usuario de forma declarativa.</p>
             </div>
         </div>
     </div>
 
-    <div id="sw-control" class="inner-tab-content">
-        <div class="grid-2">
+    <div id="hybrid" class="tab-content">
+        <div class="inner-nav">
+            <button class="inner-tab-btn active" data-tab="mob-flutter" onclick="openInnerTab('mob-flutter')">Flutter</button>
+            <button class="inner-tab-btn" data-tab="mob-react" onclick="openInnerTab('mob-react')">React Native</button>
+        </div>
+        <div id="mob-flutter" class="inner-tab-content active">
+            <p class="section-label">Multiplataforma con Flutter</p>
             <div class="card">
-                <div class="card-title" style="color:#34d399;">Control Flow</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Swift</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// guard — early exit pattern</span>
-<span class="kw">func</span> <span class="fn">process</span>(input: <span class="tp">String</span>?) {
-    <span class="kw">guard let</span> input = input, !input.<span class="fn">isEmpty</span> <span class="kw">else</span> {
-        <span class="fn">print</span>(<span class="str">"no input"</span>)
-        <span class="kw">return</span>
-    }
-    <span class="fn">print</span>(input)  <span class="cm">// input is non-nil here</span>
-}
-
-<span class="cm">// switch — exhaustive, no fallthrough by default</span>
-<span class="kw">switch</span> score {
-<span class="kw">case</span> <span class="num">90</span>...<span class="num">100</span>:
-    grade = <span class="str">"A"</span>
-<span class="kw">case</span> <span class="num">70</span>..<<span class="num">90</span>:
-    grade = <span class="str">"B"</span>
-<span class="kw">default</span>:
-    grade = <span class="str">"F"</span>
-}
-
-<span class="cm">// Pattern matching in switch</span>
-<span class="kw">switch</span> point {
-<span class="kw">case</span> (<span class="num">0</span>, <span class="num">0</span>): <span class="fn">print</span>(<span class="str">"origin"</span>)
-<span class="kw">case</span> (<span class="kw">let</span> x, <span class="num">0</span>): <span class="fn">print</span>(<span class="str">"x-axis at <span class="op">\(x)</span>"</span>)
-<span class="kw">case</span> (_, _): <span class="fn">print</span>(<span class="str">"other"</span>)
-}</pre></div></div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#34d399;">Enums & Pattern Matching</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Swift</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Enum with associated values</span>
-<span class="kw">enum</span> <span class="cl">Result</span>&lt;<span class="cl">T</span>, <span class="cl">E</span>: <span class="cl">Error</span>&gt; {
-    <span class="kw">case</span> success(<span class="cl">T</span>)
-    <span class="kw">case</span> failure(<span class="cl">E</span>)
-}
-
-<span class="kw">enum</span> <span class="cl">Shape</span> {
-    <span class="kw">case</span> circle(radius: <span class="tp">Double</span>)
-    <span class="kw">case</span> rectangle(width: <span class="tp">Double</span>, height: <span class="tp">Double</span>)
-
-    <span class="kw">var</span> area: <span class="tp">Double</span> {
-        <span class="kw">switch self</span> {
-        <span class="kw">case</span> .<span class="fn">circle</span>(<span class="kw">let</span> r): <span class="kw">return</span> .pi * r * r
-        <span class="kw">case</span> .<span class="fn">rectangle</span>(<span class="kw">let</span> w, <span class="kw">let</span> h): <span class="kw">return</span> w * h
-        }
-    }
-}
-
-<span class="kw">let</span> s = <span class="cl">Shape</span>.<span class="fn">circle</span>(radius: <span class="num">5</span>)
-<span class="fn">print</span>(s.area)</pre></div></div>
+                <div class="card-title">Dart & Widgets</div>
+                <p>En Flutter, todo es un widget. Utiliza el motor Skia para renderizar interfaces idénticas en iOS y Android.</p>
             </div>
         </div>
     </div>
-
-    <div id="sw-paradigm" class="inner-tab-content">
-        <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Swift</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-        <div class="code-body"><pre><span class="cm">// Struct vs Class: struct = value type, class = reference type</span>
-<span class="kw">struct</span> <span class="cl">Point</span> {
-    <span class="kw">var</span> x, y: <span class="tp">Double</span>
-    <span class="kw">mutating func</span> <span class="fn">translate</span>(dx: <span class="tp">Double</span>, dy: <span class="tp">Double</span>) {
-        x += dx; y += dy   <span class="cm">// must be mutating to change self</span>
-    }
-}
-
-<span class="cm">// Protocol — like interface</span>
-<span class="kw">protocol</span> <span class="cl">Drawable</span> {
-    <span class="kw">func</span> <span class="fn">draw</span>()
-    <span class="kw">var</span> color: <span class="tp">String</span> { <span class="kw">get</span> }
-}
-
-<span class="cm">// Protocol extension — default implementation</span>
-<span class="kw">extension</span> <span class="cl">Drawable</span> {
-    <span class="kw">func</span> <span class="fn">hide</span>() { <span class="fn">print</span>(<span class="str">"hidden"</span>) }
-}
-
-<span class="cm">// Class with inheritance</span>
-<span class="kw">class</span> <span class="cl">Animal</span> {
-    <span class="kw">let</span> name: <span class="tp">String</span>
-    <span class="kw">init</span>(name: <span class="tp">String</span>) { <span class="kw">self</span>.name = name }
-    <span class="kw">func</span> <span class="fn">speak</span>() -> <span class="tp">String</span> { <span class="str">"..."</span> }
-}
-
-<span class="kw">class</span> <span class="cl">Dog</span>: <span class="cl">Animal</span>, <span class="cl">Drawable</span> {
-    <span class="kw">var</span> color: <span class="tp">String</span> = <span class="str">"brown"</span>
-    <span class="kw">override func</span> <span class="fn">speak</span>() -> <span class="tp">String</span> { <span class="str">"Woof"</span> }
-    <span class="kw">func</span> <span class="fn">draw</span>() { <span class="fn">print</span>(<span class="str">"🐕"</span>) }
-}
-
-<span class="cm">// Generics + Protocols</span>
-<span class="kw">func</span> <span class="fn">largest</span>&lt;<span class="cl">T</span>: <span class="cl">Comparable</span>&gt;(_ a: [<span class="cl">T</span>]) -> <span class="cl">T</span>? {
-    <span class="kw">return</span> a.<span class="fn">max</span>()
-}
-
-<span class="cm">// @propertyWrapper</span>
-<span class="dc">@propertyWrapper</span>
-<span class="kw">struct</span> <span class="cl">Clamped</span> {
-    <span class="kw">private var</span> value: <span class="tp">Int</span>
-    <span class="kw">let</span> range: <span class="cl">ClosedRange</span>&lt;<span class="tp">Int</span>&gt;
-    <span class="kw">var</span> wrappedValue: <span class="tp">Int</span> {
-        <span class="kw">get</span> { value }
-        <span class="kw">set</span> { value = <span class="fn">min</span>(<span class="fn">max</span>(newValue, range.<span class="fn">lowerBound</span>), range.<span class="fn">upperBound</span>) }
-    }
-}
-
-<span class="kw">struct</span> <span class="cl">Config</span> {
-    <span class="dc">@Clamped</span>(range: <span class="num">0</span>...<span class="num">100</span>) <span class="kw">var</span> volume: <span class="tp">Int</span> = <span class="num">50</span>
-}</pre></div></div>
-    </div>
-</div>
-
-<!-- ========== KOTLIN ========== -->
-<div id="kotlin" class="tab-content">
-    <div class="inner-nav">
-        <button class="inner-tab-btn active" data-tab="kt-syntax" onclick="openInnerTab('kt-syntax')">Syntax</button>
-        <button class="inner-tab-btn" data-tab="kt-control" onclick="openInnerTab('kt-control')">Control Structures</button>
-        <button class="inner-tab-btn" data-tab="kt-paradigm" onclick="openInnerTab('kt-paradigm')">OOP & Coroutines</button>
-    </div>
-
-    <div id="kt-syntax" class="inner-tab-content active">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#34d399;">Variables & Null Safety</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="kw">val</span> name: <span class="tp">String</span>  = <span class="str">"Alice"</span>  <span class="cm">// immutable</span>
-<span class="kw">var</span> age:  <span class="tp">Int</span>     = <span class="num">30</span>      <span class="cm">// mutable</span>
-<span class="kw">val</span> pi = <span class="num">3.14</span>              <span class="cm">// type inferred</span>
-
-<span class="cm">// Nullable types — compile-time null safety</span>
-<span class="kw">var</span> maybe: <span class="tp">String</span>? = <span class="kw">null</span>
-<span class="kw">val</span> len = maybe?.<span class="fn">length</span>         <span class="cm">// safe call → Int?</span>
-<span class="kw">val</span> safe = maybe ?: <span class="str">"default"</span>   <span class="cm">// Elvis operator</span>
-<span class="kw">val</span> sure = maybe!!.<span class="fn">length</span>       <span class="cm">// force (throws if null)</span>
-
-<span class="cm">// String templates</span>
-<span class="kw">val</span> msg = <span class="str">"Hello, <span class="op">$name</span>! Len: <span class="op">${name.length}</span>"</span>
-
-<span class="cm">// Collections</span>
-<span class="kw">val</span> list   = <span class="fn">listOf</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>)        <span class="cm">// immutable</span>
-<span class="kw">val</span> mList  = <span class="fn">mutableListOf</span>(<span class="num">1</span>, <span class="num">2</span>)   <span class="cm">// mutable</span>
-<span class="kw">val</span> map    = <span class="fn">mapOf</span>(<span class="str">"a"</span> <span class="kw">to</span> <span class="num">1</span>)
-<span class="kw">val</span> mMap   = <span class="fn">mutableMapOf</span>&lt;<span class="tp">String</span>, <span class="tp">Int</span>&gt;()
-<span class="kw">val</span> range  = <span class="num">1</span>..<span class="num">10</span>                 <span class="cm">// IntRange</span></pre></div></div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#34d399;">Functions</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Single-expression function</span>
-<span class="kw">fun</span> <span class="fn">add</span>(a: <span class="tp">Int</span>, b: <span class="tp">Int</span>): <span class="tp">Int</span> = a + b
-
-<span class="cm">// Default params & named args</span>
-<span class="kw">fun</span> <span class="fn">greet</span>(name: <span class="tp">String</span>, greeting: <span class="tp">String</span> = <span class="str">"Hi"</span>): <span class="tp">String</span> {
-    <span class="kw">return</span> <span class="str">"$greeting, $name"</span>
-}
-<span class="fn">greet</span>(greeting = <span class="str">"Hey"</span>, name = <span class="str">"Bob"</span>)  <span class="cm">// named args</span>
-
-<span class="cm">// Extension function</span>
-<span class="kw">fun</span> <span class="tp">String</span>.<span class="fn">isPalindrome</span>(): <span class="tp">Boolean</span> =
-    <span class="kw">this</span> == <span class="kw">this</span>.<span class="fn">reversed</span>()
-
-<span class="cm">// Higher-order functions</span>
-<span class="kw">val</span> doubled = list.<span class="fn">map</span> { it * <span class="num">2</span> }
-<span class="kw">val</span> big     = list.<span class="fn">filter</span> { it > <span class="num">1</span> }
-<span class="kw">val</span> sum     = list.<span class="fn">reduce</span> { acc, n -> acc + n }
-list.<span class="fn">forEach</span> { <span class="fn">println</span>(it) }
-
-<span class="cm">// Scope functions</span>
-<span class="kw">val</span> len = maybe?.<span class="fn">let</span> { it.<span class="fn">length</span> }   <span class="cm">// if not null</span>
-person.<span class="fn">also</span> { <span class="fn">log</span>(it) }              <span class="cm">// side effect, returns receiver</span>
-<span class="kw">val</span> result = <span class="kw">with</span>(config) { host + port }</pre></div></div>
-            </div>
-        </div>
-    </div>
-    <div id="kt-control" class="inner-tab-content">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#34d399;">When Expression</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// when replaces switch — always exhaustive as expression</span>
-<span class="kw">val</span> grade = <span class="kw">when</span> (score) {
-    <span class="kw">in</span> <span class="num">90</span>..<span class="num">100</span> -> <span class="str">"A"</span>
-    <span class="kw">in</span> <span class="num">70</span>..<<span class="num">90</span> -> <span class="str">"B"</span>
-    <span class="kw">else</span>       -> <span class="str">"F"</span>
-}
-
-<span class="cm">// when with type checking</span>
-<span class="kw">when</span> (obj) {
-    <span class="kw">is</span> <span class="tp">String</span>  -> <span class="fn">println</span>(obj.<span class="fn">length</span>)  <span class="cm">// smart cast</span>
-    <span class="kw">is</span> <span class="tp">Int</span>     -> <span class="fn">println</span>(obj + <span class="num">1</span>)
-    <span class="kw">else</span>       -> <span class="fn">println</span>(<span class="str">"other"</span>)
-}
-
-<span class="cm">// for with ranges</span>
-<span class="kw">for</span> (i <span class="kw">in</span> <span class="num">1</span>..<span class="num">10</span>)       { }  <span class="cm">// 1 to 10</span>
-<span class="kw">for</span> (i <span class="kw">in</span> <span class="num">1</span>..<<span class="num">10</span>)      { }  <span class="cm">// 1 to 9</span>
-<span class="kw">for</span> (i <span class="kw">in</span> <span class="num">10</span> <span class="fn">downTo</span> <span class="num">1</span>) { }
-<span class="kw">for</span> ((idx, v) <span class="kw">in</span> list.<span class="fn">withIndex</span>()) { }</pre></div></div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#34d399;">Destructuring</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Data class auto-generates componentN</span>
-<span class="kw">data class</span> <span class="cl">Point</span>(<span class="kw">val</span> x: <span class="tp">Int</span>, <span class="kw">val</span> y: <span class="tp">Int</span>)
-
-<span class="kw">val</span> p = <span class="cl">Point</span>(<span class="num">1</span>, <span class="num">2</span>)
-<span class="kw">val</span> (x, y) = p       <span class="cm">// destructuring</span>
-
-<span class="cm">// Pair and Triple</span>
-<span class="kw">val</span> pair  = <span class="str">"Alice"</span> <span class="kw">to</span> <span class="num">30</span>
-<span class="kw">val</span> (n, a) = pair
-
-<span class="cm">// Map destructuring</span>
-<span class="kw">for</span> ((key, value) <span class="kw">in</span> map) {
-    <span class="fn">println</span>(<span class="str">"$key = $value"</span>)
-}
-
-<span class="cm">// Copy data class (non-destructive mutation)</span>
-<span class="kw">val</span> p2 = p.<span class="fn">copy</span>(y = <span class="num">10</span>)</pre></div></div>
-            </div>
-        </div>
-    </div>
-    <div id="kt-paradigm" class="inner-tab-content">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#34d399;">OOP in Kotlin</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Primary constructor + init block</span>
-<span class="kw">class</span> <span class="cl">Animal</span>(
-    <span class="kw">val</span> name: <span class="tp">String</span>,
-    <span class="kw">private var</span> sound: <span class="tp">String</span>
-) {
-    <span class="kw">init</span> { <span class="fn">require</span>(name.<span class="fn">isNotBlank</span>()) }
-
-    <span class="kw">open fun</span> <span class="fn">speak</span>(): <span class="tp">String</span> = <span class="str">"$name: $sound"</span>
-
-    <span class="kw">companion object</span> {        <span class="cm">// static-like</span>
-        <span class="kw">fun</span> <span class="fn">create</span>(n: <span class="tp">String</span>) = <span class="cl">Animal</span>(n, <span class="str">"..."</span>)
-    }
-}
-
-<span class="cm">// open = inheritable (classes are final by default)</span>
-<span class="kw">class</span> <span class="cl">Dog</span>(name: <span class="tp">String</span>): <span class="cl">Animal</span>(name, <span class="str">"Woof"</span>) {
-    <span class="kw">override fun</span> <span class="fn">speak</span>() = <span class="str">"$name barks!"</span>
-}
-
-<span class="cm">// Sealed class — exhaustive when</span>
-<span class="kw">sealed class</span> <span class="cl">UIState</span> {
-    <span class="kw">object</span>         <span class="cl">Loading</span>: <span class="cl">UIState</span>()
-    <span class="kw">data class</span>      <span class="cl">Success</span>(<span class="kw">val</span> data: <span class="tp">String</span>): <span class="cl">UIState</span>()
-    <span class="kw">data class</span>      <span class="cl">Error</span>(<span class="kw">val</span> msg: <span class="tp">String</span>): <span class="cl">UIState</span>()
-}
-
-<span class="cm">// Interface</span>
-<span class="kw">interface</span> <span class="cl">Drawable</span> {
-    <span class="kw">fun</span> <span class="fn">draw</span>()
-    <span class="kw">fun</span> <span class="fn">hide</span>() = <span class="fn">println</span>(<span class="str">"hidden"</span>)  <span class="cm">// default impl</span>
-}</pre></div></div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#34d399;">Coroutines (Async)</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Kotlin</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="kw">import</span> kotlinx.coroutines.*
-
-<span class="cm">// suspend function — can be paused</span>
-<span class="kw">suspend fun</span> <span class="fn">fetchData</span>(): <span class="tp">String</span> {
-    <span class="fn">delay</span>(<span class="num">1000</span>)  <span class="cm">// non-blocking wait</span>
-    <span class="kw">return</span> <span class="str">"data"</span>
-}
-
-<span class="cm">// launch — fire and forget</span>
-<span class="fn">GlobalScope</span>.<span class="fn">launch</span> {
-    <span class="kw">val</span> result = <span class="fn">fetchData</span>()
-    <span class="fn">println</span>(result)
-}
-
-<span class="cm">// async / await — parallel tasks</span>
-<span class="kw">val</span> deferred1 = <span class="fn">async</span> { <span class="fn">fetchData</span>() }
-<span class="kw">val</span> deferred2 = <span class="fn">async</span> { <span class="fn">fetchData</span>() }
-<span class="kw">val</span> (r1, r2)  = deferred1.<span class="fn">await</span>() <span class="kw">to</span> deferred2.<span class="fn">await</span>()
-
-<span class="cm">// Flow — cold stream</span>
-<span class="kw">fun</span> <span class="fn">numbersFlow</span>(): <span class="cl">Flow</span>&lt;<span class="tp">Int</span>&gt; = <span class="fn">flow</span> {
-    <span class="kw">for</span> (i <span class="kw">in</span> <span class="num">1</span>..<span class="num">5</span>) {
-        <span class="fn">delay</span>(<span class="num">100</span>)
-        <span class="fn">emit</span>(i)
-    }
-}
-
-<span class="fn">numbersFlow</span>()
-    .<span class="fn">filter</span> { it % <span class="num">2</span> == <span class="num">0</span> }
-    .<span class="fn">collect</span> { <span class="fn">println</span>(it) }</pre></div></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- ========== DART ========== -->
-<div id="dart" class="tab-content">
-    <div class="inner-nav">
-        <button class="inner-tab-btn active" data-tab="dart-syntax" onclick="openInnerTab('dart-syntax')">Syntax</button>
-        <button class="inner-tab-btn" data-tab="dart-control" onclick="openInnerTab('dart-control')">Control Structures</button>
-        <button class="inner-tab-btn" data-tab="dart-paradigm" onclick="openInnerTab('dart-paradigm')">OOP & Flutter</button>
-    </div>
-
-    <div id="dart-syntax" class="inner-tab-content active">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#34d399;">Dart Basics</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Dart</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="kw">void</span> <span class="fn">main</span>() {
-  <span class="cm">// var infers type, final = immutable, const = compile-time</span>
-  <span class="kw">var</span>   name  = <span class="str">'Alice'</span>;
-  <span class="kw">final</span> age   = <span class="num">30</span>;
-  <span class="kw">const</span> PI    = <span class="num">3.14</span>;
-
-  <span class="cm">// Explicit types</span>
-  <span class="tp">String</span>  s = <span class="str">'hello'</span>;
-  <span class="tp">int</span>     n = <span class="num">42</span>;
-  <span class="tp">double</span>  d = <span class="num">3.14</span>;
-  <span class="tp">bool</span>    b = <span class="kw">true</span>;
-
-  <span class="cm">// Nullable</span>
-  <span class="tp">String</span>? maybe = <span class="kw">null</span>;
-  <span class="kw">int</span>     len = maybe?.<span class="fn">length</span> ?? <span class="num">0</span>;
-
-  <span class="cm">// String interpolation</span>
-  <span class="fn">print</span>(<span class="str">'Hello, $name! len: ${name.length}'</span>);
-
-  <span class="cm">// Collections</span>
-  <span class="kw">var</span> list = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];
-  <span class="kw">var</span> map  = {<span class="str">'a'</span>: <span class="num">1</span>, <span class="str">'b'</span>: <span class="num">2</span>};
-  <span class="kw">var</span> set  = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>};
-}</pre></div></div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#34d399;">Functions & async/await</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Dart</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="cm">// Named & optional params</span>
-<span class="tp">String</span> <span class="fn">greet</span>(<span class="tp">String</span> name, {<span class="tp">String</span> greeting = <span class="str">'Hi'</span>}) {
-  <span class="kw">return</span> <span class="str">'$greeting, $name'</span>;
-}
-<span class="fn">greet</span>(<span class="str">'Alice'</span>, greeting: <span class="str">'Hey'</span>);
-
-<span class="cm">// Arrow function</span>
-<span class="tp">int</span> <span class="fn">add</span>(<span class="tp">int</span> a, <span class="tp">int</span> b) => a + b;
-
-<span class="cm">// Async / await</span>
-<span class="kw">Future</span>&lt;<span class="tp">String</span>&gt; <span class="fn">fetchUser</span>() <span class="kw">async</span> {
-  <span class="kw">await</span> <span class="cl">Future</span>.<span class="fn">delayed</span>(<span class="cl">Duration</span>(seconds: <span class="num">1</span>));
-  <span class="kw">return</span> <span class="str">'Alice'</span>;
-}
-
-<span class="kw">void</span> <span class="fn">main</span>() <span class="kw">async</span> {
-  <span class="tp">String</span> user = <span class="kw">await</span> <span class="fn">fetchUser</span>();
-  <span class="fn">print</span>(user);
-}
-
-<span class="cm">// Stream</span>
-<span class="cl">Stream</span>&lt;<span class="tp">int</span>&gt; <span class="fn">counter</span>() <span class="kw">async</span>* {
-  <span class="kw">for</span> (<span class="kw">var</span> i = <span class="num">0</span>; i < <span class="num">5</span>; i++) {
-    <span class="kw">await</span> <span class="cl">Future</span>.<span class="fn">delayed</span>(<span class="cl">Duration</span>(seconds: <span class="num">1</span>));
-    <span class="kw">yield</span> i;
-  }
-}</pre></div></div>
-            </div>
-        </div>
-    </div>
-    <div id="dart-control" class="inner-tab-content">
-        <div class="info-box" style="border-left-color:#34d399;">
-            <div class="info-label">Dart Control Flow</div>
-            Dart uses standard if/else, for, while, switch. Key additions: <code>for-in</code> loops, collection if/for inside literals, and pattern matching in switch (Dart 3).
-        </div>
-        <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Dart</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-        <div class="code-body"><pre><span class="cm">// Collection if and for (inside literals)</span>
-<span class="kw">var</span> list = [
-  <span class="num">1</span>,
-  <span class="num">2</span>,
-  <span class="kw">if</span> (includeBig) <span class="num">100</span>,       <span class="cm">// conditional element</span>
-  <span class="kw">for</span> (<span class="kw">var</span> i <span class="kw">in</span> [<span class="num">3</span>,<span class="num">4</span>]) i * <span class="num">2</span>, <span class="cm">// spread via for</span>
-];
-
-<span class="cm">// Dart 3 switch expressions</span>
-<span class="kw">var</span> grade = <span class="kw">switch</span> (score) {
-  >= <span class="num">90</span> => <span class="str">'A'</span>,
-  >= <span class="num">70</span> => <span class="str">'B'</span>,
-  _     => <span class="str">'F'</span>,
-};
-
-<span class="cm">// Error handling</span>
-<span class="kw">try</span> {
-  <span class="kw">var</span> result = risky();
-} <span class="kw">on</span> <span class="cl">FormatException</span> <span class="kw">catch</span> (e) {
-  <span class="fn">print</span>(<span class="str">'Format: $e'</span>);
-} <span class="kw">catch</span> (e, stackTrace) {
-  <span class="fn">print</span>(<span class="str">'$e\n$stackTrace'</span>);
-} <span class="kw">finally</span> {
-  <span class="fn">cleanup</span>();
-}</pre></div></div>
-    </div>
-    <div id="dart-paradigm" class="inner-tab-content">
-        <div class="grid-2">
-            <div class="card">
-                <div class="card-title" style="color:#34d399;">Dart OOP</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Dart</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="kw">class</span> <span class="cl">Animal</span> {
-  <span class="tp">String</span> _name;       <span class="cm">// private (library-private by _)</span>
-  <span class="kw">late</span> <span class="tp">String</span> sound;  <span class="cm">// late = initialized later</span>
-
-  <span class="cm">// Named constructor</span>
-  <span class="cl">Animal</span>(<span class="kw">this</span>._name, <span class="kw">this</span>.sound);
-  <span class="cl">Animal</span>.<span class="fn">silent</span>(<span class="tp">String</span> name) : <span class="kw">this</span>(name, <span class="str">'...'</span>);
-
-  <span class="tp">String</span> <span class="kw">get</span> name => _name;
-  <span class="kw">set</span> name(<span class="tp">String</span> v) {
-    <span class="kw">if</span> (v.<span class="fn">isEmpty</span>) <span class="kw">throw</span> <span class="cl">ArgumentError</span>(<span class="str">'empty'</span>);
-    _name = v;
-  }
-
-  <span class="tp">String</span> <span class="fn">speak</span>() => <span class="str">'$_name: $sound'</span>;
-}
-
-<span class="kw">class</span> <span class="cl">Dog</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
-  <span class="cl">Dog</span>(<span class="tp">String</span> name) : <span class="kw">super</span>(name, <span class="str">'Woof'</span>);
-
-  <span class="dc">@override</span>
-  <span class="tp">String</span> <span class="fn">speak</span>() => <span class="str">'$name barks!'</span>;
-}
-
-<span class="cm">// Mixin — reuse code without inheritance</span>
-<span class="kw">mixin</span> <span class="cl">Swimmable</span> {
-  <span class="tp">void</span> <span class="fn">swim</span>() => <span class="fn">print</span>(<span class="str">'swimming'</span>);
-}
-
-<span class="kw">class</span> <span class="cl">Duck</span> <span class="kw">extends</span> <span class="cl">Animal</span> <span class="kw">with</span> <span class="cl">Swimmable</span> {
-  <span class="cl">Duck</span>() : <span class="kw">super</span>(<span class="str">'Duck'</span>, <span class="str">'Quack'</span>);
-}</pre></div></div>
-            </div>
-            <div class="card">
-                <div class="card-title" style="color:#34d399;">Flutter Widget Pattern</div>
-                <div class="code-block"><div class="code-block-header"><span class="code-lang-badge">Dart/Flutter</span><div class="code-dots"><span></span><span></span><span></span></div></div>
-                <div class="code-body"><pre><span class="kw">import</span> <span class="str">'package:flutter/material.dart'</span>;
-
-<span class="cm">// Stateless widget — no mutable state</span>
-<span class="kw">class</span> <span class="cl">Greeting</span> <span class="kw">extends</span> <span class="cl">StatelessWidget</span> {
-  <span class="kw">final</span> <span class="tp">String</span> name;
-  <span class="kw">const</span> <span class="cl">Greeting</span>({<span class="kw">super</span>.key, <span class="kw">required this</span>.name});
-
-  <span class="dc">@override</span>
-  <span class="cl">Widget</span> <span class="fn">build</span>(<span class="cl">BuildContext</span> ctx) {
-    <span class="kw">return</span> <span class="cl">Text</span>(<span class="str">'Hello, $name'</span>);
-  }
-}
-
-<span class="cm">// Stateful widget — has mutable state</span>
-<span class="kw">class</span> <span class="cl">Counter</span> <span class="kw">extends</span> <span class="cl">StatefulWidget</span> {
-  <span class="kw">const</span> <span class="cl">Counter</span>({<span class="kw">super</span>.key});
-  <span class="dc">@override</span>
-  <span class="cl">State</span>&lt;<span class="cl">Counter</span>&gt; <span class="fn">createState</span>() => <span class="cl">_CounterState</span>();
-}
-
-<span class="kw">class</span> <span class="cl">_CounterState</span> <span class="kw">extends</span> <span class="cl">State</span>&lt;<span class="cl">Counter</span>&gt; {
-  <span class="tp">int</span> _count = <span class="num">0</span>;
-
-  <span class="dc">@override</span>
-  <span class="cl">Widget</span> <span class="fn">build</span>(<span class="cl">BuildContext</span> ctx) {
-    <span class="kw">return</span> <span class="cl">GestureDetector</span>(
-      onTap: () => <span class="fn">setState</span>(() => _count++),
-      child: <span class="cl">Text</span>(<span class="str">'Count: $_count'</span>),
-    );
-  }
-}</pre></div></div>
-            </div>
-        </div>
-    </div>
-</div>
-
 </main>
-<script>
-window._practiceTopics = {};
-</script>
 </body>
 </html>
