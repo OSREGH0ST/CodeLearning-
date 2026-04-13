@@ -1,59 +1,159 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile — CodeLearning</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Mobile Engineering — CodeLearning</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <style>
-        :root { --accent: #34d399; }
-    </style>
     <script src="script.js" defer></script>
 </head>
-<body>
-<header>
+<body class="module-body pane-mobile-theme">
+<header class="module-header">
     <div class="header-content">
-        <a href="index.html" class="back-link">← Hub</a>
-        <div class="header-title">📱 Mobile Development</div>
-        <nav class="lang-nav">
-            <button class="lang-btn active" data-lang="native" onclick="switchLang('native')">Nativo</button>
-            <button class="lang-btn" data-lang="hybrid" onclick="switchLang('hybrid')">Híbrido</button>
+        <a href="index.html" class="back-link" aria-label="Go back to Hub">← Hub</a>
+        <div class="header-title" aria-hidden="true">📱 Mobile Engineering</div>
+        <nav class="lang-nav" aria-label="Module sections">
+            <button class="lang-btn active" data-lang="native" onclick="switchLang('native')" aria-selected="true">Native OS</button>
+            <button class="lang-btn" data-lang="cross" onclick="switchLang('cross')" aria-selected="false">Cross-Platform</button>
         </nav>
     </div>
 </header>
 
-<main>
-    <div id="native" class="tab-content active">
-        <div class="inner-nav">
-            <button class="inner-tab-btn active" data-tab="mob-ios" onclick="openInnerTab('mob-ios')">iOS (Swift)</button>
-            <button class="inner-tab-btn" data-tab="mob-android" onclick="openInnerTab('mob-android')">Android (Kotlin)</button>
+<main class="module-main">
+    <div id="native" class="tab-content active" role="tabpanel">
+        <div class="inner-nav" aria-label="Native OS Subsections">
+            <button class="inner-tab-btn active" data-tab="mob-ios" onclick="openInnerTab('mob-ios')">Apple / iOS</button>
+            <button class="inner-tab-btn" data-tab="mob-android" onclick="openInnerTab('mob-android')">Android OS</button>
+            <button class="inner-tab-btn" data-tab="mob-arch" onclick="openInnerTab('mob-arch')">Architecture</button>
         </div>
+
         <div id="mob-ios" class="inner-tab-content active">
-            <p class="section-label">Desarrollo iOS</p>
+            <p class="section-label">iOS Development Stack</p>
             <div class="senior-tip">
-                <div class="senior-tip-header">💡 Senior Dev Tip</div>
-                <p>SwiftUI es el futuro, pero entender UIKit es esencial para mantener aplicaciones legadas y comprender cómo funciona el ciclo de vida de la vista en iOS.</p>
+                <div class="senior-tip-header">💡 Migration Context</div>
+                <p>SwiftUI is the declarative future of Apple platforms. However, understanding UIKit (Delegates, Storyboards, manual View Lifecycles) remains strictly necessary for maintaining enterprise codebases and wrapping complex custom views that SwiftUI does not yet support natively.</p>
             </div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Swift Language</div>
+                    <p>A protocol-oriented, type-safe language. Strongly favors value types (Structs) over reference types (Classes) to prevent unintended state mutations across threads.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">State Management</div>
+                    <p>Utilize property wrappers like <code>@State</code> (local UI state), <code>@Binding</code> (passing state down), and <code>@EnvironmentObject</code> (global app state injected via the view hierarchy).</p>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-title">Declarative UI (SwiftUI)</div>
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-lang-badge">Swift</span>
+                    </div>
+                    <div class="code-body">
+<pre><code>struct LoginView: View {
+    @State private var email: String = ""
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            TextField("Enter Email", text: $email)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            
+            Button("Login") {
+                authenticate(email)
+            }
+            .buttonStyle(.borderedProminent)
+        }
+        .padding()
+    }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="mob-android" class="inner-tab-content">
+            <p class="section-label">Android Development Stack</p>
             <div class="card">
-                <div class="card-title">Swift & SwiftUI</div>
-                <p>Swift es un lenguaje potente e intuitivo. SwiftUI permite crear interfaces de usuario de forma declarativa.</p>
+                <div class="card-title">Kotlin & Coroutines</div>
+                <p>Kotlin has entirely superseded Java for modern Android development. <strong>Coroutines</strong> are the standard for asynchronous programming, offering a massive simplification over legacy RxJava streams by writing async code sequentially.</p>
             </div>
+            <div class="card mt-4">
+                <div class="card-title">Jetpack Compose</div>
+                <p>The Android equivalent to SwiftUI. Replaces the legacy XML layout system with a modern declarative API written entirely in Kotlin. Components (Composables) are functions that transform state into UI.</p>
+            </div>
+        </div>
+
+        <div id="mob-arch" class="inner-tab-content">
+            <p class="section-label">Mobile System Design</p>
+            <table class="compare-table">
+                <thead><tr><th>Pattern</th><th>Description</th><th>Use Case</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><strong>MVVM</strong></td>
+                        <td>Model-View-ViewModel. Views bind to observable properties on the ViewModel.</td>
+                        <td>The industry standard for both iOS (SwiftUI) and Android (Compose). Highly testable.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clean Architecture</strong></td>
+                        <td>Separation into UI, Domain, and Data layers. Dependency inversion rules apply.</td>
+                        <td>Large enterprise apps where business logic must be entirely decoupled from the UI framework.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Offline-First</strong></td>
+                        <td>Aggressive local caching (CoreData/Room). Network acts as a synchronization layer, not the primary data source.</td>
+                        <td>Apps operating in low-connectivity environments. Uses optimistic UI updates.</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <div id="hybrid" class="tab-content">
-        <div class="inner-nav">
+    <div id="cross" class="tab-content" role="tabpanel">
+        <div class="inner-nav" aria-label="Cross-Platform Subsections">
             <button class="inner-tab-btn active" data-tab="mob-flutter" onclick="openInnerTab('mob-flutter')">Flutter</button>
             <button class="inner-tab-btn" data-tab="mob-react" onclick="openInnerTab('mob-react')">React Native</button>
         </div>
+        
         <div id="mob-flutter" class="inner-tab-content active">
-            <p class="section-label">Multiplataforma con Flutter</p>
+            <p class="section-label">Google's UI Toolkit</p>
+            <div class="senior-tip">
+                <div class="senior-tip-header">💡 Architectural Context</div>
+                <p>Unlike React Native which maps to OEM widgets, Flutter controls every pixel drawn on the screen. This guarantees absolute visual consistency across platforms, but means it does not use native UI components.</p>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Dart Language</div>
+                    <p>Optimized for fast UI creation. Compiles to native ARM machine code for production (AOT) and uses JIT compilation during development for sub-second hot reloads.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">Rendering Engine</div>
+                    <p>Historically relied on the <strong>Skia</strong> C++ engine. Currently migrating to <strong>Impeller</strong> on iOS/macOS to eliminate shader compilation jank using precompiled Metal shaders.</p>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-title">Everything is a Widget</div>
+                <p>Structure, layout, style, and animation are all handled by Widgets. Composition is favored over subclassing. State management relies heavily on external packages like Provider, Riverpod, or BLoC to lift state out of the UI tree.</p>
+            </div>
+        </div>
+
+        <div id="mob-react" class="inner-tab-content">
+            <p class="section-label">Meta's Framework</p>
             <div class="card">
-                <div class="card-title">Dart & Widgets</div>
-                <p>En Flutter, todo es un widget. Utiliza el motor Skia para renderizar interfaces idénticas en iOS y Android.</p>
+                <div class="card-title">The "New Architecture"</div>
+                <p>Historically, RN relied on an asynchronous JSON bridge to communicate between the JS thread and the Native thread. The New Architecture introduces <strong>JSI (JavaScript Interface)</strong>, allowing JS to hold direct references to C++ native objects, enabling synchronous calls and significantly boosting performance.</p>
+            </div>
+            <div class="grid-2 mt-4">
+                <div class="card">
+                    <div class="card-title">Fabric</div>
+                    <p>The new concurrent rendering system. Unifies the render pipeline in C++, making UI operations faster and reducing memory footprint.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">TurboModules</div>
+                    <p>Lazy-loaded native modules. Instead of initializing all native dependencies at app launch, modules are loaded into memory only when accessed by JavaScript.</p>
+                </div>
             </div>
         </div>
     </div>

@@ -2,107 +2,164 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Dev — CodeLearning</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Web Architecture — CodeLearning</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <style>
-        :root { --accent: #22d3ee; }
-    </style>
     <script src="script.js" defer></script>
 </head>
-<body>
-<header>
+<body class="module-body pane-web-theme">
+<header class="module-header">
     <div class="header-content">
-        <a href="index.html" class="back-link">← Hub</a>
-        <div class="header-title">🌐 Web Development</div>
-        <nav class="lang-nav">
-            <button class="lang-btn active" data-lang="frontend" onclick="switchLang('frontend')">Frontend</button>
-            <button class="lang-btn" data-lang="backend" onclick="switchLang('backend')">Backend</button>
+        <a href="index.html" class="back-link" aria-label="Go back to Hub">← Hub</a>
+        <div class="header-title" aria-hidden="true">🌐 Web Architecture</div>
+        <nav class="lang-nav" aria-label="Module sections">
+            <button class="lang-btn active" data-lang="frontend" onclick="switchLang('frontend')" aria-selected="true">Client-Side</button>
+            <button class="lang-btn" data-lang="backend" onclick="switchLang('backend')" aria-selected="false">Server-Side</button>
         </nav>
     </div>
 </header>
 
-<main>
-    <!-- FRONTEND -->
-    <div id="frontend" class="tab-content active">
-        <div class="inner-nav">
-            <button class="inner-tab-btn active" data-tab="fe-roadmap" onclick="openInnerTab('fe-roadmap')">Roadmap</button>
-            <button class="inner-tab-btn" data-tab="fe-concepts" onclick="openInnerTab('fe-concepts')">Conceptos</button>
-            <button class="inner-tab-btn" data-tab="fe-resources" onclick="openInnerTab('fe-resources')">Recursos</button>
+<main class="module-main">
+    <div id="frontend" class="tab-content active" role="tabpanel">
+        <div class="inner-nav" aria-label="Client-Side Subsections">
+            <button class="inner-tab-btn active" data-tab="fe-roadmap" onclick="openInnerTab('fe-roadmap')">Rendering Patterns</button>
+            <button class="inner-tab-btn" data-tab="fe-concepts" onclick="openInnerTab('fe-concepts')">State & Performance</button>
+            <button class="inner-tab-btn" data-tab="fe-resources" onclick="openInnerTab('fe-resources')">Toolchain</button>
         </div>
 
         <div id="fe-roadmap" class="inner-tab-content active">
-            <p class="section-label">Ruta de Aprendizaje Frontend</p>
+            <p class="section-label">Modern Rendering Architectures</p>
             <div class="senior-tip">
-                <div class="senior-tip-header">💡 Senior Dev Tip</div>
-                <p>No empieces por React. Domina HTML semántico y CSS moderno (Flexbox/Grid) primero. El 80% de los problemas de UI se resuelven con buen CSS, no con JavaScript.</p>
+                <div class="senior-tip-header">💡 Architectural Context</div>
+                <p>Default to Server-Side Rendering (SSR) or Static Site Generation (SSG) for content-heavy applications. Single Page Applications (SPAs) are best reserved for highly interactive, dashboard-like interfaces where hydration overhead is justified by continuous client-side state mutations.</p>
             </div>
             <div class="grid-2">
                 <div class="card">
-                    <div class="card-title">Fase 1: Fundamentos</div>
-                    <p>HTML5 Semántico, CSS3, Responsive Design y JavaScript Básico (DOM, Eventos).</p>
+                    <div class="card-title">Server-Side Rendering (SSR)</div>
+                    <p>HTML is generated on each request. Optimal for SEO and Time to First Byte (TTFB). Frameworks: <strong>Next.js</strong>, <strong>Nuxt</strong>, <strong>SvelteKit</strong>.</p>
                 </div>
                 <div class="card">
-                    <div class="card-title">Fase 2: Herramientas</div>
-                    <p>Git, NPM/PNPM, Preprocesadores (Sass) y Frameworks de CSS (Tailwind).</p>
+                    <div class="card-title">Static Site Generation (SSG)</div>
+                    <p>HTML is built at compile time. Near-instant load times via CDN delivery. Suitable for blogs, documentation, and marketing pages.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">Client-Side Rendering (CSR)</div>
+                    <p>A bare HTML skeleton is shipped; JavaScript builds the UI in the browser. High initial load time, fast subsequent navigation.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">Incremental Static Regeneration (ISR)</div>
+                    <p>Allows updating static content post-build without full site rebuilds. Combines the speed of SSG with the freshness of SSR.</p>
                 </div>
             </div>
         </div>
 
         <div id="fe-concepts" class="inner-tab-content">
-            <p class="section-label">Conceptos Clave</p>
+            <p class="section-label">State Management & Core Web Vitals</p>
             <div class="card">
-                <div class="card-title">El DOM (Document Object Model)</div>
-                <p>Es la representación en memoria de tu HTML. Manipularlo eficientemente es la clave de las aplicaciones web interactivas.</p>
-                <div class="code-block">
-                    <div class="code-body">
-                        <pre>document.querySelector('.btn').addEventListener('click', () => {
-  console.log('¡Hola Mundo!');
-});</pre>
-                    </div>
-                </div>
+                <div class="card-title">Server State vs. Client State</div>
+                <p>Do not mix transient UI state (e.g., dropdown toggles) with asynchronous server cache. Use specialized tools for data fetching (e.g., React Query, SWR) to handle caching, background refetching, and deduping, leaving tools like Redux or Zustand strictly for global UI state.</p>
+            </div>
+            <div class="card mt-4">
+                <div class="card-title">Hydration & Optimization</div>
+                <p>Hydration attaches event listeners to server-rendered HTML. To avoid the "Uncanny Valley" (visible but non-interactive UI):</p>
+                <ul class="styled-list">
+                    <li><strong>Partial Hydration / Islands Architecture:</strong> Only hydrate interactive components (e.g., Astro).</li>
+                    <li><strong>Code Splitting:</strong> Delay loading non-critical JavaScript until idle or on interaction.</li>
+                    <li><strong>Tree Shaking:</strong> Eliminate dead code during the build process using bundlers like Vite or Webpack.</li>
+                </ul>
             </div>
         </div>
 
         <div id="fe-resources" class="inner-tab-content">
-            <p class="section-label">Recursos Curados</p>
+            <p class="section-label">The Modern Build Toolchain</p>
             <table class="compare-table">
-                <thead><tr><th>Recurso</th><th>Descripción</th></tr></thead>
+                <thead><tr><th>Category</th><th>Standard Choice</th><th>Why it matters</th></tr></thead>
                 <tbody>
-                    <tr><td><a href="https://developer.mozilla.org/" target="_blank" style="color:var(--accent)">MDN Web Docs</a></td><td>La biblia del desarrollo web.</td></tr>
-                    <tr><td><a href="https://www.freecodecamp.org/" target="_blank" style="color:var(--accent)">FreeCodeCamp</a></td><td>Certificaciones gratuitas y prácticas.</td></tr>
-                    <tr><td><a href="https://midu.dev/" target="_blank" style="color:var(--accent)">Midu.dev</a></td><td>Cursos de React y JS en español.</td></tr>
+                    <tr><td><strong>Bundler</strong></td><td>Vite / Turbopack</td><td>Esbuild-driven bundling drastically reduces local HMR (Hot Module Replacement) times compared to legacy Webpack.</td></tr>
+                    <tr><td><strong>Typing</strong></td><td>TypeScript</td><td>Strict static typing prevents runtime type errors and serves as self-documenting code. Standard for enterprise.</td></tr>
+                    <tr><td><strong>Styling</strong></td><td>Tailwind CSS</td><td>Utility-first CSS enforces design tokens and eliminates dead CSS. Scaleable via PostCSS.</td></tr>
+                    <tr><td><strong>Linting/Formatting</strong></td><td>ESLint + Prettier / Biome</td><td>Enforces consistent AST rules and style guides. Biome replaces both with a faster Rust-based toolchain.</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- BACKEND -->
-    <div id="backend" class="tab-content">
-        <div class="inner-nav">
-            <button class="inner-tab-btn active" data-tab="be-roadmap" onclick="openInnerTab('be-roadmap')">Roadmap</button>
-            <button class="inner-tab-btn" data-tab="be-concepts" onclick="openInnerTab('be-concepts')">Conceptos</button>
+    <div id="backend" class="tab-content" role="tabpanel">
+        <div class="inner-nav" aria-label="Server-Side Subsections">
+            <button class="inner-tab-btn active" data-tab="be-roadmap" onclick="openInnerTab('be-roadmap')">System Design</button>
+            <button class="inner-tab-btn" data-tab="be-concepts" onclick="openInnerTab('be-concepts')">Databases</button>
+            <button class="inner-tab-btn" data-tab="be-security" onclick="openInnerTab('be-security')">Security</button>
         </div>
+        
         <div id="be-roadmap" class="inner-tab-content active">
-            <p class="section-label">Ruta de Aprendizaje Backend</p>
+            <p class="section-label">Distributed Systems Architecture</p>
             <div class="senior-tip">
-                <div class="senior-tip-header">💡 Senior Dev Tip</div>
-                <p>El backend no es solo bases de datos. Aprende sobre protocolos (HTTP/HTTPS), seguridad (OWASP) y cómo escalar aplicaciones.</p>
+                <div class="senior-tip-header">💡 Architectural Context</div>
+                <p>Monoliths are not an anti-pattern. Start with a modular monolith. Extract to microservices only when independent deployment, scaling, or varying tech stacks become a business requirement, as microservices introduce severe operational complexity (network partitions, eventual consistency).</p>
             </div>
             <div class="card">
-                <div class="card-title">Stack Sugerido</div>
-                <p>Node.js (Express), Python (FastAPI) o Go. Bases de datos: PostgreSQL (Relacional) y Redis (Cache).</p>
+                <div class="card-title">Communication Protocols</div>
+                <ul class="styled-list">
+                    <li><strong>REST:</strong> Resource-oriented, relies on standard HTTP methods (GET, POST, PUT, DELETE). Uses standard HTTP caching.</li>
+                    <li><strong>GraphQL:</strong> Single endpoint. Solves over-fetching/under-fetching. Complex to cache and secure against deep query attacks.</li>
+                    <li><strong>gRPC:</strong> Uses Protocol Buffers (Protobuf) over HTTP/2. Strongly typed, highly efficient binary serialization. Ideal for service-to-service internal communication.</li>
+                </ul>
             </div>
         </div>
+        
         <div id="be-concepts" class="inner-tab-content">
-            <p class="section-label">Arquitectura</p>
-            <div class="card">
-                <div class="card-title">REST vs GraphQL</div>
-                <p>REST es el estándar basado en recursos, mientras que GraphQL permite al cliente pedir exactamente lo que necesita.</p>
+            <p class="section-label">Data Persistence</p>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Relational (SQL)</div>
+                    <p>PostgreSQL, MySQL. Enforce <strong>ACID</strong> (Atomicity, Consistency, Isolation, Durability). Use when data integrity, strict schemas, and complex joins are required.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">NoSQL (Document/Key-Value)</div>
+                    <p>MongoDB, DynamoDB, Redis. Often favor <strong>BASE</strong> (Basically Available, Soft state, Eventual consistency). Use for unstructured data, high write throughput, or caching.</p>
+                </div>
             </div>
+            <div class="card mt-4">
+                <div class="card-title">Caching Strategies</div>
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-lang-badge">Redis Cache-Aside Pattern</span>
+                    </div>
+                    <div class="code-body">
+<pre><code>async function getUser(userId) {
+  // 1. Check cache
+  const cached = await redis.get(`user:${userId}`);
+  if (cached) return JSON.parse(cached);
+
+  // 2. Cache miss: fetch from DB
+  const user = await db.query('SELECT * FROM users WHERE id = $1', [userId]);
+  
+  // 3. Populate cache with TTL (Time To Live)
+  if (user) {
+    await redis.set(`user:${userId}`, JSON.stringify(user), 'EX', 3600);
+  }
+  
+  return user;
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="be-security" class="inner-tab-content">
+            <p class="section-label">AppSec Fundamentals</p>
+            <table class="compare-table">
+                <thead><tr><th>Vulnerability</th><th>Mitigation Strategy</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>SQL Injection</strong></td><td>Always use parameterized queries or an ORM/Query Builder. Never concatenate user input directly into SQL strings.</td></tr>
+                    <tr><td><strong>XSS (Cross-Site Scripting)</strong></td><td>Sanitize user inputs. Use proper HTTP headers (Content-Security-Policy). Modern frontend frameworks escape inputs by default.</td></tr>
+                    <tr><td><strong>CSRF (Cross-Site Request Forgery)</strong></td><td>Implement Anti-CSRF tokens. Use <code>SameSite=Strict</code> attribute on session cookies.</td></tr>
+                    <tr><td><strong>Auth Architecture</strong></td><td>Store JWTs in <code>HttpOnly</code>, <code>Secure</code> cookies—not in LocalStorage. Hash passwords using Bcrypt or Argon2.</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </main>

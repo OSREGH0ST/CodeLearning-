@@ -1,98 +1,191 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OOP — CodeLearning</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Object-Oriented Design — CodeLearning</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <style>
-        :root { --accent: #a78bfa; }
-    </style>
     <script src="script.js" defer></script>
 </head>
-<body>
-<header>
+<body class="module-body pane-oop-theme">
+<header class="module-header">
     <div class="header-content">
-        <a href="index.html" class="back-link">← Hub</a>
-        <div class="header-title">🧱 Object-Oriented Programming</div>
-        <nav class="lang-nav">
-            <button class="lang-btn active" data-lang="concepts" onclick="switchLang('concepts')">Conceptos</button>
-            <button class="lang-btn" data-lang="patterns" onclick="switchLang('patterns')">Patrones</button>
+        <a href="index.html" class="back-link" aria-label="Go back to Hub">← Hub</a>
+        <div class="header-title" aria-hidden="true">🧱 Object-Oriented Design</div>
+        <nav class="lang-nav" aria-label="Module sections">
+            <button class="lang-btn active" data-lang="core" onclick="switchLang('core')" aria-selected="true">Core Principles</button>
+            <button class="lang-btn" data-lang="patterns" onclick="switchLang('patterns')" aria-selected="false">Design Patterns</button>
         </nav>
     </div>
 </header>
 
-<main>
-    <!-- CONCEPTOS -->
-    <div id="concepts" class="tab-content active">
-        <div class="inner-nav">
-            <button class="inner-tab-btn active" data-tab="oop-pillars" onclick="openInnerTab('oop-pillars')">Pilares</button>
+<main class="module-main">
+    <div id="core" class="tab-content active" role="tabpanel">
+        <div class="inner-nav" aria-label="Core Principles Subsections">
+            <button class="inner-tab-btn active" data-tab="oop-pillars" onclick="openInnerTab('oop-pillars')">Modern Pillars</button>
             <button class="inner-tab-btn" data-tab="oop-solid" onclick="openInnerTab('oop-solid')">SOLID</button>
+            <button class="inner-tab-btn" data-tab="oop-ddd" onclick="openInnerTab('oop-ddd')">Domain-Driven Design</button>
         </div>
 
         <div id="oop-pillars" class="inner-tab-content active">
-            <p class="section-label">Los 4 Pilares de la POO</p>
+            <p class="section-label">Beyond the Basics</p>
             <div class="senior-tip">
-                <div class="senior-tip-header">💡 Senior Dev Tip</div>
-                <p>La POO no es solo crear clases. Es sobre modelar el mundo real de forma que el código sea mantenible y extensible. Prioriza la composición sobre la herencia.</p>
+                <div class="senior-tip-header">💡 Architectural Context</div>
+                <p>Deep inheritance trees lead to the "Gorilla Banana" problem (you request a banana, but you get a gorilla holding the banana and the entire jungle). Modern OOP strongly favors <strong>Composition over Inheritance</strong>. Build systems using small, interchangeable interfaces rather than rigid base classes.</p>
             </div>
             <div class="grid-2">
                 <div class="card">
-                    <div class="card-title">Encapsulamiento</div>
-                    <p>Ocultar el estado interno de un objeto y solo permitir el acceso a través de métodos públicos.</p>
+                    <div class="card-title">Encapsulation (State Management)</div>
+                    <p>Not just making fields private. It is about protecting system invariants. Objects should never expose setters that allow them to be put into an invalid state. Mutate state only through intention-revealing methods.</p>
                 </div>
                 <div class="card">
-                    <div class="card-title">Abstracción</div>
-                    <p>Simplificar la complejidad ocultando los detalles de implementación y mostrando solo la funcionalidad necesaria.</p>
+                    <div class="card-title">Polymorphism via Interfaces</div>
+                    <p>Rely on defining behaviors (what an object can do) rather than taxonomies (what an object is). This enables Dependency Injection and facilitates decoupled unit testing via mocks/stubs.</p>
                 </div>
-                <div class="card">
-                    <div class="card-title">Herencia</div>
-                    <p>Permitir que una clase herede atributos y métodos de otra clase (Clase Padre).</p>
-                </div>
-                <div class="card">
-                    <div class="card-title">Polimorfismo</div>
-                    <p>La capacidad de un objeto de tomar muchas formas (ej. un método que se comporta diferente según el objeto que lo llama).</p>
+            </div>
+            <div class="card mt-4">
+                <div class="card-title">Composition Example (TypeScript)</div>
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-lang-badge">TypeScript</span>
+                    </div>
+                    <div class="code-body">
+<pre><code>// Bad: Inheritance
+class Bird { fly() {} }
+class Penguin extends Bird { fly() { throw new Error("Cannot fly"); } } // Liskov Violation
+
+// Good: Composition (Interfaces/Traits)
+interface Swimmer { swim(): void; }
+interface Flyer { fly(): void; }
+
+class Penguin implements Swimmer {
+    swim() { console.log("Swimming fast!"); }
+}</code></pre>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div id="oop-solid" class="inner-tab-content">
-            <p class="section-label">Principios SOLID</p>
-            <div class="card">
-                <div class="card-title">¿Por qué SOLID?</div>
-                <p>Son 5 principios de diseño destinados a hacer que los diseños de software sean más comprensibles, flexibles y mantenibles.</p>
-                <table class="compare-table">
-                    <thead><tr><th>Principio</th><th>Descripción</th></tr></thead>
-                    <tbody>
-                        <tr><td>S: Single Responsibility</td><td>Una clase debe tener una única razón para cambiar.</td></tr>
-                        <tr><td>O: Open/Closed</td><td>Abierto para extensión, cerrado para modificación.</td></tr>
-                        <tr><td>L: Liskov Substitution</td><td>Las subclases deben ser sustituibles por sus clases base.</td></tr>
-                        <tr><td>I: Interface Segregation</td><td>Muchas interfaces específicas son mejores que una general.</td></tr>
-                        <tr><td>D: Dependency Inversion</td><td>Depender de abstracciones, no de implementaciones.</td></tr>
-                    </tbody>
-                </table>
+            <p class="section-label">The SOLID Principles</p>
+            <table class="compare-table">
+                <thead><tr><th>Principle</th><th>Core Concept</th><th>Senior Context</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><strong>S</strong>: Single Responsibility</td>
+                        <td>A class should have one, and only one, reason to change.</td>
+                        <td>Separates UI logic, business rules, and persistence. Reduces merge conflicts and blast radius during refactors.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>O</strong>: Open/Closed</td>
+                        <td>Entities should be open for extension, but closed for modification.</td>
+                        <td>Use Polymorphism/Strategy patterns. You should be able to add new features by adding new files, not mutating existing <code>if/switch</code> statements.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>L</strong>: Liskov Substitution</td>
+                        <td>Subtypes must be substitutable for their base types.</td>
+                        <td>If it looks like a duck, quacks like a duck, but needs batteries, you probably have the wrong abstraction.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>I</strong>: Interface Segregation</td>
+                        <td>Clients should not be forced to depend on interfaces they do not use.</td>
+                        <td>Role interfaces. A <code>Printer</code> interface should not force a <code>BasicPrinter</code> class to implement a <code>fax()</code> method.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>D</strong>: Dependency Inversion</td>
+                        <td>High-level modules should not depend on low-level modules. Both should depend on abstractions.</td>
+                        <td>The core of Hexagonal Architecture / Clean Architecture. Inject dependencies (DB connections, API clients) via constructors.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="oop-ddd" class="inner-tab-content">
+            <p class="section-label">Tactical Domain-Driven Design</p>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Entities</div>
+                    <p>Objects defined primarily by their identity, which persists over time (e.g., <code>User</code>, <code>Order</code>). Two entities with identical properties but different IDs are distinct.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">Value Objects</div>
+                    <p>Objects defined by their attributes, with no conceptual identity (e.g., <code>Money</code>, <code>Coordinates</code>, <code>Color</code>). They must be immutable.</p>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-title">Aggregates & Root Entities</div>
+                <p>Clusters of domain objects treated as a single unit. An Aggregate Root ensures the consistency of changes being made within the aggregate boundary. External objects should hold references only to the Root, not to internal members.</p>
             </div>
         </div>
     </div>
 
-    <!-- PATRONES -->
-    <div id="patterns" class="tab-content">
-        <div class="inner-nav">
-            <button class="inner-tab-btn active" data-tab="pat-creational" onclick="openInnerTab('pat-creational')">Creacionales</button>
-            <button class="inner-tab-btn" data-tab="pat-structural" onclick="openInnerTab('pat-structural')">Estructurales</button>
+    <div id="patterns" class="tab-content" role="tabpanel">
+        <div class="inner-nav" aria-label="Design Patterns Subsections">
+            <button class="inner-tab-btn active" data-tab="pat-creational" onclick="openInnerTab('pat-creational')">Creational</button>
+            <button class="inner-tab-btn" data-tab="pat-structural" onclick="openInnerTab('pat-structural')">Structural</button>
+            <button class="inner-tab-btn" data-tab="pat-behavioral" onclick="openInnerTab('pat-behavioral')">Behavioral</button>
         </div>
+        
         <div id="pat-creational" class="inner-tab-content active">
-            <p class="section-label">Patrones Creacionales</p>
-            <div class="card">
-                <div class="card-title">Singleton</div>
-                <p>Garantiza que una clase tenga una única instancia y proporciona un punto de acceso global a ella.</p>
+            <p class="section-label">Object Lifecycle Management</p>
+            <div class="senior-tip">
+                <div class="senior-tip-header">💡 Anti-Pattern Warning</div>
+                <p>Avoid the <strong>Singleton</strong> pattern unless strictly necessary (e.g., hardware spoolers, specific loggers). It introduces global state, tightly couples code, and makes unit testing exceptionally difficult. Use Dependency Injection to manage single-instance lifecycles instead.</p>
             </div>
-            <div class="card">
-                <div class="card-title">Factory Method</div>
-                <p>Proporciona una interfaz para crear objetos en una superclase, pero permite que las subclases alteren el tipo de objetos que se crearán.</p>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Factory Method</div>
+                    <p>Defines an interface for creating an object, but lets subclasses alter the type of objects that will be created. Great for abstracting complex instantiation logic.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">Builder</div>
+                    <p>Separates the construction of a complex object from its representation. Highly useful when an object requires multiple configuration steps or parameters (preventing the "telescoping constructor" anti-pattern).</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="pat-structural" class="inner-tab-content">
+            <p class="section-label">Composition & Wrappers</p>
+            <table class="compare-table">
+                <thead><tr><th>Pattern</th><th>Use Case</th><th>Analogy</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Adapter</strong></td>
+                        <td>Allows incompatible interfaces to collaborate. Wraps an existing class with a new interface.</td>
+                        <td>A USB-C to USB-A dongle.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Decorator</strong></td>
+                        <td>Attaches new behaviors to objects dynamically by placing them inside wrapper objects.</td>
+                        <td>Putting on a jacket, then a raincoat. Base identity remains, behavior expands.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Facade</strong></td>
+                        <td>Provides a simplified interface to a complex subsystem of classes, libraries, or frameworks.</td>
+                        <td>A car's steering wheel and pedals hiding the complex engine internals.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="pat-behavioral" class="inner-tab-content">
+            <p class="section-label">Algorithms & Communication</p>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Strategy</div>
+                    <p>Defines a family of algorithms, encapsulates each one, and makes them interchangeable at runtime. Eliminates massive conditional blocks.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">Observer</div>
+                    <p>A subscription mechanism to notify multiple objects about events happening to the object they're observing. (Foundational for Reactive UI frameworks).</p>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-title">Command Pattern</div>
+                <p>Turns a request into a stand-alone object containing all information about the request. Enables parameterization of methods, delayed execution, queuing, and undoable operations.</p>
             </div>
         </div>
     </div>

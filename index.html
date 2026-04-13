@@ -1,57 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeLearning | The Engineering Guide</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>CodeLearning — Senior Dev Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="dark-theme">
-    <header>
-        <div class="header-content">
-            <div class="header-title">
-                <span>{ Code_Learning }</span>
-            </div>
-            <button class="menu-toggle" id="menuToggle">
-                <span></span><span></span><span></span>
-            </button>
-            <nav class="nav-tabs" id="navTabs">
-                <button class="tab-btn active" onclick="location.href='index.html'">Hub</button>
-                <button class="tab-btn" onclick="location.href='basics.html'">Basics</button>
-                <button class="tab-btn" onclick="location.href='practice.html'">Arena</button>
-            </nav>
-        </div>
+<body class="hub-body">
+    <header class="site-header">
+        <h1>CodeLearning Hub</h1>
+        <p class="header-subtitle">Advanced Software Engineering Patterns & Architectures</p>
     </header>
 
-    <main>
-        <div class="grid-2">
-            <div class="card" onclick="location.href='basics.html'">
-                <div class="card-title blue">01. Foundations</div>
-                [cite_start]<p>Binary representation, computer networks (UDP/TCP/HTTP), and logic basics. [cite: 21]</p>
-                <div class="info-box blue">Level: Absolute Beginner</div>
+    <main class="hub-container">
+        <a href="web.html" class="pane pane-web" aria-label="Navigate to Web Development">
+            <div class="pane-bg" style="background-image: url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=2069&auto=format&fit=crop')"></div>
+            <div class="pane-overlay"></div>
+            <div class="pane-content">
+                <div class="pane-icon" aria-hidden="true">🌐</div>
+                <p class="pane-label">Distributed Systems</p>
+                <h2 class="pane-title">Web Dev</h2>
+                <p class="pane-subtitle">Microservices, SSR vs CSR, & APIs</p>
+                <div class="pane-desc">
+                    Master modern web architecture, state management at scale, and high-performance backend patterns.
+                </div>
+                <div class="pane-cta">
+                    <span class="cta-pill">Initialize Module →</span>
+                </div>
             </div>
+            <div class="pane-watermark" aria-hidden="true">&lt;/&gt;</div>
+            <div class="divider"></div>
+        </a>
 
-            <div class="card" onclick="location.href='git.html'">
-                <div class="card-title purple">02. Version Control</div>
-                [cite_start]<p>Git commands, branching strategies, and collaborative GitHub workflows. [cite: 35]</p>
-                <div class="info-box purple">Core: Industry Standard</div>
+        <a href="oop.html" class="pane pane-oop" aria-label="Navigate to Object-Oriented Programming">
+            <div class="pane-bg" style="background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop')"></div>
+            <div class="pane-overlay"></div>
+            <div class="pane-content">
+                <div class="pane-icon" aria-hidden="true">🧱</div>
+                <p class="pane-label">Software Design</p>
+                <h2 class="pane-title">OOP</h2>
+                <p class="pane-subtitle">Domain-Driven Design & SOLID</p>
+                <div class="pane-desc">
+                    Move beyond basic classes. Explore composition over inheritance, design patterns, and decoupling logic.
+                </div>
+                <div class="pane-cta">
+                    <span class="cta-pill">Initialize Module →</span>
+                </div>
             </div>
+            <div class="pane-watermark" aria-hidden="true">{ }</div>
+            <div class="divider"></div>
+        </a>
 
-            <div class="card" onclick="location.href='design.html'">
-                <div class="card-title green">03. System Design</div>
-                [cite_start]<p>Scaling models, handling data pipelines, and production serving constraints. [cite: 120]</p>
-                <div class="info-box green">Advanced: Senior Engineering</div>
+        <a href="mobile.html" class="pane pane-mobile" aria-label="Navigate to Mobile Development">
+            <div class="pane-bg" style="background-image: url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2070&auto=format&fit=crop')"></div>
+            <div class="pane-overlay"></div>
+            <div class="pane-content">
+                <div class="pane-icon" aria-hidden="true">📱</div>
+                <p class="pane-label">Client Applications</p>
+                <h2 class="pane-title">Mobile</h2>
+                <p class="pane-subtitle">Native OS & Cross-Platform Engines</p>
+                <div class="pane-desc">
+                    Deep dive into mobile thread management, hardware APIs, and rendering pipelines in Swift, Kotlin, and Flutter.
+                </div>
+                <div class="pane-cta">
+                    <span class="cta-pill">Initialize Module →</span>
+                </div>
             </div>
+            <div class="pane-watermark" aria-hidden="true">[ ]</div>
+            <div class="divider"></div>
+        </a>
 
-            <div class="card practice-card" onclick="location.href='practice.html'">
-                <div class="card-title pink">AI Practice Arena</div>
-                <p>Dynamic coding tests and quizzes generated by Gemini 1.5 Flash.</p>
-                <div class="info-box pink">Module: Active Assessment</div>
+        <a href="eop.html" class="pane pane-eop" aria-label="Navigate to Event-Oriented Programming">
+            <div class="pane-bg" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop')"></div>
+            <div class="pane-overlay"></div>
+            <div class="pane-content">
+                <div class="pane-icon" aria-hidden="true">⚡</div>
+                <p class="pane-label">Asynchronous Flows</p>
+                <h2 class="pane-title">EOP</h2>
+                <p class="pane-subtitle">Message Brokers & Event Loops</p>
+                <div class="pane-desc">
+                    Architect event-driven systems using Kafka/RabbitMQ, WebSockets, and non-blocking I/O operations.
+                </div>
+                <div class="pane-cta">
+                    <span class="cta-pill">Initialize Module →</span>
+                </div>
             </div>
-        </div>
+            <div class="pane-watermark" aria-hidden="true">( )</div>
+        </a>
     </main>
-
-    <script src="script.js"></script>
 </body>
 </html>

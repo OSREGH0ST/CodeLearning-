@@ -2,51 +2,178 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Practice Arena | CodeLearning</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Practice Arena — CodeLearning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="script.js" defer></script>
+    <style>
+        /* Practice Arena Specific Styles (Supplements style.css) */
+        .arena-grid {
+            display: grid;
+            grid-template-columns: 1fr 2.5fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .arena-controls {
+            position: sticky;
+            top: 100px;
+        }
+
+        .control-group {
+            margin-bottom: 2rem;
+        }
+
+        .control-label {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .arena-select {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-light);
+            color: var(--text-main);
+            padding: 0.85rem 1rem;
+            border-radius: var(--radius-md);
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            appearance: none;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        
+        .arena-select:focus {
+            outline: none;
+            border-color: var(--mobile-green);
+        }
+
+        .arena-select option {
+            background: var(--bg-dark);
+            color: var(--text-main);
+        }
+
+        .arena-slider {
+            width: 100%;
+            accent-color: var(--mobile-green);
+            cursor: pointer;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .arena-btn {
+            width: 100%;
+            justify-content: center;
+            background: rgba(52, 211, 153, 0.1);
+            color: var(--mobile-green);
+            border-color: rgba(52, 211, 153, 0.4);
+            padding: 1rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .arena-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .arena-output-container {
+            min-height: 500px;
+            background: var(--bg-card);
+            border: 1px dashed var(--border-med);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .arena-empty-state {
+            margin: auto;
+            text-align: center;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .arena-grid { grid-template-columns: 1fr; }
+            .arena-controls { position: relative; top: 0; }
+            .arena-output-container { padding: 1.25rem; min-height: 300px; }
+        }
+    </style>
 </head>
-<body class="dark-theme">
-    <nav class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h2>{ Code_Hub }</h2>
-            <button id="toggle-btn" class="toggle-btn">☰</button>
-        </div>
-        <ul class="nav-links">
-            <li><a href="index.html">Hub</a></li>
-            <li><a href="practice.html" class="active neon-text">Practice Arena</a></li>
-        </ul>
-    </nav>
+<body class="module-body pane-mobile-theme"> <header class="module-header">
+    <div class="header-content">
+        <a href="index.html" class="back-link" aria-label="Go back to Hub">← Hub</a>
+        <div class="header-title" aria-hidden="true">⚔️ Practice Arena</div>
+    </div>
+</header>
 
-    <main class="main-content">
-        <header>
-            <h1>The Arena</h1>
-            <p>Generate context-aware coding challenges driven by AI.</p>
-        </header>
+<main class="module-main">
+    <div class="senior-tip">
+        <div class="senior-tip-header">💡 AI Mentor Integration</div>
+        <p>This arena connects to the Gemini Proxy via Cloudflare Workers. Select a topic and difficulty to generate a dynamic, JSON-structured technical challenge. Complete it in your local IDE.</p>
+    </div>
 
-        <section class="config-panel" style="max-width: 600px;">
+    <div class="arena-grid">
+        <aside class="arena-controls card">
             <div class="control-group">
-                <label>Select Subject Domain</label>
-                <select id="subject-select">
-                    <option value="Data Structures & Algorithms">Data Structures & Algorithms</option>
-                    <option value="Git & Version Control">Git & Version Control</option>
-                    <option value="Bash & Terminal">Bash & Terminal</option>
-                    <option value="Memory Management (C/Rust)">Memory Management (C/Rust)</option>
+                <label for="subject-select" class="control-label">Domain Subject</label>
+                <select id="subject-select" class="arena-select">
+                    <optgroup label="Web Architecture">
+                        <option value="React State Management">React State Management</option>
+                        <option value="Next.js Server Actions">Next.js Server Actions</option>
+                        <option value="PostgreSQL Indexing">PostgreSQL Indexing</option>
+                    </optgroup>
+                    <optgroup label="Software Design (OOP)">
+                        <option value="SOLID Principles">SOLID Principles Refactoring</option>
+                        <option value="Factory Pattern">Factory Design Pattern</option>
+                        <option value="Domain Driven Design">DDD Aggregates</option>
+                    </optgroup>
+                    <optgroup label="Mobile & Event-Driven">
+                        <option value="SwiftUI State">SwiftUI @State & @Binding</option>
+                        <option value="Node.js Event Loop">Node.js Event Loop Optimization</option>
+                    </optgroup>
                 </select>
             </div>
 
             <div class="control-group">
-                <label>Difficulty: <span id="diff-label">Intermediate</span></label>
-                <input type="range" id="difficulty-slider" min="1" max="3" value="2" oninput="document.getElementById('diff-label').innerText = ['Beginner', 'Intermediate', 'Advanced'][this.value - 1]">
+                <label for="difficulty-slider" class="control-label">Difficulty Level</label>
+                <input type="range" id="difficulty-slider" class="arena-slider" min="1" max="3" step="1" value="2">
+                <div class="slider-labels">
+                    <span>Lvl 1 (Junior)</span>
+                    <span>Lvl 2 (Mid)</span>
+                    <span>Lvl 3 (Senior)</span>
+                </div>
             </div>
 
-            <button id="generate-btn" class="primary">Generate Challenge Payload</button>
-        </section>
+            <button id="generate-btn" class="cta-pill arena-btn">
+                Generate Scenario →
+            </button>
+        </aside>
 
-        <section id="arena-output">
-            System ready. Awaiting parameters.
+        <section id="arena-output" class="arena-output-container">
+            <div class="arena-empty-state">
+                // System ready.<br>
+                // Awaiting generation parameters...
+            </div>
         </section>
-    </main>
-    <script src="script.js"></script>
+    </div>
+</main>
 </body>
 </html>

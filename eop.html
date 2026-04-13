@@ -1,77 +1,130 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EOP — CodeLearning</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Event-Driven Systems — CodeLearning</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <style>
-        :root { --accent: #fb923c; }
-    </style>
     <script src="script.js" defer></script>
 </head>
-<body>
-<header>
+<body class="module-body pane-eop-theme">
+<header class="module-header">
     <div class="header-content">
-        <a href="index.html" class="back-link">← Hub</a>
-        <div class="header-title">⚡ Event-Oriented Programming</div>
-        <nav class="lang-nav">
-            <button class="lang-btn active" data-lang="async" onclick="switchLang('async')">Asincronía</button>
-            <button class="lang-btn" data-lang="events" onclick="switchLang('events')">Eventos</button>
+        <a href="index.html" class="back-link" aria-label="Go back to Hub">← Hub</a>
+        <div class="header-title" aria-hidden="true">⚡ Event-Driven Systems</div>
+        <nav class="lang-nav" aria-label="Module sections">
+            <button class="lang-btn active" data-lang="async" onclick="switchLang('async')" aria-selected="true">Asynchronous I/O</button>
+            <button class="lang-btn" data-lang="architecture" onclick="switchLang('architecture')" aria-selected="false">Event Architecture</button>
         </nav>
     </div>
 </header>
 
-<main>
-    <div id="async" class="tab-content active">
-        <div class="inner-nav">
-            <button class="inner-tab-btn active" data-tab="eop-loop" onclick="openInnerTab('eop-loop')">Event Loop</button>
-            <button class="inner-tab-btn" data-tab="eop-promises" onclick="openInnerTab('eop-promises')">Promesas</button>
+<main class="module-main">
+    <div id="async" class="tab-content active" role="tabpanel">
+        <div class="inner-nav" aria-label="Asynchronous I/O Subsections">
+            <button class="inner-tab-btn active" data-tab="eop-loop" onclick="openInnerTab('eop-loop')">The Event Loop</button>
+            <button class="inner-tab-btn" data-tab="eop-promises" onclick="openInnerTab('eop-promises')">Concurrency</button>
         </div>
+
         <div id="eop-loop" class="inner-tab-content active">
-            <p class="section-label">El Event Loop en JavaScript</p>
+            <p class="section-label">Non-Blocking Execution</p>
             <div class="senior-tip">
-                <div class="senior-tip-header">💡 Senior Dev Tip</div>
-                <p>No bloquees el hilo principal. Entender el Event Loop es la diferencia entre una aplicación fluida y una que se congela al procesar datos.</p>
+                <div class="senior-tip-header">💡 Performance Context</div>
+                <p>Never block the main thread. A single synchronous cryptographic operation, large JSON parse, or poorly optimized Regex can stall the entire Event Loop, dropping concurrent connections to zero. Offload CPU-bound tasks to Worker Threads.</p>
             </div>
             <div class="card">
-                <div class="card-title">¿Cómo funciona?</div>
-                <p>JavaScript es monohilo. El Event Loop permite realizar operaciones no bloqueantes delegando tareas al sistema operativo o al navegador.</p>
+                <div class="card-title">Event Loop Phases (Node.js)</div>
+                <p>JavaScript is single-threaded, but the runtime is not. The Event Loop delegates I/O operations to the system kernel (via libuv). When an operation completes, the kernel tells Node.js to add the appropriate callback to the <strong>Poll Queue</strong>.</p>
+                <ul class="styled-list mt-4">
+                    <li><strong>Microtasks:</strong> Executed immediately after the currently executing script and before any macroscopic task. (e.g., <code>Promise.then</code>, <code>queueMicrotask</code>).</li>
+                    <li><strong>Timers:</strong> Executes callbacks scheduled by <code>setTimeout()</code> and <code>setInterval()</code>.</li>
+                    <li><strong>Poll:</strong> Retrieves new I/O events; executes I/O related callbacks (almost all with the exception of close callbacks, the ones scheduled by timers, and <code>setImmediate()</code>).</li>
+                </ul>
             </div>
         </div>
+
         <div id="eop-promises" class="inner-tab-content">
-            <p class="section-label">Async / Await</p>
-            <div class="card">
-                <div class="card-title">Sintaxis Moderna</div>
+            <p class="section-label">Promise Orchestration</p>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Async / Await</div>
+                    <p>Syntactic sugar over Promises that makes asynchronous code look synchronous. Always wrap <code>await</code> calls in <code>try/catch</code> blocks to handle rejected states, or use functional error handling wrappers.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">Promise.allSettled()</div>
+                    <p>Unlike <code>Promise.all()</code>, which short-circuits and rejects entirely if a single promise fails, <code>allSettled</code> waits for all promises to resolve or reject. Essential for batch processing where partial failures are acceptable.</p>
+                </div>
+            </div>
+            <div class="card mt-4">
+                <div class="card-title">Concurrent Execution Example</div>
                 <div class="code-block">
+                    <div class="code-block-header">
+                        <span class="code-lang-badge">TypeScript</span>
+                    </div>
                     <div class="code-body">
-                        <pre>async function fetchData() {
-  try {
-    const response = await fetch('https://api.example.com');
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}</pre>
+<pre><code>async function fetchDashboardData(userId: string) {
+    // Bad: Sequential blocking
+    // const user = await getUser(userId);
+    // const posts = await getPosts(userId);
+
+    // Good: Concurrent execution
+    const [userResult, postsResult] = await Promise.allSettled([
+        getUser(userId),
+        getPosts(userId)
+    ]);
+
+    // Handle fulfilled/rejected states individually...
+    return { user: userResult, posts: postsResult };
+}</code></pre>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="events" class="tab-content">
-        <div class="inner-nav">
-            <button class="inner-tab-btn active" data-tab="eop-emitters" onclick="openInnerTab('eop-emitters')">Event Emitters</button>
+    <div id="architecture" class="tab-content" role="tabpanel">
+        <div class="inner-nav" aria-label="Event Architecture Subsections">
+            <button class="inner-tab-btn active" data-tab="eop-brokers" onclick="openInnerTab('eop-brokers')">Message Brokers</button>
+            <button class="inner-tab-btn" data-tab="eop-websockets" onclick="openInnerTab('eop-websockets')">Real-Time Sync</button>
         </div>
-        <div id="eop-emitters" class="inner-tab-content active">
-            <p class="section-label">Patrón Observador</p>
-            <div class="card">
-                <div class="card-title">Node.js Events</div>
-                <p>En el backend, el patrón de emisores de eventos permite desacoplar componentes de forma eficiente.</p>
+        
+        <div id="eop-brokers" class="inner-tab-content active">
+            <p class="section-label">Distributed Pub/Sub Systems</p>
+            <div class="senior-tip">
+                <div class="senior-tip-header">💡 Architectural Context</div>
+                <p>Event-driven microservices decouple producers from consumers. If the email service goes down, the checkout service shouldn't fail. It should drop an <code>OrderPlaced</code> event into the broker, and the email service will process it whenever it comes back online (Eventual Consistency).</p>
+            </div>
+            <table class="compare-table">
+                <thead><tr><th>Broker Type</th><th>Technology</th><th>Best For...</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Message Queue (Smart Broker)</strong></td>
+                        <td>RabbitMQ, ActiveMQ</td>
+                        <td>Task routing, complex routing logic, and ensuring a message is processed exactly once by a specific worker (e.g., sending an email, processing a payment).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Event Stream (Dumb Broker)</strong></td>
+                        <td>Apache Kafka, AWS Kinesis</td>
+                        <td>High-throughput log aggregation, telemetry, and event sourcing. Messages are persisted and can be replayed by multiple independent consumer groups.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="eop-websockets" class="inner-tab-content">
+            <p class="section-label">Bidirectional Client Communication</p>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">WebSockets (WSS)</div>
+                    <p>Upgrades a standard HTTP connection into a persistent, stateful, full-duplex TCP connection. Ideal for chat applications, live trading dashboards, and multiplayer games.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">Server-Sent Events (SSE)</div>
+                    <p>A unidirectional channel from server to client over standard HTTP. Much simpler to scale than WebSockets. Perfect for live news feeds or status updates where the client only needs to listen.</p>
+                </div>
             </div>
         </div>
     </div>
